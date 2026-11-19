@@ -1,0 +1,57 @@
+Q&A STUDY PARA CELULAR (Android y iPhone)
+=========================================
+
+Es la misma app (MO, Desarrollo, timer, importar .txt, temas con %),
+hecha como "app web instalable". Una vez instalada funciona SIN INTERNET
+y tus bloques quedan guardados en el celular (no se mandan a ningún lado).
+
+Archivos de esta carpeta (subilos TODOS juntos):
+  index.html, manifest.webmanifest, sw.js, icon-180.png, icon-192.png, icon-512.png
+
+
+PASO 1 - Publicarla una vez en una página gratis (GitHub Pages)
+---------------------------------------------------------------
+El celular necesita abrirla una vez desde una dirección web para poder
+instalarla. Solo se publica el programa; tus preguntas NO se suben.
+
+ 1. Entrá a https://github.com/new (con tu cuenta de GitHub).
+ 2. Nombre del repositorio: qa-study  ·  Public  ·  "Create repository".
+ 3. En la página del repo tocá "uploading an existing file", arrastrá los
+    6 archivos de esta carpeta y tocá "Commit changes".
+ 4. Settings > Pages > "Branch": elegí main y / (root) > Save.
+ 5. En 1 o 2 minutos la app queda en:
+       https://TU-USUARIO.github.io/qa-study/
+    (con tu cuenta: https://santiagoa245.github.io/qa-study/)
+
+
+PASO 2 - Instalarla en el celular
+---------------------------------
+ANDROID (Chrome):
+  Abrí la dirección > menú ⋮ > "Agregar a la pantalla principal" / "Instalar app".
+
+IPHONE (tiene que ser Safari):
+  Abrí la dirección > botón Compartir (cuadrado con flecha) >
+  "Agregar a pantalla de inicio".
+
+Abrila una vez desde el ícono con internet; después anda sin conexión.
+
+
+PASO 3 - Cargar preguntas
+-------------------------
+- "Importar preguntas (.txt)": elegí los .txt (mismo formato de siempre,
+  ver FORMATO_PREGUNTAS.md). Pasalos al celu por WhatsApp, Drive, mail, etc.
+  y guardalos en Archivos/Descargas.
+- "Escribir o pegar preguntas": pegás el texto de un archivo directamente.
+- "Ver bloques cargados": tildar bloques/temas, % por tema, Editar y Borrar.
+- "Exportar copia de seguridad": guarda todos tus bloques en un .txt
+  (se puede volver a importar en el celu o en la PC).
+
+
+IMPORTANTE
+----------
+- Los bloques se guardan dentro de la app en el celular. Si borrás los
+  datos del navegador o desinstalás la app, se pierden: exportá una copia
+  de vez en cuando.
+- Para actualizar la app, se reemplazan los archivos en GitHub; el celular
+  toma la versión nueva la próxima vez que la abras con internet.
+- El celular y la PC no comparten bloques: cada uno importa sus .txt.

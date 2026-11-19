@@ -1,0 +1,909 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Q&amp;A Study</title>
+<meta name="theme-color" content="#262624">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Q&amp;A Study">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-180.png">
+<style>
+:root{
+  --bg:#262624;--surface:#30302e;--surface2:#3c3b38;--border:#4a4843;--field:#1e1e1d;
+  --text:#f0eee6;--muted:#9e9b92;--accent:#d97757;--accent-hi:#e68a6b;--accent-lo:#be6448;
+  --green:#4eba65;--green-fill:#265c34;--red:#ff6b80;--red-fill:#702834;--yellow:#e8c05c;--blue:#78a5eb;
+  color-scheme:dark;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--text)}
+body{font:16px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  padding:calc(env(safe-area-inset-top) + 12px) calc(env(safe-area-inset-right) + 16px) calc(env(safe-area-inset-bottom) + 24px) calc(env(safe-area-inset-left) + 16px);
+  min-height:100vh;overflow-x:hidden}
+#app{max-width:760px;margin:0 auto}
+h1{font-size:40px;margin:18px 0 2px;letter-spacing:-.5px}
+h2{font-size:26px;margin:10px 0 6px}
+.muted{color:var(--muted)}
+.small{font-size:13.5px}
+.label{font-size:12.5px;color:var(--muted);letter-spacing:.6px;text-transform:uppercase;margin:16px 0 6px;font-weight:600}
+.pre{white-space:pre-wrap;word-wrap:break-word;overflow-wrap:anywhere}
+button{font:inherit;color:inherit;cursor:pointer}
+.btn{display:block;width:100%;padding:13px 14px;margin:8px 0;border-radius:10px;border:1px solid var(--border);
+  background:var(--surface);color:var(--text);font-size:17px;text-align:center;touch-action:manipulation}
+.btn:active{background:var(--surface2)}
+.btn.accent{background:var(--accent);border-color:var(--accent);color:#1c1816;font-weight:600}
+.btn.accent:active{background:var(--accent-lo)}
+.btn:disabled{opacity:.4;cursor:default}
+.btn.ghost{color:var(--muted)}
+.btn.danger{color:var(--red)}
+.row{display:flex;gap:10px;align-items:center}
+.row>.btn{flex:1;margin:8px 0}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:40px}
+.sbtn{padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:var(--surface);font-size:14.5px;white-space:nowrap}
+.sbtn:active{background:var(--surface2)}
+.sbtn.danger{color:var(--red)}
+.seg{display:flex;gap:10px}
+.seg button{flex:1;padding:12px 8px;border-radius:10px;border:1px solid var(--border);background:var(--surface);font-weight:600;font-size:15.5px}
+.seg button.on{background:rgba(217,119,87,.2);border-color:var(--accent);color:var(--accent-hi)}
+.switch{position:relative;width:48px;height:28px;flex:none;border-radius:14px;background:var(--surface2);border:none;padding:0}
+.switch::after{content:"";position:absolute;top:4px;left:4px;width:20px;height:20px;border-radius:50%;background:var(--muted);transition:.15s}
+.switch.on{background:var(--accent)}
+.switch.on::after{left:24px;background:var(--text)}
+.timerrow{display:flex;gap:14px;align-items:center;margin:14px 0 6px;padding:12px 14px;background:var(--surface);border:1px solid var(--border);border-radius:10px}
+.progress{height:4px;background:var(--surface2);border-radius:2px;overflow:hidden;margin:8px 0}
+.progress>div{height:100%;background:var(--accent);transition:width .2s}
+.progress.thick{height:6px}
+.qtext{font-size:22px;font-weight:700;margin:4px 0 14px;line-height:1.3}
+.opt{display:flex;gap:14px;align-items:center;width:100%;text-align:left;padding:14px;margin:0 0 10px;border-radius:12px;
+  border:1px solid var(--border);background:var(--surface);font-size:17px;touch-action:manipulation}
+.opt .badge{flex:none;width:32px;height:32px;border-radius:8px;background:var(--surface2);display:grid;place-items:center;font-weight:700;font-size:15px}
+.opt.s1{background:var(--green-fill);border:2px solid var(--green)}
+.opt.s1 .badge,.opt.s3 .badge{background:var(--green);color:var(--bg)}
+.opt.s2{background:var(--red-fill);border:2px solid var(--red)}
+.opt.s2 .badge{background:var(--red);color:var(--bg)}
+.opt.s3{background:rgba(38,92,52,.6);border:2px solid var(--green)}
+.opt.s4{color:var(--muted)}
+.opt:disabled{cursor:default}
+.verdict{font-size:20px;font-weight:700;margin:6px 0 2px}
+.ok{color:var(--green)}.bad{color:var(--red)}.warn{color:var(--yellow)}
+.bigtime{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums}
+textarea,input[type=text]{width:100%;background:var(--field);color:var(--text);border:1px solid var(--border);border-radius:10px;
+  padding:12px;font:inherit;font-size:17px;resize:vertical}
+textarea:focus,input[type=text]:focus{outline:none;border-color:var(--accent)}
+textarea[readonly]{color:var(--muted)}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;margin:10px 0}
+.stats{display:flex;gap:10px}
+.stats .card{flex:1;margin:4px 0}
+.stat{font-size:46px;font-weight:700;line-height:1.1;font-variant-numeric:tabular-nums}
+.chip{display:inline-block;padding:2px 8px;border-radius:6px;font-size:12.5px;font-weight:700;border:1px solid currentColor;margin:2px 4px 2px 0;white-space:nowrap}
+details{background:var(--surface);border:1px solid var(--border);border-radius:12px;margin:10px 0}
+details>summary{list-style:none;cursor:pointer;padding:14px;display:flex;align-items:center;gap:10px}
+details>summary::-webkit-details-marker{display:none}
+details>summary .arrow{flex:none;width:9px;height:9px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(-45deg);transition:transform .15s;margin:0 4px 0 2px}
+details[open]>summary .arrow{transform:rotate(45deg)}
+.bname{font-weight:700;font-size:17px;flex:1;min-width:0;overflow-wrap:anywhere}
+.bbody{padding:0 14px 14px}
+.blockctl{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:6px}
+.check{display:flex;align-items:center;gap:10px;cursor:pointer;min-height:36px}
+.check input{width:22px;height:22px;accent-color:var(--accent);flex:none;margin:0}
+.topic{border-top:1px solid var(--border);padding:10px 0 4px}
+.topic .tname{font-weight:700}
+.pctrow{display:flex;align-items:center;gap:12px;margin:2px 0 4px 32px}
+.pctrow input[type=range]{flex:1;accent-color:var(--accent);min-width:0;height:28px}
+.pctrow .pv{width:44px;text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
+.pctrow.off{opacity:.45}
+.allpct{background:var(--field);border-radius:10px;padding:10px 12px;margin:8px 0}
+.allpct .pctrow{margin:4px 0 0}
+.qitem{margin:4px 0 4px 32px;background:var(--field);border-radius:10px;border:none}
+.qitem>summary{padding:10px;font-size:14.5px;align-items:flex-start}
+.qitem .qprev{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.qdet{padding:0 12px 12px}
+.qdet .label{margin-top:10px}
+.qlist{margin:6px 0}
+.qlist summary .qprev{white-space:normal}
+.kw{display:inline-block;margin:2px 10px 2px 0}
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;padding:20px;z-index:10}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;width:100%;max-width:460px;max-height:85vh;overflow:auto}
+.modal h3{margin:0 0 8px;font-size:21px}
+.sumline{margin:6px 0;font-size:15px}
+.empty{padding:30px 0;text-align:center}
+.hint{font-size:13px;color:var(--muted);margin-top:4px}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="modal"></div>
+<input type="file" id="file" accept=".txt,text/plain" multiple class="hidden">
+<script>
+"use strict";
+// ===========================================================================
+// Modelo (port de model.cpp)
+// ===========================================================================
+const MO_SECONDS = 30;
+const STORE_KEY = "qastudy.v1";
+
+function trim(s){ return (s||"").replace(/^[\s\u0000- ]+|[\s\u0000- ]+$/g, ""); }
+function foldChar(ch){
+  const f = ch.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+  if (f === "ø") return "o"; if (f === "æ") return "a"; if (f === "ß") return "s"; if (f === "đ") return "d"; if (f === "ł") return "l";
+  return f;
+}
+function isWordStr(f){
+  if (!f) return false;
+  for (const c of f){ const cp = c.codePointAt(0);
+    if (!((cp>=97&&cp<=122)||(cp>=48&&cp<=57)||cp>=0x370)) return false; }
+  return true;
+}
+function normKey(s){ let o=""; for (const ch of s) o += foldChar(ch); return trim(o); }
+function tokenize(s){
+  const toks=[]; let norm="", orig="";
+  for (const ch of s){
+    const f = foldChar(ch);
+    if (isWordStr(f)){ norm+=f; orig+=ch; }
+    else { if (norm) toks.push({norm, orig}); norm=""; orig=""; }
+  }
+  if (norm) toks.push({norm, orig});
+  return toks;
+}
+function normalizeForCompare(s){ return tokenize(s).map(t=>t.norm).join(" "); }
+
+const STOP = new Set(("el la los las un una unos unas lo al del este esta estos estas ese esa esos esas aquel aquella aquellos aquellas esto eso aquello "+
+"mi mis tu tus su sus nuestro nuestra nuestros nuestras vuestro vuestra otro otra otros otras cada todo toda todos todas algun alguno alguna algunos algunas "+
+"ningun ninguno ninguna mismo misma mismos mismas tal tales cual cuales cuyo cuya mucho mucha muchos muchas poco poca pocos pocas varios varias tanto tanta tantos tantas "+
+"a ante bajo cabe con contra de desde durante en entre hacia hasta mediante para por segun sin so sobre tras versus via "+
+"y e ni o u pero sino mas aunque porque pues que si como cuando donde mientras ya tambien tampoco ademas entonces luego asi incluso sea bien embargo obstante "+
+"decir cuanto cuanta cuantos cuantas quien quienes cuyos cuyas yo me conmigo te ti contigo ella ellos ellas le les se consigo "+
+"nos nosotros nosotras os vosotros vosotras usted ustedes vos alguien nadie algo nada es son era eran fue fueron ser sera seran sido siendo sean "+
+"estan estaba estaban estar estuvo estado ha han has he hemos haber habia habian hubo hay tiene tienen tener tenia puede pueden poder hace hacen hacer "+
+"no muy menos solo solamente tan aqui ahi alli alla ahora siempre nunca casi bastante demasiado etc ej ejemplo vez veces").split(/\s+/));
+
+function isKeyword(n){
+  if (STOP.has(n)) return false;
+  if (/^[0-9]+$/.test(n)) return true;
+  return [...n].length >= 2;
+}
+function wordsMatch(a,b){
+  if (a===b) return true;
+  const s = a.length < b.length ? a : b, l = a.length < b.length ? b : a;
+  if (s.length < 3) return false;
+  if (l.length===s.length+1 && l.endsWith("s") && l.startsWith(s)) return true;
+  if (l.length===s.length+2 && l.endsWith("es") && l.startsWith(s)) return true;
+  if (l.length===s.length+2 && s.endsWith("z") && l.endsWith("ces") && l.startsWith(s.slice(0,-1))) return true;
+  return false;
+}
+function computeMatch(answer, solution){
+  const sol = tokenize(solution||""), ans = tokenize(answer||"");
+  const keyNorm=[], keywords=[];
+  for (const t of sol){
+    if (!isKeyword(t.norm)) continue;
+    if (keyNorm.some(k=>wordsMatch(k,t.norm))) continue;
+    keyNorm.push(t.norm); keywords.push(t.orig);
+  }
+  const found = keyNorm.map(k => ans.some(a=>wordsMatch(k,a.norm)));
+  const hits = found.filter(Boolean).length;
+  const valid = keyNorm.length>0;
+  return {keywords, found, valid, percent: valid ? 100*hits/keyNorm.length : 0};
+}
+function percentCount(n,pct){ if (n<=0) return 0; const k = Math.floor((n*pct+99)/100); return Math.max(1, Math.min(n,k)); }
+function topicLabel(q){ return q.topic ? q.topic : "Sin tema"; }
+function forMO(q){ return q.tag==="MO"||q.tag==="MOD"; }
+function forDev(q){ return q.tag==="D"||q.tag==="MOD"; }
+
+function classify(b){
+  let n=1;
+  for (const q of b.questions){
+    q.number = n++; q.notes=[];
+    q.topic=trim(q.topic); q.text=trim(q.text); q.correct=trim(q.correct); q.solution=trim(q.solution);
+    const clean=[], seen=new Set(), corrKey=normKey(q.correct);
+    for (const w of q.wrong){
+      const t=trim(w); if (!t) continue;
+      const k=normKey(t);
+      if (corrKey && k===corrKey){ q.notes.push("Se quitó una respuesta falsa igual a la correcta."); continue; }
+      if (seen.has(k)){ q.notes.push("Se quitó una respuesta falsa repetida."); continue; }
+      seen.add(k); clean.push(t);
+    }
+    q.wrong=clean;
+    const hasText=!!q.text, mo=hasText&&!!q.correct&&q.wrong.length>=2, dev=hasText&&!!q.solution;
+    if (!hasText) q.notes.push("Falta el campo 3 (Pregunta).");
+    if (hasText && q.wrong.length===0) q.notes.push("Campo 4 (Respuestas falsas) vacío: no es compatible con MO.");
+    else if (hasText && q.wrong.length<2) q.notes.push("Tiene 1 respuesta falsa; MO necesita al menos 2.");
+    if (hasText && !q.correct) q.notes.push("Campo 5 (Respuesta correcta) vacío: no es compatible con MO.");
+    if (hasText && !q.solution) q.notes.push("Campo 6 (Solución) vacío: no es compatible con Desarrollo.");
+    q.tag = mo&&dev ? "MOD" : mo ? "MO" : dev ? "D" : "E";
+  }
+}
+
+function parseKey(line){
+  const colon=line.indexOf(":");
+  if (colon<0 || colon>40) return null;
+  let k=normKey(line.slice(0,colon)).replace(/^[0-9.) ]+/,"");
+  let key=null;
+  if (["bloque","nombre del bloque","nombre"].includes(k)) key="block";
+  else if (["tema","tema de la pregunta"].includes(k)) key="topic";
+  else if (k==="pregunta") key="text";
+  else if (["falsa","falsas","respuesta falsa","respuestas falsas","incorrecta"].includes(k)) key="wrong";
+  else if (["correcta","respuesta correcta"].includes(k)) key="correct";
+  else if (k==="solucion") key="solution";
+  return key ? {key, value: trim(line.slice(colon+1))} : null;
+}
+function newQ(){ return {topic:"",text:"",wrong:[],correct:"",solution:"",tag:"E",notes:[],number:0}; }
+
+function parseQuestions(text, fallbackName){
+  const res={blocks:[], warnings:[]};
+  let cur=newQ(), started=false, bi=-1, last=null, pendingBlank=0;
+  // last: {obj, prop} para continuar el campo anterior
+  const ensureBlock=()=>{ if (bi<0){ res.blocks.push(newBlock(fallbackName)); bi=res.blocks.length-1;
+      res.warnings.push('El archivo no tiene línea BLOQUE:, se usó el nombre del archivo ("'+fallbackName+'").'); } };
+  const finish=()=>{ if (started){ ensureBlock(); res.blocks[bi].questions.push(cur); } cur=newQ(); started=false; last=null; pendingBlank=0; };
+  const lines=text.replace(/\r/g,"").split("\n");
+  lines.forEach((line, i)=>{
+    const lineNo=i+1, t=trim(line);
+    if (t==="---"||t==="--"||t==="----"){ finish(); return; }
+    const escaped=line.startsWith("\\");
+    const pk = escaped ? null : parseKey(t);
+    if (pk){
+      const v=pk.value;
+      switch (pk.key){
+        case "block": {
+          finish();
+          const name = v || fallbackName;
+          let f=res.blocks.findIndex(b=>b.name===name);
+          if (f<0){ res.blocks.push(newBlock(name)); f=res.blocks.length-1; }
+          bi=f; break;
+        }
+        case "topic":
+          if (started && (cur.text||cur.topic||cur.correct||cur.wrong.length||cur.solution)) finish();
+          cur.topic=v; started=true; last={o:cur,p:"topic"}; pendingBlank=0; break;
+        case "text":
+          if (started && cur.text) finish();
+          cur.text=v; started=true; last={o:cur,p:"text"}; pendingBlank=0; break;
+        case "wrong":
+          cur.wrong.push(v); started=true; last={o:cur.wrong,p:cur.wrong.length-1}; pendingBlank=0; break;
+        case "correct":
+          if (cur.correct) res.warnings.push("Línea "+lineNo+": la pregunta tiene más de una respuesta correcta; se usa la última.");
+          cur.correct=v; started=true; last={o:cur,p:"correct"}; pendingBlank=0; break;
+        case "solution":
+          cur.solution=v; started=true; last={o:cur,p:"solution"}; pendingBlank=0; break;
+      }
+      return;
+    }
+    const content = escaped ? line.slice(1) : line;
+    if (!trim(content)){ if (last) pendingBlank++; return; }
+    if (!last){ res.warnings.push("Línea "+lineNo+' ignorada (no tiene etiqueta): "'+t.slice(0,60)+'"'); return; }
+    if (last.o[last.p]) last.o[last.p] += "\n" + "\n".repeat(pendingBlank);
+    last.o[last.p] += trim(content);
+    pendingBlank=0;
+  });
+  finish();
+  res.blocks.forEach(classify);
+  res.blocks = res.blocks.filter(b=>{ if (!b.questions.length) res.warnings.push('El bloque "'+b.name+'" no tiene preguntas y se ignoró.'); return b.questions.length>0; });
+  return res;
+}
+function writeField(key, value){
+  let out=key+": ";
+  value.split("\n").forEach((line, i)=>{
+    if (i>0){ const t=trim(line);
+      if (parseKey(t) || t==="---"||t==="--"||t==="----" || line.startsWith("\\") || !t) out+="\\"; }
+    out+=line+"\n";
+  });
+  return out;
+}
+function serializeBlocks(blocks){
+  let out="";
+  for (const b of blocks){
+    out+="BLOQUE: "+b.name+"\n\n";
+    for (const q of b.questions){
+      if (q.topic) out+=writeField("TEMA",q.topic);
+      out+=writeField("PREGUNTA",q.text);
+      for (const w of q.wrong) out+=writeField("FALSA",w);
+      if (q.correct) out+=writeField("CORRECTA",q.correct);
+      if (q.solution) out+=writeField("SOLUCION",q.solution);
+      out+="---\n";
+    }
+    out+="\n";
+  }
+  return out;
+}
+function newBlock(name){ return {name, questions:[], enabled:true, disabledTopics:[], topicPercent:{}}; }
+function blockTopics(b){ const t=[]; for (const q of b.questions){ const l=topicLabel(q); if (!t.includes(l)) t.push(l); } return t; }
+function topicEnabled(b,t){ return !b.disabledTopics.includes(t); }
+function setTopicEnabled(b,t,on){ const i=b.disabledTopics.indexOf(t); if (on&&i>=0) b.disabledTopics.splice(i,1); if (!on&&i<0) b.disabledTopics.push(t); }
+function topicPct(b,t){ return b.topicPercent[t] || 100; }
+function setTopicPct(b,t,p){ p=Math.max(5,Math.min(100,p)); if (p===100) delete b.topicPercent[t]; else b.topicPercent[t]=p; }
+function countTag(b,tag){ return b.questions.filter(q=>q.tag===tag).length; }
+function countTopic(b,t,mo){ return b.questions.filter(q=>topicLabel(q)===t && (mo?forMO(q):forDev(q))).length; }
+
+// Decodifica un archivo: BOM UTF-8/UTF-16, UTF-8 válido o ANSI (Windows-1252)
+function decodeBytes(buf){
+  const u=new Uint8Array(buf);
+  let text;
+  if (u.length>=3 && u[0]===0xEF&&u[1]===0xBB&&u[2]===0xBF) text=new TextDecoder("utf-8").decode(u.subarray(3));
+  else if (u.length>=2 && u[0]===0xFF&&u[1]===0xFE) text=new TextDecoder("utf-16le").decode(u.subarray(2));
+  else if (u.length>=2 && u[0]===0xFE&&u[1]===0xFF) text=new TextDecoder("utf-16be").decode(u.subarray(2));
+  else { try { text=new TextDecoder("utf-8",{fatal:true}).decode(u); } catch(e){ text=new TextDecoder("windows-1252").decode(u); } }
+  return text.replace(/\r/g,"");
+}
+
+// ===========================================================================
+// Estado y guardado
+// ===========================================================================
+const S = {
+  blocks: [], mode: "MO", timer: false,
+  screen: "menu", play: [], idx: 0, qStart: 0,
+  open: new Set(), // <details> abiertos en "Bloques"
+  editor: null,    // {original, text}
+};
+
+function save(){
+  try {
+    localStorage.setItem(STORE_KEY, JSON.stringify({
+      mode:S.mode, timer:S.timer,
+      blocks:S.blocks.map(b=>({name:b.name, enabled:b.enabled, disabledTopics:b.disabledTopics, topicPercent:b.topicPercent,
+        questions:b.questions.map(q=>({topic:q.topic,text:q.text,wrong:q.wrong,correct:q.correct,solution:q.solution}))}))
+    }));
+  } catch(e){ showMessage("No se pudieron guardar los datos", "El navegador no dejó guardar en el dispositivo ("+e.message+")."); }
+}
+function load(){
+  try {
+    const d=JSON.parse(localStorage.getItem(STORE_KEY)||"null");
+    if (!d) return;
+    S.mode = d.mode==="Dev" ? "Dev" : "MO";
+    S.timer = !!d.timer;
+    S.blocks = (d.blocks||[]).map(b=>{
+      const nb=Object.assign(newBlock(b.name), {enabled:b.enabled!==false, disabledTopics:b.disabledTopics||[], topicPercent:b.topicPercent||{}});
+      nb.questions=(b.questions||[]).map(q=>Object.assign(newQ(), q, {wrong:(q.wrong||[]).slice()}));
+      classify(nb); return nb;
+    });
+  } catch(e){ console.error(e); }
+}
+
+// ===========================================================================
+// Utilidades
+// ===========================================================================
+const $ = sel => document.querySelector(sel);
+function esc(s){ return String(s).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+function shuffle(a){ for (let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+function now(){ return performance.now()/1000; }
+function fmtTime(s, tenths){
+  if (s<0) s=0; const tot=Math.floor(s), h=Math.floor(tot/3600), m=Math.floor(tot/60)%60, sec=tot%60;
+  const p=n=>String(n).padStart(2,"0");
+  if (h>0) return h+":"+p(m)+":"+p(sec);
+  if (tenths) return p(m)+":"+p(sec)+"."+Math.floor((s-tot)*10);
+  return p(m)+":"+p(sec);
+}
+function pctClass(p){ return p>=70 ? "ok" : p>=40 ? "warn" : "bad"; }
+function tagColor(t){ return t==="MOD"?"var(--green)":t==="MO"?"var(--accent)":t==="D"?"var(--blue)":"var(--red)"; }
+function chip(text,color){ return '<span class="chip" style="color:'+color+'">'+esc(text)+'</span>'; }
+function compatText(t){ return {MOD:"Compatible con MO y Desarrollo", MO:"Compatible solo con MO", D:"Compatible solo con Desarrollo"}[t] || "Error: no se puede usar en ningún modo"; }
+function field(label, value, cls){
+  return '<div class="label">'+esc(label)+'</div><div class="pre '+(cls||"")+'">'+(value ? esc(value) : '<span class="muted">(vacío)</span>')+'</div>';
+}
+function plural(n, s, p){ return n===1 ? s : p; }
+
+// ===========================================================================
+// Partidas
+// ===========================================================================
+function collectQuestions(mode){
+  const out=[], mo = mode==="MO";
+  for (const b of S.blocks){
+    if (!b.enabled) continue;
+    for (const tp of blockTopics(b)){
+      if (!topicEnabled(b,tp)) continue;
+      let pool=b.questions.filter(q=>topicLabel(q)===tp && (mo?forMO(q):forDev(q)));
+      const take=percentCount(pool.length, topicPct(b,tp));
+      if (take<pool.length){ shuffle(pool); pool=pool.slice(0,take); }
+      for (const q of pool) out.push({block:b.name, q});
+    }
+  }
+  return out;
+}
+function countAvailable(mode){
+  let n=0;
+  for (const b of S.blocks) if (b.enabled) for (const tp of blockTopics(b)) if (topicEnabled(b,tp)) n+=percentCount(countTopic(b,tp,mode==="MO"), topicPct(b,tp));
+  return n;
+}
+function startGame(list){
+  if (!list.length) return;
+  S.play = shuffle(list.map(p=>{
+    const f={block:p.block, q:p.q, options:[], correctIdx:-1, chosen:-1, timedOut:false, answered:false, revealed:false, answer:"", submitted:false, seconds:0, match:null};
+    if (S.mode==="MO"){
+      const wrong=shuffle(p.q.wrong.slice()).slice(0,3);
+      f.options=shuffle(wrong.concat([p.q.correct]));
+      f.correctIdx=f.options.indexOf(p.q.correct);
+    }
+    return f;
+  }));
+  S.idx=0;
+  go(S.mode==="MO" ? "mo" : "dev");
+  startQuestion();
+}
+function startQuestion(){ S.qStart=now(); render(); window.scrollTo(0,0);
+  if (S.screen==="dev"){ const ta=$("#answer"); if (ta) setTimeout(()=>ta.focus(), 50); } }
+
+// ===========================================================================
+// Navegación (botón atrás de Android)
+// ===========================================================================
+function go(screen){
+  const wasMenu = S.screen==="menu";
+  S.screen=screen;
+  if (wasMenu && screen!=="menu") history.pushState({app:1}, "");
+  render();
+  window.scrollTo(0,0);
+}
+function goMenu(){
+  S.play=[]; S.idx=0;
+  const was=S.screen; S.screen="menu"; render(); window.scrollTo(0,0);
+  if (was!=="menu" && history.state && history.state.app) { ignorePop=true; history.back(); }
+}
+let ignorePop=false;
+window.addEventListener("popstate", ()=>{
+  if (ignorePop){ ignorePop=false; return; }
+  if (S.screen==="menu") return;
+  if (S.screen==="mo"||S.screen==="dev"){ history.pushState({app:1}, ""); confirmLeave(); return; }
+  if (S.screen==="editor" && S.editor && S.editor.dirty){ history.pushState({app:1}, ""); confirmLeaveEditor(); return; }
+  S.play=[]; S.screen="menu"; closeModal(); render();
+});
+
+// ===========================================================================
+// Pantallas
+// ===========================================================================
+function render(){
+  const f = {menu:renderMenu, blocks:renderBlocks, editor:renderEditor, mo:renderMO, moResults:renderMOResults, dev:renderDev, devResults:renderDevResults}[S.screen];
+  $("#app").innerHTML = f();
+  if (S.screen==="blocks") bindBlocks();
+  if (S.screen==="dev") bindDev();
+  if (S.screen==="editor") bindEditor();
+  tick();
+}
+
+function renderMenu(){
+  const total=S.blocks.reduce((a,b)=>a+b.questions.length,0);
+  const avail=countAvailable(S.mode);
+  const mo=S.mode==="MO";
+  return `
+  <div style="height:max(8px, calc((100vh - 680px) * .35))"></div>
+  <h1>Q&amp;A Study</h1>
+  <div class="muted">${total} preguntas cargadas en ${S.blocks.length} ${plural(S.blocks.length,"bloque","bloques")}</div>
+  <div class="label" style="margin-top:22px">Modalidad</div>
+  <div class="seg">
+    <button data-act="mode" data-v="MO" class="${mo?"on":""}">Multiple Choice (MO)</button>
+    <button data-act="mode" data-v="Dev" class="${mo?"":"on"}">Desarrollo</button>
+  </div>
+  <div class="timerrow">
+    <button class="switch ${S.timer?"on":""}" data-act="timer" aria-label="Timer" role="switch" aria-checked="${S.timer}"></button>
+    <div data-act="timer" style="cursor:pointer">
+      <div>${mo?"Timer":"Cronómetro"}</div>
+      <div class="muted small">${mo?"30 segundos para responder cada pregunta":"Mide el tiempo de cada pregunta y el total"}</div>
+    </div>
+  </div>
+  <button class="btn accent" data-act="start" ${avail>0?"":"disabled"}>Empezar</button>
+  <div class="muted small">${avail>0 ? `${avail} ${plural(avail,"pregunta disponible","preguntas disponibles")} para ${mo?"MO":"Desarrollo"}`
+      : (S.blocks.length ? "No hay preguntas compatibles con este modo en los bloques incluidos." : "Importá o cargá preguntas para empezar.")}</div>
+  <div style="height:10px"></div>
+  <button class="btn" data-act="import">Importar preguntas (.txt)</button>
+  <button class="btn" data-act="newblock">Escribir o pegar preguntas</button>
+  <button class="btn" data-act="blocks">Ver bloques cargados</button>
+  <button class="btn ghost" data-act="export" ${S.blocks.length?"":"disabled"}>Exportar copia de seguridad</button>`;
+}
+
+function renderBlocks(){
+  const mo=S.mode==="MO", modeName=mo?"MO":"Desarrollo";
+  let h=`
+  <div class="topbar"><button class="sbtn" data-act="menu">‹ Menú</button><button class="sbtn" data-act="import">Importar</button></div>
+  <h2>Bloques cargados</h2>
+  <div class="muted small">Tocá un bloque para ver sus temas y preguntas. Solo entran en la partida los bloques y temas tildados,
+  y de cada tema se juega el porcentaje elegido (las preguntas se sortean en cada partida). Los números son para el modo <b>${modeName}</b>.</div>`;
+  if (!S.blocks.length) h+=`<div class="empty muted">Todavía no hay bloques. Usá "Importar" o "Escribir o pegar preguntas" desde el menú.</div>`;
+  S.blocks.forEach((b,bi)=>{
+    const topics=blockTopics(b);
+    const key="b"+bi;
+    h+=`<details data-key="${key}" ${S.open.has(key)?"open":""}>
+      <summary><span class="arrow"></span><span class="bname" style="${b.enabled?"":"color:var(--muted)"}">${esc(b.name)}</span>
+        <span class="muted small" style="white-space:nowrap">${b.questions.length} preg.</span></summary>
+      <div class="bbody">
+        <div class="blockctl">
+          <label class="check" style="flex:1"><input type="checkbox" data-inc="${bi}" ${b.enabled?"checked":""}> Incluir en las partidas</label>
+          <button class="sbtn" data-act="edit" data-b="${bi}">Editar</button>
+          <button class="sbtn danger" data-act="del" data-b="${bi}">Borrar</button>
+        </div>
+        <div>${["MOD","MO","D","E"].map(t=>chip(t+"  "+countTag(b,t), tagColor(t))).join("")}</div>`;
+    if (topics.length){
+      const common=topicPct(b,topics[0]), mixed=topics.some(t=>topicPct(b,t)!==common);
+      h+=`<div class="allpct"><div class="small">Porcentaje para todos los temas · <span class="muted" id="info-${bi}">${blockInfo(b)}</span></div>
+        <div class="pctrow"><input type="range" min="5" max="100" step="5" value="${common}" data-all="${bi}">
+        <span class="pv" id="allv-${bi}">${mixed?"varía":common+"%"}</span></div></div>`;
+    }
+    topics.forEach((tp,ti)=>{
+      const cnt=b.questions.filter(q=>topicLabel(q)===tp).length, on=topicEnabled(b,tp), pct=topicPct(b,tp);
+      h+=`<div class="topic">
+        <label class="check"><input type="checkbox" data-tp="${bi}:${ti}" ${on?"checked":""}>
+          <span><span class="tname">${esc(tp)}</span> <span class="muted small">(${cnt} ${plural(cnt,"pregunta","preguntas")})</span></span></label>
+        <div class="pctrow ${on?"":"off"}" id="row-${bi}-${ti}"><input type="range" min="5" max="100" step="5" value="${pct}" data-pct="${bi}:${ti}" ${on?"":"disabled"}>
+          <span class="pv" id="pv-${bi}-${ti}">${pct}%</span></div>
+        <div class="muted small" style="margin-left:32px" id="ti-${bi}-${ti}">${topicInfo(b,tp)}</div>`;
+      b.questions.forEach((q,qi)=>{
+        if (topicLabel(q)!==tp) return;
+        const qk=key+"q"+qi;
+        h+=`<details class="qitem" data-key="${qk}" ${S.open.has(qk)?"open":""}><summary>${chip(q.tag,tagColor(q.tag))}<span class="muted">#${q.number}</span>
+          <span class="qprev">${esc((q.text||"(sin pregunta)").split("\n")[0])}</span></summary>
+          <div class="qdet">${S.open.has(qk)?questionDetail(q):""}</div></details>`;
+      });
+      h+=`</div>`;
+    });
+    h+=`</div></details>`;
+  });
+  return h;
+}
+function questionDetail(q){
+  return field("Compatibilidad", compatText(q.tag), q.tag==="E"?"bad":q.tag==="MOD"?"ok":"") +
+    (q.topic?field("Tema",q.topic):"") + field("Pregunta",q.text) +
+    field("Respuestas falsas", q.wrong.map(w=>"- "+w).join("\n"), "bad") +
+    field("Respuesta correcta", q.correct, "ok") + field("Solución", q.solution) +
+    (q.notes.length?field("Avisos", q.notes.join("\n"), "warn"):"");
+}
+function topicInfo(b,tp){
+  const mo=S.mode==="MO", n=countTopic(b,tp,mo);
+  return n===0 ? "sin preguntas de "+(mo?"MO":"Desarrollo") : "se juegan "+percentCount(n,topicPct(b,tp))+" de "+n;
+}
+function blockInfo(b){
+  const mo=S.mode==="MO"; let play=0, avail=0;
+  for (const tp of blockTopics(b)){ if (!topicEnabled(b,tp)) continue; const n=countTopic(b,tp,mo); avail+=n; play+=percentCount(n,topicPct(b,tp)); }
+  return "se juegan "+play+" de "+avail;
+}
+function bindBlocks(){
+  document.querySelectorAll("details[data-key]").forEach(d=>d.addEventListener("toggle", ()=>{
+    const k=d.dataset.key;
+    if (d.open){ S.open.add(k);
+      if (d.classList.contains("qitem")){ const m=k.match(/^b(\d+)q(\d+)$/); const det=d.querySelector(".qdet");
+        if (m && det && !det.innerHTML) det.innerHTML=questionDetail(S.blocks[+m[1]].questions[+m[2]]); } }
+    else S.open.delete(k);
+  }));
+}
+function refreshBlockNumbers(bi){
+  const b=S.blocks[bi], topics=blockTopics(b);
+  const inf=$("#info-"+bi); if (inf) inf.textContent=blockInfo(b);
+  topics.forEach((tp,ti)=>{
+    const on=topicEnabled(b,tp), pct=topicPct(b,tp);
+    const r=$("#row-"+bi+"-"+ti), pv=$("#pv-"+bi+"-"+ti), t=$("#ti-"+bi+"-"+ti);
+    if (r){ r.classList.toggle("off",!on); const inp=r.querySelector("input"); inp.disabled=!on; if (document.activeElement!==inp) inp.value=pct; }
+    if (pv) pv.textContent=pct+"%";
+    if (t) t.textContent=topicInfo(b,tp);
+  });
+  const av=$("#allv-"+bi);
+  if (av && topics.length){ const c=topicPct(b,topics[0]); av.textContent=topics.some(t=>topicPct(b,t)!==c)?"varía":c+"%"; }
+}
+
+// ---- Editor de texto (escribir/pegar o editar un bloque) ----
+const EDITOR_TEMPLATE = "BLOQUE: Nombre del bloque\n\nTEMA: \nPREGUNTA: \nFALSA: \nFALSA: \nFALSA: \nCORRECTA: \nSOLUCION: \n---\n";
+function openEditor(bi){
+  S.editor = bi==null ? {original:null, text:"", dirty:false} : {original:S.blocks[bi].name, text:serializeBlocks([S.blocks[bi]]), dirty:false};
+  go("editor");
+}
+function renderEditor(){
+  const ed=S.editor, editing=ed.original!=null;
+  return `
+  <div class="topbar"><button class="sbtn" data-act="editorBack">‹ Volver</button>
+    ${editing?"":`<button class="sbtn" data-act="template">Insertar plantilla</button>`}</div>
+  <h2>${editing?"Editar bloque":"Escribir o pegar preguntas"}</h2>
+  <div class="muted small">${editing
+     ? "Editá el texto del bloque con el mismo formato del archivo. Al guardar, el bloque se reemplaza por lo que quede acá."
+     : "Pegá el contenido de un archivo de preguntas o escribilo con el formato de siempre (BLOQUE:, TEMA:, PREGUNTA:, FALSA:, CORRECTA:, SOLUCION:, y --- entre preguntas). Si el bloque ya existe, se agregan solo las preguntas nuevas."}</div>
+  <textarea id="edtext" rows="16" style="margin-top:12px;font-size:15px;font-family:ui-monospace,Menlo,Consolas,monospace" spellcheck="false" autocapitalize="sentences">${esc(ed.text)}</textarea>
+  <button class="btn accent" data-act="editorSave">${editing?"Guardar bloque":"Agregar preguntas"}</button>`;
+}
+function bindEditor(){ const t=$("#edtext"); t.addEventListener("input", ()=>{ S.editor.text=t.value; S.editor.dirty=true; }); }
+
+// ---- MO ----
+function renderMO(){
+  const p=S.play[S.idx], last=S.idx+1>=S.play.length;
+  const ok=p.answered && !p.timedOut && p.chosen===p.correctIdx;
+  let h=`
+  <div class="topbar"><span class="muted">Pregunta ${S.idx+1} de ${S.play.length}</span><button class="sbtn" data-act="leave">Volver al menú</button></div>
+  <div class="progress"><div style="width:${100*(S.idx+(p.answered?1:0))/S.play.length}%"></div></div>`;
+  if (S.timer) h+=`<div class="bigtime" id="tleft">30 s</div><div class="progress thick"><div id="tbar" style="width:100%"></div></div>`;
+  h+=`<div class="muted small" style="margin-top:12px">${esc(p.block+(p.q.topic?"  ·  "+p.q.topic:""))}</div>
+  <div class="qtext pre">${esc(p.q.text)}</div>`;
+  p.options.forEach((o,i)=>{
+    let st=0;
+    if (p.answered){ if (i===p.chosen) st = i===p.correctIdx?1:2; else if (p.revealed && i===p.correctIdx) st=3; else st=4; }
+    h+=`<button class="opt s${st}" data-act="opt" data-i="${i}" ${p.answered?"disabled":""}><span class="badge">${"ABCD"[i]}</span><span class="pre">${esc(o)}</span></button>`;
+  });
+  if (p.answered){
+    const canReveal=!ok && !p.revealed && !p.timedOut;
+    h+=`<div class="verdict ${ok?"ok":"bad"}">${ok?"¡Correcto!":p.timedOut?"Se acabó el tiempo":"Incorrecto"}</div>
+    <div class="row">${canReveal?`<button class="btn" data-act="reveal">Revelar respuesta</button>`:""}
+      <button class="btn accent" data-act="next">${last?"Ver resultados":"Siguiente pregunta"}</button></div>`;
+  }
+  return h;
+}
+// Después de responder, lleva la vista a los botones para no tener que scrollear
+function showActions(){ const b=document.querySelector('[data-act="next"],[data-act="devNext"]'); if (b) b.scrollIntoView({block:"end", behavior:"smooth"}); }
+function renderMOResults(){
+  const n=S.play.length, good=p=>!p.timedOut && p.chosen===p.correctIdx;
+  const ok=S.play.filter(good).length, pct=n?100*ok/n:0, failed=n-ok;
+  let h=`<h2 style="margin-top:16px">Resultados</h2>
+  <div class="stat ${pctClass(pct)}" style="font-size:60px">${Math.round(pct)}%</div>
+  <div class="muted">${ok} de ${n} respuestas correctas</div>
+  <div class="label">Preguntas</div>`;
+  const order=S.play.filter(p=>!good(p)).concat(S.play.filter(good));
+  for (const p of order){
+    const g=good(p);
+    h+=`<details class="qlist"><summary>${chip(g?"BIEN":p.timedOut?"TIEMPO":"MAL", g?"var(--green)":"var(--red)")}<span class="qprev">${esc(p.q.text.split("\n")[0])}</span></summary>
+      <div class="qdet"><div class="pre">${esc(p.q.text)}</div>
+      ${field("Tu respuesta", p.timedOut?"(sin responder)":p.options[p.chosen], g?"ok":"bad")}
+      ${g?"":field("Respuesta correcta", p.q.correct, "ok")}
+      ${p.q.solution?field("Solución", p.q.solution):""}</div></details>`;
+  }
+  h+=`<button class="btn accent" data-act="again">Volver a jugar de 0</button>
+  <button class="btn" data-act="failed" ${failed?"":"disabled"}>Jugar las falladas (${failed})</button>
+  <button class="btn" data-act="menu">Volver al menú</button>`;
+  return h;
+}
+
+// ---- Desarrollo ----
+function renderDev(){
+  const p=S.play[S.idx], last=S.idx+1>=S.play.length;
+  let h=`
+  <div class="topbar"><span class="muted">Pregunta ${S.idx+1} de ${S.play.length}</span><button class="sbtn" data-act="leave">Volver al menú</button></div>
+  <div class="progress"><div style="width:${100*(S.idx+(p.submitted?1:0))/S.play.length}%"></div></div>`;
+  if (S.timer) h+=`<div class="row" style="align-items:baseline"><span class="bigtime" id="tq">00:00.0</span><span class="muted small" id="ttot"></span></div>`;
+  h+=`<div class="muted small" style="margin-top:12px">${esc(p.block+(p.q.topic?"  ·  "+p.q.topic:""))}</div>
+  <div class="qtext pre">${esc(p.q.text)}</div>
+  <div class="label">Tu respuesta</div>
+  <textarea id="answer" rows="6" ${p.submitted?"readonly":""} placeholder="Escribí tu respuesta…">${esc(p.answer)}</textarea>`;
+  if (!p.submitted) h+=`<button class="btn accent" data-act="submit">Enviar respuesta</button><div class="hint">Una vez enviada no se puede modificar.</div>`;
+  else h+=`<button class="btn accent" data-act="devNext">${last?"Ver resultados":"Siguiente pregunta"}</button><div class="hint">Respuesta enviada.</div>`;
+  return h;
+}
+function bindDev(){
+  const ta=$("#answer");
+  const grow=()=>{ ta.style.height="auto"; ta.style.height=Math.min(Math.max(ta.scrollHeight+2, 150), window.innerHeight*0.6)+"px"; };
+  ta.addEventListener("input", ()=>{ S.play[S.idx].answer=ta.value; grow(); });
+  grow();
+}
+function renderDevResults(){
+  let sum=0,cnt=0,total=0;
+  for (const p of S.play){ if (p.match.valid){ sum+=p.match.percent; cnt++; } total+=p.seconds; }
+  const avg=cnt?sum/cnt:0;
+  let h=`<h2 style="margin-top:16px">Resultados</h2><div class="stats">
+    <div class="card"><div class="stat ${pctClass(avg)}">${Math.round(avg)}%</div><div class="muted small">Promedio de coincidencia</div></div>
+    ${S.timer?`<div class="card"><div class="stat">${fmtTime(total,false)}</div><div class="muted small">Tiempo total de la ronda</div></div>`:""}</div>`;
+  S.play.forEach((p,i)=>{
+    const m=p.match, hit=m.found.filter(Boolean).length;
+    h+=`<div class="card">
+      <div class="row" style="align-items:flex-start"><div class="muted small" style="flex:1">Pregunta ${i+1}  ·  ${esc(p.block+(p.q.topic?"  ·  "+p.q.topic:""))}</div>
+        <div style="font-size:24px;font-weight:700" class="${m.valid?pctClass(m.percent):"muted"}">${m.valid?Math.round(m.percent)+"%":"--"}</div></div>
+      <div class="pre" style="font-weight:700;font-size:18px;margin-top:4px">${esc(p.q.text)}</div>
+      ${S.timer?`<div class="muted small">Tiempo: ${fmtTime(p.seconds,true)}</div>`:""}
+      ${field("Tu respuesta", p.answer||"(sin respuesta)", p.answer?"":"muted")}
+      ${field("Solución", p.q.solution)}
+      <div class="label">Palabras clave (${hit} de ${m.keywords.length})</div>
+      <div>${m.keywords.length ? m.keywords.map((k,j)=>`<span class="kw ${m.found[j]?"ok":"muted"}">${esc(k)}</span>`).join("") : '<span class="muted">(la solución no tiene palabras clave)</span>'}</div>
+    </div>`;
+  });
+  h+=`<div class="row"><button class="btn" data-act="menu">Volver al menú</button><button class="btn accent" data-act="again">Intentar de nuevo</button></div>`;
+  return h;
+}
+
+// ===========================================================================
+// Timer
+// ===========================================================================
+function tick(){
+  if (!S.timer) return;
+  if (S.screen==="mo"){
+    const p=S.play[S.idx]; if (!p) return;
+    const el=now()-S.qStart;
+    if (!p.answered && el>=MO_SECONDS){ p.answered=true; p.timedOut=true; p.chosen=-1; p.seconds=MO_SECONDS; render(); showActions(); return; }
+    const left = p.answered ? (p.timedOut ? 0 : Math.max(0, MO_SECONDS-p.seconds)) : Math.max(0, MO_SECONDS-el);
+    const tl=$("#tleft"), tb=$("#tbar");
+    const c = left<=5 ? "var(--red)" : left<=10 ? "var(--yellow)" : "var(--green)";
+    if (tl){ tl.textContent=Math.ceil(left)+" s"; tl.style.color = left<=5 ? "var(--red)" : left<=10 ? "var(--yellow)" : "var(--text)"; }
+    if (tb){ tb.style.width=(100*left/MO_SECONDS)+"%"; tb.style.background=c; }
+  } else if (S.screen==="dev"){
+    const p=S.play[S.idx]; if (!p) return;
+    const t = p.submitted ? p.seconds : now()-S.qStart;
+    let total=t; for (let i=0;i<S.idx;i++) total+=S.play[i].seconds;
+    const a=$("#tq"), b=$("#ttot");
+    if (a) a.textContent=fmtTime(t,true);
+    if (b) b.textContent="total de la ronda "+fmtTime(total,false);
+  }
+}
+setInterval(tick, 100);
+
+// ===========================================================================
+// Importar
+// ===========================================================================
+function addImportedBlock(b, summary){
+  const ex=S.blocks.find(e=>e.name===b.name);
+  if (!ex){
+    S.blocks.push(b);
+    summary.push([1, `${b.name}: bloque nuevo con ${b.questions.length} preguntas (MOD ${countTag(b,"MOD")} · MO ${countTag(b,"MO")} · D ${countTag(b,"D")} · E ${countTag(b,"E")})`]);
+    if (countTag(b,"E")>0) summary.push([2, b.name+': hay preguntas con error (E). Podés ver el motivo en "Ver bloques cargados".']);
+    return;
+  }
+  const seen=new Set(ex.questions.map(q=>normalizeForCompare(q.text)));
+  let added=0, dup=0, errs=0;
+  for (const q of b.questions){
+    const k=normalizeForCompare(q.text);
+    if (seen.has(k)){ dup++; continue; }
+    seen.add(k); ex.questions.push(q); added++; if (q.tag==="E") errs++;
+  }
+  classify(ex);
+  summary.push([added>0?1:2, `${b.name}: ya existía. Se agregaron ${added} ${plural(added,"pregunta nueva","preguntas nuevas")} y se descartaron ${dup} ${plural(dup,"repetida","repetidas")}.`]);
+  if (errs>0) summary.push([2, b.name+': hay preguntas nuevas con error (E). Podés ver el motivo en "Ver bloques cargados".']);
+}
+function importTexts(items){ // [{name, text}]
+  const summary=[];
+  for (const it of items){
+    const r=parseQuestions(it.text, it.name);
+    for (const w of r.warnings) summary.push([2, it.name+": "+w]);
+    if (!r.blocks.length){ summary.push([3, it.name+": no se encontraron preguntas."]); continue; }
+    for (const b of r.blocks) addImportedBlock(b, summary);
+  }
+  save();
+  showSummary(summary);
+  return summary.some(s=>s[0]===1);
+}
+$("#file").addEventListener("change", async e=>{
+  const files=[...e.target.files]; e.target.value="";
+  const items=[];
+  for (const f of files){
+    try { items.push({name:f.name.replace(/\.[^.]+$/,""), text:decodeBytes(await f.arrayBuffer())}); }
+    catch(err){ items.push({name:f.name, text:""}); }
+  }
+  if (items.length){ importTexts(items); render(); }
+});
+
+function exportBackup(){
+  const blob=new Blob(["﻿"+serializeBlocks(S.blocks)], {type:"text/plain;charset=utf-8"});
+  const d=new Date(), name="QA-Study-copia-"+d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")+".txt";
+  const file=new File([blob], name, {type:"text/plain"});
+  if (navigator.canShare && navigator.canShare({files:[file]})){
+    navigator.share({files:[file], title:name}).catch(()=>{});
+  } else {
+    const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download=name; document.body.appendChild(a); a.click();
+    setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+  }
+}
+
+// ===========================================================================
+// Modales
+// ===========================================================================
+let modalActions={};
+function showModal(html, actions){ modalActions=actions||{}; $("#modal").innerHTML=`<div class="modal-bg"><div class="modal">${html}</div></div>`; }
+function closeModal(){ $("#modal").innerHTML=""; modalActions={}; }
+function showMessage(title, text){ showModal(`<h3>${esc(title)}</h3><div class="pre">${esc(text)}</div><button class="btn accent" data-m="ok">Aceptar</button>`, {ok:closeModal}); }
+function showSummary(summary){
+  const any=summary.some(s=>s[0]===1);
+  const cls={1:"ok",2:"warn",3:"bad"};
+  showModal(`<h3>${any?"Carga exitosa":"No se agregaron preguntas nuevas"}</h3>
+    ${summary.map(s=>`<div class="sumline ${cls[s[0]]||""}">${esc(s[1])}</div>`).join("")}
+    <div class="row"><button class="btn" data-m="blocks" ${any?"":"disabled"}>Ver bloques</button><button class="btn accent" data-m="ok">Aceptar</button></div>`,
+    {ok:closeModal, blocks:()=>{ closeModal(); go("blocks"); }});
+}
+function confirmLeave(){
+  showModal(`<h3>¿Volver al menú?</h3><div class="muted">Se pierde el progreso de esta ronda.</div>
+    <div class="row"><button class="btn" data-m="stay">Seguir jugando</button><button class="btn accent" data-m="leave">Volver al menú</button></div>`,
+    {stay:closeModal, leave:()=>{ closeModal(); goMenu(); }});
+}
+function confirmLeaveEditor(){
+  showModal(`<h3>¿Descartar los cambios?</h3><div class="muted">Lo que escribiste no se guardó.</div>
+    <div class="row"><button class="btn" data-m="stay">Seguir editando</button><button class="btn accent" data-m="leave">Descartar</button></div>`,
+    {stay:closeModal, leave:()=>{ closeModal(); S.editor=null; goMenu(); }});
+}
+
+// ===========================================================================
+// Eventos
+// ===========================================================================
+document.addEventListener("click", e=>{
+  const m=e.target.closest("[data-m]");
+  if (m){ const f=modalActions[m.dataset.m]; if (f) f(); return; }
+  const el=e.target.closest("[data-act]");
+  if (!el || el.disabled) return;
+  const act=el.dataset.act;
+  switch (act){
+    case "mode": S.mode=el.dataset.v; save(); render(); break;
+    case "timer": S.timer=!S.timer; save(); render(); break;
+    case "start": startGame(collectQuestions(S.mode)); break;
+    case "import": $("#file").click(); break;
+    case "newblock": openEditor(null); break;
+    case "blocks": go("blocks"); break;
+    case "export": exportBackup(); break;
+    case "menu": goMenu(); break;
+    case "leave": confirmLeave(); break;
+    case "edit": openEditor(+el.dataset.b); break;
+    case "del": {
+      const bi=+el.dataset.b, nm=S.blocks[bi].name;
+      showModal(`<h3>¿Borrar el bloque?</h3><div>Se va a borrar "${esc(nm)}" con todas sus preguntas. No se puede deshacer.</div>
+        <div class="row"><button class="btn" data-m="no">Cancelar</button><button class="btn accent" data-m="yes" style="background:var(--red);border-color:var(--red)">Borrar</button></div>`,
+        {no:closeModal, yes:()=>{ S.blocks.splice(bi,1); S.open.clear(); save(); closeModal(); render(); }});
+      break;
+    }
+    case "opt": {
+      const p=S.play[S.idx]; if (p.answered) break;
+      p.chosen=+el.dataset.i; p.answered=true; p.seconds=now()-S.qStart; render(); showActions(); break;
+    }
+    case "reveal": S.play[S.idx].revealed=true; render(); showActions(); break;
+    case "next":
+      if (S.idx+1>=S.play.length){ S.screen="moResults"; render(); window.scrollTo(0,0); }
+      else { S.idx++; startQuestion(); }
+      break;
+    case "again": startGame(collectQuestions(S.mode)); break;
+    case "failed": startGame(S.play.filter(p=>p.timedOut||p.chosen!==p.correctIdx)); break;
+    case "submit": {
+      const p=S.play[S.idx]; p.submitted=true; p.seconds=now()-S.qStart; p.answer=p.answer.replace(/[\n ]+$/,""); render(); showActions(); break;
+    }
+    case "devNext":
+      if (S.idx+1>=S.play.length){ for (const p of S.play) p.match=computeMatch(p.answer, p.q.solution); S.screen="devResults"; render(); window.scrollTo(0,0); }
+      else { S.idx++; startQuestion(); }
+      break;
+    case "template": {
+      const t=$("#edtext"); t.value = (t.value && !t.value.endsWith("\n") ? t.value+"\n" : t.value) + (t.value.trim() ? EDITOR_TEMPLATE.replace(/^BLOQUE:.*\n\n/,"") : EDITOR_TEMPLATE);
+      S.editor.text=t.value; S.editor.dirty=true; t.focus(); break;
+    }
+    case "editorBack": if (S.editor.dirty) confirmLeaveEditor(); else goMenu(); break;
+    case "editorSave": editorSave(); break;
+  }
+});
+function editorSave(){
+  const ed=S.editor, text=ed.text;
+  if (!trim(text)){ showMessage("No hay preguntas", "Escribí o pegá al menos una pregunta."); return; }
+  if (ed.original==null){
+    const ok=importTexts([{name:"Sin nombre", text}]);
+    if (ok){ S.editor=null; S.screen="blocks"; render(); }
+    return;
+  }
+  const r=parseQuestions(text, ed.original);
+  if (r.blocks.length!==1){ showMessage("Revisá el texto", r.blocks.length ? "El texto tiene más de un BLOQUE:. Al editar, dejá uno solo." : "No se encontraron preguntas."); return; }
+  const nb=r.blocks[0], i=S.blocks.findIndex(b=>b.name===ed.original), old=S.blocks[i];
+  if (nb.name!==ed.original && S.blocks.some(b=>b.name===nb.name)){ showMessage("Ese nombre ya existe", 'Ya hay otro bloque llamado "'+nb.name+'". Cambiá el nombre.'); return; }
+  nb.enabled=old.enabled; nb.disabledTopics=old.disabledTopics; nb.topicPercent=old.topicPercent;
+  S.blocks[i]=nb; save(); S.open.clear(); S.editor=null; S.screen="blocks"; render();
+  if (r.warnings.length) showMessage("Bloque guardado con avisos", r.warnings.join("\n"));
+}
+document.addEventListener("change", e=>{
+  const t=e.target;
+  if (t.dataset.inc!=null){ const b=S.blocks[+t.dataset.inc]; b.enabled=t.checked;
+    const nm=t.closest("details").querySelector(".bname"); if (nm) nm.style.color=b.enabled?"":"var(--muted)"; save(); }
+  else if (t.dataset.tp!=null){ const [bi,ti]=t.dataset.tp.split(":").map(Number), b=S.blocks[bi]; setTopicEnabled(b, blockTopics(b)[ti], t.checked); refreshBlockNumbers(bi); save(); }
+  else if (t.dataset.pct!=null || t.dataset.all!=null) save();
+});
+document.addEventListener("input", e=>{
+  const t=e.target;
+  if (t.dataset.pct!=null){ const [bi,ti]=t.dataset.pct.split(":").map(Number), b=S.blocks[bi]; setTopicPct(b, blockTopics(b)[ti], +t.value); refreshBlockNumbers(bi); }
+  else if (t.dataset.all!=null){ const bi=+t.dataset.all, b=S.blocks[bi];
+    for (const tp of blockTopics(b)) setTopicPct(b,tp,+t.value);
+    document.querySelectorAll(`[data-pct^="${bi}:"]`).forEach(x=>x.value=t.value);
+    refreshBlockNumbers(bi); }
+});
+// Atajos con teclado físico (opcional)
+document.addEventListener("keydown", e=>{
+  if ($("#modal").innerHTML) return;
+  if (S.screen==="mo"){
+    const p=S.play[S.idx];
+    if (!p.answered){ const k="1234".indexOf(e.key)>=0 ? "1234".indexOf(e.key) : "abcd".indexOf(e.key.toLowerCase());
+      if (k>=0 && k<p.options.length && e.key.length===1){ p.chosen=k; p.answered=true; p.seconds=now()-S.qStart; render(); } }
+    else if (e.key==="Enter"){ const b=document.querySelector('[data-act="next"]'); if (b) b.click(); }
+    else if (e.key.toLowerCase()==="r"){ const b=document.querySelector('[data-act="reveal"]'); if (b) b.click(); }
+  } else if (S.screen==="dev" && e.key==="Enter"){
+    const p=S.play[S.idx];
+    if (!p.submitted && (e.ctrlKey||e.metaKey)){ e.preventDefault(); document.querySelector('[data-act="submit"]').click(); }
+    else if (p.submitted){ e.preventDefault(); document.querySelector('[data-act="devNext"]').click(); }
+  }
+});
+
+// ===========================================================================
+// Inicio
+// ===========================================================================
+load();
+render();
+if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(()=>{});
+if ("serviceWorker" in navigator && location.protocol.startsWith("http")) navigator.serviceWorker.register("sw.js").catch(()=>{});
+</script>
+</body>
+</html>
