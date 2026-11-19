@@ -2,7 +2,7 @@
 
 App de estudio con preguntas **Multiple Choice** y de **Desarrollo**, con timer y selección por tema. Funciona **sin internet** en el celular (Android y iPhone), y las preguntas quedan guardadas en el dispositivo.
 
-**Abrir la app:** https://santiagoa245.github.io/qa-study/
+**Abrir la app:** https://santiagoa245.github.io/Q-A-Study/
 
 > Ojo: la app está en **github.io**, no en github.com. Si creás el acceso directo desde la página del repo (github.com/...), el ícono abre GitHub y no la app.
 
@@ -11,7 +11,7 @@ App de estudio con preguntas **Multiple Choice** y de **Desarrollo**, con timer 
 ## Instalarla en el celular
 
 ### Android (Chrome)
-1. Abrí **santiagoa245.github.io/qa-study** escribiéndolo directo en **Chrome**. No uses el link desde WhatsApp ni desde la app de GitHub, porque se abre adentro de esas apps y ahí no se puede instalar.
+1. Abrí **santiagoa245.github.io/Q-A-Study** escribiéndolo directo en **Chrome**. No uses el link desde WhatsApp ni desde la app de GitHub, porque se abre adentro de esas apps y ahí no se puede instalar.
 2. Fijate que se vea la app (título "Q&A Study", fondo oscuro).
 3. Menú **⋮** > **Instalar app** o **Agregar a la pantalla principal**.
 4. Abrila una vez desde el ícono con internet. Desde ahí funciona sin conexión.
