@@ -126,6 +126,7 @@ details[open]>summary .arrow{transform:rotate(45deg)}
 // ===========================================================================
 const MO_SECONDS = 30;
 const STORE_KEY = "qastudy.v1";
+const GAME_KEY = "qastudy.partida.v1";
 
 function trim(s){ return (s||"").replace(/^[\s\u0000- ]+|[\s\u0000- ]+$/g, ""); }
 function foldChar(ch){
@@ -335,6 +336,7 @@ function decodeBytes(buf){
 const S = {
   blocks: [], mode: "MO", timer: false,
   screen: "menu", play: [], idx: 0, qStart: 0,
+  hiddenAt: null,  // momento en que la app quedó en segundo plano (pausa el tiempo)
   open: new Set(), // <details> abiertos en "Bloques"
   editor: null,    // {original, text}
 };
@@ -361,6 +363,53 @@ function load(){
     });
   } catch(e){ console.error(e); }
 }
+
+// ===========================================================================
+// Partida guardada (si se cambia de app o se cierra, se puede continuar)
+// ===========================================================================
+const GAME_SCREENS = ["mo","dev","moResults","devResults"];
+function inGame(){ return GAME_SCREENS.includes(S.screen) && S.play.length>0; }
+function saveGame(){
+  if (!inGame()) return;
+  try {
+    localStorage.setItem(GAME_KEY, JSON.stringify({
+      v:1, savedAt:Date.now(), mode:S.mode, timer:S.timer, screen:S.screen, idx:S.idx,
+      elapsed: S.hiddenAt!=null ? S.hiddenAt-S.qStart : now()-S.qStart, // tiempo ya usado en la pregunta actual
+      play:S.play
+    }));
+  } catch(e){ console.error(e); }
+}
+function clearGame(){ try { localStorage.removeItem(GAME_KEY); } catch(e){} }
+function readGame(){
+  try {
+    const g=JSON.parse(localStorage.getItem(GAME_KEY)||"null");
+    if (!g || g.v!==1 || !Array.isArray(g.play) || !g.play.length || !GAME_SCREENS.includes(g.screen)) return null;
+    return g;
+  } catch(e){ return null; }
+}
+function resumeGame(g){
+  S.mode=g.mode==="Dev"?"Dev":"MO"; S.timer=!!g.timer; save();
+  S.play=g.play; S.idx=Math.min(Math.max(0,g.idx|0), g.play.length-1);
+  S.qStart=now()-Math.max(0, +g.elapsed||0); S.hiddenAt=null;
+  go(g.screen);
+  if (g.screen==="mo" && S.play[S.idx].answered) showActions();
+}
+function offerResume(){
+  const g=readGame(); if (!g) return;
+  const modo = g.mode==="Dev" ? "Desarrollo" : "Multiple Choice";
+  const where = g.screen==="moResults"||g.screen==="devResults" ? "ya terminada (quedaron los resultados)" : "en la pregunta "+(g.idx+1)+" de "+g.play.length;
+  const d=new Date(g.savedAt), cuando=d.toLocaleDateString("es-UY",{day:"numeric",month:"short"})+" "+d.toLocaleTimeString("es-UY",{hour:"2-digit",minute:"2-digit"});
+  showModal(`<h3>Tenés una partida guardada</h3>
+    <div>${esc(modo)}, ${esc(where)}.</div><div class="muted small" style="margin-top:4px">Guardada el ${esc(cuando)}</div>
+    <div class="row"><button class="btn" data-m="no">Descartar</button><button class="btn accent" data-m="yes">Continuar</button></div>`,
+    {no:()=>{ clearGame(); closeModal(); }, yes:()=>{ closeModal(); resumeGame(g); }});
+}
+// Al salir de la app el tiempo se pausa y la partida se guarda
+document.addEventListener("visibilitychange", ()=>{
+  if (document.hidden){ if (S.hiddenAt==null) S.hiddenAt=now(); saveGame(); }
+  else if (S.hiddenAt!=null){ S.qStart+=now()-S.hiddenAt; S.hiddenAt=null; tick(); }
+});
+window.addEventListener("pagehide", saveGame);
 
 // ===========================================================================
 // Utilidades
@@ -436,7 +485,7 @@ function go(screen){
   window.scrollTo(0,0);
 }
 function goMenu(){
-  S.play=[]; S.idx=0;
+  S.play=[]; S.idx=0; clearGame();
   const was=S.screen; S.screen="menu"; render(); window.scrollTo(0,0);
   if (was!=="menu" && history.state && history.state.app) { ignorePop=true; history.back(); }
 }
@@ -446,6 +495,7 @@ window.addEventListener("popstate", ()=>{
   if (S.screen==="menu") return;
   if (S.screen==="mo"||S.screen==="dev"){ history.pushState({app:1}, ""); confirmLeave(); return; }
   if (S.screen==="editor" && S.editor && S.editor.dirty){ history.pushState({app:1}, ""); confirmLeaveEditor(); return; }
+  if (inGame()) clearGame();
   S.play=[]; S.screen="menu"; closeModal(); render();
 });
 
@@ -458,6 +508,7 @@ function render(){
   if (S.screen==="blocks") bindBlocks();
   if (S.screen==="dev") bindDev();
   if (S.screen==="editor") bindEditor();
+  if (inGame()) saveGame();
   tick();
 }
 
@@ -660,10 +711,11 @@ function renderDev(){
   else h+=`<button class="btn accent" data-act="devNext">${last?"Ver resultados":"Siguiente pregunta"}</button><div class="hint">Respuesta enviada.</div>`;
   return h;
 }
+let typingSave=null;
 function bindDev(){
   const ta=$("#answer");
   const grow=()=>{ ta.style.height="auto"; ta.style.height=Math.min(Math.max(ta.scrollHeight+2, 150), window.innerHeight*0.6)+"px"; };
-  ta.addEventListener("input", ()=>{ S.play[S.idx].answer=ta.value; grow(); });
+  ta.addEventListener("input", ()=>{ S.play[S.idx].answer=ta.value; grow(); clearTimeout(typingSave); typingSave=setTimeout(saveGame, 800); });
   grow();
 }
 function renderDevResults(){
@@ -694,7 +746,7 @@ function renderDevResults(){
 // Timer
 // ===========================================================================
 function tick(){
-  if (!S.timer) return;
+  if (!S.timer || S.hiddenAt!=null) return;
   if (S.screen==="mo"){
     const p=S.play[S.idx]; if (!p) return;
     const el=now()-S.qStart;
@@ -902,6 +954,7 @@ document.addEventListener("keydown", e=>{
 // ===========================================================================
 load();
 render();
+offerResume();
 if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(()=>{});
 if ("serviceWorker" in navigator && location.protocol.startsWith("http")) navigator.serviceWorker.register("sw.js").catch(()=>{});
 </script>

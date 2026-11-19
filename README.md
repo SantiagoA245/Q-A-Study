@@ -21,7 +21,7 @@ App de estudio con preguntas **Multiple Choice** y de **Desarrollo**, con timer 
 - Si igual falla: menú ⋮ > Agregar a la pantalla principal > **Crear acceso directo**. Funciona igual.
 
 ### iPhone (Safari)
-1. Abrí **santiagoa245.github.io/qa-study** en **Safari**. Desde Chrome u otras apps puede no aparecer la opción.
+1. Abrí **santiagoa245.github.io/Q-A-Study** en **Safari**. Desde Chrome u otras apps puede no aparecer la opción.
 2. Tocá **Compartir** (el cuadrado con la flecha para arriba) > **Agregar a pantalla de inicio** > **Agregar**.
 3. Abrila una vez desde el ícono con internet. Desde ahí funciona sin conexión.
 
@@ -34,6 +34,7 @@ App de estudio con preguntas **Multiple Choice** y de **Desarrollo**, con timer 
 - **Importar preguntas (.txt):** elegís uno o varios archivos con el formato de abajo. Pasalos al celular por WhatsApp, Drive o mail y guardalos en Archivos/Descargas. Si el bloque ya existe, se agregan solo las preguntas nuevas.
 - **Escribir o pegar preguntas:** pegás directo el texto de un archivo.
 - **Ver bloques cargados:** tildás qué bloques y temas entran en la partida, elegís el % de preguntas por tema (se sortean en cada partida) y podés **Editar** o **Borrar** bloques.
+- **Partida guardada:** si cambiás de app, se apaga la pantalla o cerrás la app en medio de una partida, se guarda sola (pregunta actual, respuestas y tiempo; el timer se pausa mientras no la estás usando). Al volver a abrirla te ofrece **Continuar** o **Descartar**.
 - **Exportar copia de seguridad:** guarda todos tus bloques en un .txt que podés volver a importar.
 
 ### Formato de los archivos de preguntas
