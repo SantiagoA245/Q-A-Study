@@ -35,6 +35,7 @@ App de estudio con preguntas **Multiple Choice** y de **Desarrollo**, con timer 
 - **Escribir o pegar preguntas:** pegás directo el texto de un archivo.
 - **Ver bloques cargados:** tildás qué bloques y temas entran en la partida, elegís el % de preguntas por tema (se sortean en cada partida) y podés **Editar** o **Borrar** bloques.
 - **Partida guardada:** si cambiás de app, se apaga la pantalla o cerrás la app en medio de una partida, se guarda sola (pregunta actual, respuestas y tiempo; el timer se pausa mientras no la estás usando). Al volver a abrirla te ofrece **Continuar** o **Descartar**.
+- **Descargar bancos de la nube:** baja los bancos de preguntas publicados en la carpeta `bancos/` de este repo. Tildás los que querés y listo; si ya tenés el bloque, se suman solo las preguntas nuevas. Para publicar un banco nuevo, mirá [bancos/README.md](bancos/README.md).
 - **Exportar copia de seguridad:** guarda todos tus bloques en un .txt que podés volver a importar.
 
 ### Formato de los archivos de preguntas
@@ -78,6 +79,7 @@ Tienen que estar todos en la raíz del repo, no adentro de una carpeta:
 | `manifest.webmanifest` | Nombre e ícono para instalarla |
 | `sw.js` | Guarda la app para que funcione sin internet |
 | `icon-180.png`, `icon-192.png`, `icon-512.png` | Íconos |
+| `bancos/` | Bancos de preguntas públicos que se bajan desde la app (con su `index.json`) |
 
 ## Publicarla (si hay que rehacerlo)
 

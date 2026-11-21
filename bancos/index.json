@@ -1,0 +1,82 @@
+{
+  "formato": 1,
+  "actualizado": "2026-11-21",
+  "bancos": [
+    {
+      "archivo": "arquitectura-computadoras.txt",
+      "bloque": "Arquitectura de Computadoras",
+      "descripcion": "Arquitectura de Computadoras (FING, UdelaR): 8086, organización del CPU, E/S y buses, pipeline, caché y superescalares.",
+      "preguntas": 100,
+      "temas": [
+        "8086: instrucciones",
+        "8086: memoria y direccionamiento",
+        "Entrada/Salida y buses",
+        "Formato de instrucción",
+        "Interrupciones y E/S",
+        "Jerarquía de memoria",
+        "Máquina lógica general",
+        "Máquinas de estado",
+        "Organización del CPU",
+        "Pipeline",
+        "Superescalares"
+      ]
+    },
+    {
+      "archivo": "biologia-ejemplo.txt",
+      "bloque": "Biología celular",
+      "descripcion": "Ejemplo corto para probar la app.",
+      "preguntas": 5,
+      "temas": [
+        "División celular",
+        "Membrana",
+        "Organelas"
+      ]
+    },
+    {
+      "archivo": "tprog-dificil.txt",
+      "bloque": "Tarea Tprog (difícil)",
+      "descripcion": "Taller de Programación (salud.uy, grupo 49), versión difícil.",
+      "preguntas": 77,
+      "temas": [
+        "Análisis y diseño",
+        "Arquitectura",
+        "Detalles de la prueba",
+        "Modelado del dominio",
+        "Organización",
+        "Patrones",
+        "Pruebas",
+        "Tarea 1 - Swing",
+        "Tarea 2 - Web",
+        "Tarea 3 - Casos de uso",
+        "Tarea 3 - Maven",
+        "Tarea 3 - Móvil",
+        "Tarea 3 - Organización",
+        "Tarea 3 - Persistencia",
+        "Tarea 3 - Web Services"
+      ]
+    },
+    {
+      "archivo": "tprog-facil.txt",
+      "bloque": "Tarea Tprog (fácil)",
+      "descripcion": "Taller de Programación (salud.uy, grupo 49), versión fácil.",
+      "preguntas": 77,
+      "temas": [
+        "Análisis y diseño",
+        "Arquitectura",
+        "Detalles de la prueba",
+        "Modelado del dominio",
+        "Organización",
+        "Patrones",
+        "Pruebas",
+        "Tarea 1 - Swing",
+        "Tarea 2 - Web",
+        "Tarea 3 - Casos de uso",
+        "Tarea 3 - Maven",
+        "Tarea 3 - Móvil",
+        "Tarea 3 - Organización",
+        "Tarea 3 - Persistencia",
+        "Tarea 3 - Web Services"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,695 @@
+BLOQUE: Tarea Tprog (difícil)
+
+TEMA: Detalles de la prueba
+PREGUNTA: ¿Cuándo y a qué hora es la prueba individual escrita?
+FALSA: Viernes 20/11 a las 18:00
+FALSA: Viernes 20/11 a las 19:30
+FALSA: Jueves 19/11 a las 18:30
+FALSA: Sábado 21/11 a las 18:30
+CORRECTA: Viernes 20/11 a las 18:30
+SOLUCION: La prueba individual escrita es el viernes 20/11 a las 18:30 horas.
+---
+TEMA: Detalles de la prueba
+PREGUNTA: ¿Dónde se realiza la prueba individual?
+FALSA: Salones 301, 307 y 321 (3er piso, cuerpo central de FING)
+FALSA: Salones 301, 307 y 312 (3er piso, cuerpo sur de FING)
+FALSA: Salones 201, 207 y 212 (2do piso, cuerpo central de FING)
+FALSA: Salones 310, 307 y 312 (3er piso, cuerpo central de FING)
+CORRECTA: Salones 301, 307 y 312 (3er piso, cuerpo central de FING)
+SOLUCION: En los salones 301, 307 y 312, tercer piso del cuerpo central de FING.
+---
+TEMA: Detalles de la prueba
+PREGUNTA: ¿Cuánto dura la prueba y cuántas preguntas tiene?
+FALSA: 2 horas y doce preguntas
+FALSA: 3 horas y diez preguntas
+FALSA: 2 horas y ocho preguntas
+FALSA: 1 hora y media y diez preguntas
+CORRECTA: 2 horas y diez preguntas
+SOLUCION: Dura 2 horas (estiman que lleva menos) y tiene diez preguntas sobre cómo el grupo resolvió el laboratorio en las tres tareas.
+---
+TEMA: Detalles de la prueba
+PREGUNTA: ¿Sobre qué aspectos del laboratorio pregunta la prueba?
+FALSA: Análisis, diseño e implementación de la Tarea 3, con preguntas teóricas de UML
+FALSA: Diseño, implementación y pruebas de las tres tareas, sin preguntas de organización
+FALSA: Análisis, diseño e implementación de las tres tareas, más teoría general de patrones
+FALSA: Implementación y organización de las tareas 2 y 3, más el reporte de pruebas
+CORRECTA: Análisis, diseño, implementación y organización del trabajo en las tres tareas
+SOLUCION: Preguntas enfocadas en cómo el grupo resolvió el laboratorio en las tres tareas: análisis, diseño, implementación y organización del trabajo.
+---
+TEMA: Detalles de la prueba
+PREGUNTA: ¿Cómo modeló el grupo un aspecto de la realidad? Ejemplo: Usuario, Paciente y Médico.
+FALSA: Usuario como clase concreta con atributo tipo, y Médico y Paciente como roles asociados 0..1
+FALSA: Usuario abstracto con Paciente y Médico, y las especialidades como datatype dentro de Médico
+FALSA: Paciente y Médico como clases independientes que comparten un datatype DTDatosPersona
+FALSA: Usuario abstracto con Paciente y Médico, con unicidad de nickname y correo chequeada en cada subclase
+CORRECTA: Usuario abstracto con Paciente y Médico; unicidad de nickname y correo en ControladorUsuario
+SOLUCION: Usuario es la superclase con nick, nombre, apellido, correo, contraseña, imagen y tipo. Paciente y Medico heredan de Usuario. Paciente tiene documento, fechaNac, fechaIngreso, antecedentes, beneficios y reservas. Medico tiene nroReg, diasLicencia, addPercent, linkWebMed y al menos una especialidad. Nickname y correo únicos, controlados en ControladorUsuario.
+---
+TEMA: Detalles de la prueba
+PREGUNTA: ¿Cómo o para qué se utilizaron patrones en el proyecto? Nombrá los principales.
+FALSA: Singleton en todos los controladores, Factory con clases concretas, Observer entre web y Estación
+FALSA: Singleton en ControladorUsuario, Facade para la web, Listener/Vista y DataTypes
+FALSA: Factory con interfaces, Strategy para el cálculo de costos, Listener/Vista y DataTypes
+FALSA: Singleton en ControladorUsuario, Factory con interfaces, MVC con JSP y State para EEstado
+CORRECTA: Singleton en ControladorUsuario, Factory con interfaces, Listener/Vista y DataTypes
+SOLUCION: Singleton en ControladorUsuario (y Configuracion) para un único estado compartido. Factory devuelve interfaces IControlador para desacoplar la UI. Listener/Vista separa la lógica de Swing y permite VistasFalsas en las pruebas. DataTypes (DT) para pasar datos entre capas sin exponer el dominio.
+---
+TEMA: Detalles de la prueba
+PREGUNTA: ¿Cómo se organizó el grupo para las tareas?
+FALSA: Reparto por capa (modelo, UI, web), una rama por capa con merge a main y tags por entrega
+FALSA: Reparto por caso de uso, una rama por caso de uso con merge a main y releases por entrega
+FALSA: Reparto por caso de uso, todos commiteando en main y un tag por entrega
+FALSA: Reparto por tarea, una rama por integrante con merge a develop y tags por entrega
+CORRECTA: Reparto por caso de uso, una rama por integrante con merge a main y tags por entrega
+SOLUCION: Reparto por caso de uso entre los cinco integrantes. Git en GitLab de FING con una rama por integrante (SantiA, SantiD, NicoF, NicoL, Francisco) que se mergea a main, y tags para marcar entregas. Guías en README para seguir el mismo patrón (servlet con Vista.mostrar, operación WS con ClienteWS).
+---
+TEMA: Detalles de la prueba
+PREGUNTA: ¿Cómo se aprovechó una tecnología? Ejemplo: Web Services en la Tarea 3.
+FALSA: JAX-WS estilo document: el central publica con Endpoint.publish y la web usa un cliente wsimport
+FALSA: JAX-WS estilo RPC: el central se despliega en Tomcat y la web arma los mensajes SOAP a mano
+FALSA: JAX-WS estilo RPC: la web publica los servicios y la Estación de Trabajo los consume con wsimport
+FALSA: JAX-RS con JSON: el central publica recursos REST y la web los consume con un cliente HTTP
+CORRECTA: JAX-WS estilo RPC: el central publica con Endpoint.publish y la web usa un cliente wsimport
+SOLUCION: El Servidor Central publica con Endpoint.publish cuatro publicadores JAX-WS (@WebService, @SOAPBinding RPC). La web genera el cliente con wsimport desde el WSDL guardado y lo envuelve en ClienteWS, que convierte las clases generadas a DT. Las URLs se configuran en .properties.
+---
+TEMA: Detalles de la prueba
+PREGUNTA: Brindá detalles (pseudocódigo) de cómo se resolvió la Reserva de Consulta.
+FALSA: Chequea cupo y duplicado, asigna el menor número libre y aplica 20 % a mayores de 65
+FALSA: Chequea cupo y duplicado, asigna el número siguiente y descuenta una orden del beneficio anual
+FALSA: Chequea cupo, asigna el número siguiente y aplica 20 % a mayores de 60 (sin chequear duplicado)
+FALSA: Chequea duplicado y estado Aceptada, asigna el número siguiente y aplica 20 % a mayores de 60
+CORRECTA: Chequea cupo y duplicado, asigna el número siguiente y aplica 20 % a mayores de 60
+SOLUCION: Si la consulta está llena (reservas >= cantNumDisp) se avisa. Si el paciente ya tiene reserva para esa consulta se avisa. Se toma el número de ultimoNumeroReserva. El costo es getCostoC y si la edad del paciente es mayor a 60 se multiplica por 0.8. Se crea la Reserva y se agrega a la consulta y al paciente.
+---
+TEMA: Patrones
+PREGUNTA: ¿Para qué usaron Singleton?
+FALSA: Para que haya una única Factory que cree un controlador nuevo por caso de uso
+FALSA: Para que cada controlador (usuario, día de consulta, clínica) tenga una sola instancia
+FALSA: Para que la web y la Estación de Trabajo compartan el mismo ControladorUsuario
+FALSA: Para que haya un único ControladorDiaDeConsulta con todas las consultas y reservas
+CORRECTA: Para que haya un único ControladorUsuario con la colección de usuarios compartida
+SOLUCION: Para que haya un único ControladorUsuario con la colección de usuarios y todos los casos de uso vean el mismo estado; en T3 también para leer la configuración una sola vez (Configuracion y ConfiguracionWeb).
+---
+TEMA: Patrones
+PREGUNTA: ¿Para qué usaron Factory?
+FALSA: Para que la UI y la web creen los controladores concretos sin usar new y sin repetir código
+FALSA: Para que la UI y la web obtengan los objetos del modelo sin conocer los controladores
+FALSA: Para garantizar que cada controlador sea Singleton y reiniciarlo entre pantallas
+FALSA: Para que la UI obtenga los DataTypes ya armados sin pasar por los controladores
+CORRECTA: Para que la UI y la web usen los controladores como interfaces, sin conocer la clase concreta
+SOLUCION: Para que la UI y la web obtengan los controladores como interfaces (IControladorUsuario, IControladorDiaDeConsulta, IControladorClinica) y no conozcan la clase concreta ni que hay un Singleton detrás. Bajo acoplamiento.
+---
+TEMA: Patrones
+PREGUNTA: ¿Qué métodos tiene la Factory y qué devuelven?
+FALSA: getContUsuario(), getDiaConsulta() y getcontClinica(), que devuelven las clases concretas
+FALSA: getControlador(tipo), que devuelve la interfaz IControlador según el tipo pedido
+FALSA: getContUsuario(), getDiaConsulta() y getcontClinica(), que crean una instancia nueva en cada llamada
+FALSA: getInstance() de cada controlador, que devuelve la interfaz correspondiente
+CORRECTA: getContUsuario(), getDiaConsulta() y getcontClinica(), que devuelven interfaces IControlador
+SOLUCION: Métodos estáticos getContUsuario, getDiaConsulta y getcontClinica que devuelven IControladorUsuario, IControladorDiaDeConsulta e IControladorClinica. Crean el controlador la primera vez (lazy). Además reiniciar(), package-private, para limpiar el estado en las pruebas.
+---
+TEMA: Patrones
+PREGUNTA: ¿Cómo implementaron el Singleton de ControladorUsuario?
+FALSA: Constructor protegido, instancia estática creada al cargar la clase y getInstance()
+FALSA: Constructor privado, instancia estática y getInstance() sincronizado con doble chequeo
+FALSA: Constructor privado e instancia guardada en Factory, que la crea con new si es null
+FALSA: Constructor privado, instancia estática final y reiniciar() público para la UI
+CORRECTA: Constructor privado, instancia estática y getInstance() que la crea si es null
+SOLUCION: Constructor privado, atributo estático con la única instancia y getInstance que la crea si es null. Para las pruebas existe reiniciarInstancia, llamado desde Factory.reiniciar, que limpia el estado entre tests.
+---
+TEMA: Patrones
+PREGUNTA: ¿Qué es el patrón Listener/Vista que usaron en la Estación de Trabajo?
+FALSA: El controlador implementa VistaX y la ventana implementa XListener para avisarle eventos
+FALSA: La ventana implementa ActionListener y llama al modelo, que le devuelve DataTypes
+FALSA: La ventana implementa VistaX y el controlador la consulta periódicamente para actualizarla
+FALSA: La ventana implementa XListener y el controlador le responde con métodos de la clase Swing concreta
+CORRECTA: La ventana implementa VistaX y el controlador implementa XListener; se hablan por interfaces
+SOLUCION: Idea de MVC/Observer: la ventana Swing implementa VistaX (por ejemplo VistaReserva) y avisa eventos al listener (ReservaListener) que implementa el controlador. El controlador responde a la vista por la interfaz. La lógica no depende de Swing y se puede probar con VistasFalsas.
+---
+TEMA: Patrones
+PREGUNTA: ¿Qué roles del patrón Factory describieron en el informe de diseño?
+FALSA: Factory = Creator, controladores = Product, interfaces = ConcreteProduct, UI = Client
+FALSA: Factory = Client, interfaces = Product, controladores = ConcreteProduct, UI = Creator
+FALSA: Factory = ConcreteCreator, interfaces = Creator, controladores = Product, UI = Client
+FALSA: Factory = Creator, interfaces = Product, controladores = Client, UI = ConcreteProduct
+CORRECTA: Factory = Creator, interfaces = Product, controladores = ConcreteProduct, UI = Client
+SOLUCION: Factory es el Creator, las interfaces IControlador son el Product, los controladores concretos son ConcreteProduct y los colaboradores de la UI son el Client.
+---
+TEMA: Patrones
+PREGUNTA: ¿Qué son los DataTypes (DT) y para qué los usaron?
+FALSA: Objetos con identidad que el controlador guarda y que la UI puede modificar directamente
+FALSA: Objetos de valor que el controlador guarda en sus colecciones en lugar de las entidades
+FALSA: Interfaces que implementan las clases del dominio para exponerse a la UI
+FALSA: Objetos de valor que solo se usan en T3 para serializar a XML por los Web Services
+CORRECTA: Objetos de valor sin identidad que viajan entre capas sin exponer las clases del dominio
+SOLUCION: Objetos de valor sin identidad. Desde T1 DTFecha, DTHora y DTBeneficio; luego DT de salida por entidad (DTUsuario, DTPaciente, DTMedico, DTConsulta, DTReserva, DTReceta, DTSolicitud, DTConstancia). En T3 se volvieron JavaBeans (constructor vacío, getter y setter) para que JAX-WS los serialice a XML.
+---
+TEMA: Modelado del dominio
+PREGUNTA: ¿Cómo modelaron los beneficios anuales?
+FALSA: Clase BeneficioAnual (año, tickets, órdenes) asociada 1..* a Paciente, con un acumulado calculado
+FALSA: Datatype DTBeneficio en una lista dentro de Paciente, sin acumulado
+FALSA: Datatype DTBeneficio en un mapa año → beneficio dentro de Clínica, por paciente
+FALSA: Atributos cantTickets y cantOrdenes en Paciente que se reinician cada año
+CORRECTA: Datatype DTBeneficio en un mapa año → beneficio dentro de Paciente, más un acumulado
+SOLUCION: Como datatype DTBeneficio (tickets de medicamento y órdenes de consulta) en un mapa año → beneficio dentro de Paciente (beneficiosAnios), más un acumulado (beneficiosAcum). No son entidad propia.
+---
+TEMA: Modelado del dominio
+PREGUNTA: ¿Cómo modelaron el estado de la consulta?
+FALSA: Enum EEstado {Ingresada, Aceptada, Rechazada}; nace Ingresada y se puede cambiar entre cualquier estado
+FALSA: Enum EEstado {Pendiente, Aceptada, Rechazada, Archivada}; nace Pendiente y solo desde ahí cambia
+FALSA: Patrón State con una clase por estado (Ingresada, Aceptada, Rechazada) que define las transiciones
+FALSA: Enum EEstado {Ingresada, Aceptada, Rechazada}; nace Aceptada si la carga el administrador
+CORRECTA: Enum EEstado {Ingresada, Aceptada, Rechazada}; nace Ingresada y solo desde ahí cambia
+SOLUCION: Enum EEstado {Ingresada, Aceptada, Rechazada}. La consulta nace Ingresada y solo desde ese estado se puede aceptar o rechazar. Los listados públicos y la búsqueda filtran las Aceptada.
+---
+TEMA: Modelado del dominio
+PREGUNTA: ¿Cómo se calcula el costo de un Día de Consulta?
+FALSA: Costo de la orden de consulta de la clínica más el porcentaje adicional del médico
+FALSA: Costo de la orden de consulta de la clínica más el porcentaje adicional de la especialidad, guardado al dar el alta
+FALSA: Costo del ticket de medicamento de la clínica más el porcentaje adicional de la especialidad
+FALSA: Costo de la orden de consulta de la clínica por el porcentaje de la especialidad (sin sumar la base)
+CORRECTA: Costo de la orden de consulta de la clínica más el porcentaje adicional de la especialidad, calculado al vuelo
+SOLUCION: Es un atributo derivado (/CostoDC) que se calcula al vuelo en DiaConsulta.getCostoDC: costoOrdenConsulta de la clínica más ese costo por el porcentaje adicional de la especialidad.
+---
+TEMA: Modelado del dominio
+PREGUNTA: ¿Cómo se calcula el costo de una Consulta?
+FALSA: Costo del día de consulta más el porcentaje adicional de la especialidad
+FALSA: Costo de la orden de la clínica más el porcentaje adicional del médico
+FALSA: Costo del día de consulta más el porcentaje del médico, guardado en la Consulta al darla de alta
+FALSA: Costo del día de consulta más el porcentaje del médico, calculado por ControladorDiaDeConsulta
+CORRECTA: Costo del día de consulta más el porcentaje adicional del médico, calculado en Consulta
+SOLUCION: Atributo derivado /CostoC calculado en Consulta.getCostoC: costo del día de consulta (getCostoDC) más ese costo por el addPercent del médico. Patrón Experto: Consulta conoce su día y su médico.
+---
+TEMA: Modelado del dominio
+PREGUNTA: ¿Cómo se calcula el costo de una Reserva?
+FALSA: Costo de la consulta con 20 % de bonificación si el paciente tiene 60 años o más
+FALSA: Costo de la consulta con 20 % de bonificación si el paciente tiene más de 60 años a la fecha de hoy, recalculado siempre
+FALSA: Costo de la consulta con 20 % de bonificación si el paciente tiene más de 65 años
+FALSA: Costo de la consulta con 20 % de bonificación si el paciente tiene beneficio anual ese año
+CORRECTA: Costo de la consulta con 20 % de bonificación si el paciente tiene más de 60 años a la fecha de la reserva
+SOLUCION: Consulta.calcularCostoReserva(paciente, fecha): toma getCostoC y si la edad del paciente a la fecha de la reserva es mayor a 60 multiplica por 0.8 (bonificación de 20 %). El costo queda guardado en la Reserva (costoR).
+---
+TEMA: Modelado del dominio
+PREGUNTA: ¿Qué clases tiene el modelo de dominio de salud.uy?
+FALSA: Usuario (Paciente, Médico, Administrador), Especialidad, Clínica, DiaConsulta, Consulta, Reserva, Receta
+FALSA: Usuario (Paciente, Médico), Especialidad, Clínica, Consulta, Reserva, Detalles, Valoración, Receta
+FALSA: Usuario (Paciente, Médico), Especialidad, Clínica, DiaConsulta, Consulta, Reserva, BeneficioAnual, Receta, Solicitud
+FALSA: Usuario (Paciente, Médico), Especialidad, Clínica, Horario, Consulta, Turno, Receta, SolicitudMedicamento
+CORRECTA: Usuario (Paciente, Médico), Especialidad, Clínica, DiaConsulta, Consulta, Reserva, Receta, SolicitudMedicamento
+SOLUCION: Usuario abstracto con Paciente y Medico; Especialidad, Clinica, DiaConsulta, Consulta y Reserva desde T1. Enumerados EDia, EMes y en T2 EEstado. Datatypes DTFecha, DTHora, DTBeneficio. En T3 Receta y SolicitudMedicamento; los detalles son atributos de Reserva y las valoraciones un mapa en Consulta.
+---
+TEMA: Modelado del dominio
+PREGUNTA: ¿Cómo modelaron las valoraciones de una consulta en el código?
+FALSA: Clase Valoracion (paciente, puntaje 1 a 5) en una lista dentro de Consulta, con promedio calculado
+FALSA: Atributo puntaje (1 a 5) en la Reserva del paciente, y Consulta promedia sus reservas
+FALSA: Map<String, Integer> en Paciente (nombre de consulta → puntaje 1 a 5)
+FALSA: Lista de enteros en Consulta con el promedio guardado como atributo
+CORRECTA: Map<String, Integer> en Consulta (nick del paciente → puntaje 1 a 5)
+SOLUCION: Map valoraciones en Consulta, de nick del paciente a puntaje de 1 a 5. valorar() rechaza puntajes fuera de rango y una segunda valoración del mismo paciente. getPromedioValoracion calcula el promedio (/ValoracionProm).
+---
+TEMA: Modelado del dominio
+PREGUNTA: ¿Cómo modelaron los Detalles de Consulta en el código?
+FALSA: Clase Detalles (asistió, motivo, diagnóstico) asociada 0..1 a cada Reserva
+FALSA: Atributos de Consulta: asistio, motivo y diagnostico, cargados por el médico
+FALSA: Datatype DTDetalle guardado dentro de la Reserva al registrar la asistencia
+FALSA: Clase Detalles asociada a Consulta, con un mapa nick del paciente → detalle
+CORRECTA: Atributos de Reserva: tieneDetalle, asistio, motivo y diagnostico
+SOLUCION: Reserva.registrarDetalle(asistio, motivo, diagnostico) marca tieneDetalle y guarda asistio; motivo y diagnóstico solo si asistió. Solo lo carga el médico de la consulta y el motivo es obligatorio si asistió. En el modelo de dominio aparecía como clase Detalles (no coincide con el código).
+---
+TEMA: Modelado del dominio
+PREGUNTA: ¿Cómo se modeló la Receta y su vencimiento?
+FALSA: Clase Receta asociada al Paciente, con fecha de indicación y vencimiento a los 30 días
+FALSA: Clase Receta asociada a la Reserva, con fecha de vencimiento guardada como atributo
+FALSA: Clase Receta asociada a la Reserva, con fecha de indicación y vencimiento a fin de mes
+FALSA: Clase Receta asociada a la Consulta, con fecha de indicación y vencimiento a los 30 días
+CORRECTA: Clase Receta asociada a la Reserva, con fecha de indicación y vencimiento a los 30 días
+SOLUCION: Clase Receta con idReceta, nombreMedicamento, posologia, fechaIndicacion y la Reserva. PLAZO_DIAS = 30: getFechaVencimiento suma 30 días a la indicación y estaVigente compara con hoy. Tiene una SolicitudMedicamento que es null mientras no se pidió a domicilio.
+---
+TEMA: Modelado del dominio
+PREGUNTA: ¿Cómo se asigna el número de una reserva y qué diferencia hay con la letra?
+FALSA: Se busca el menor número libre de la consulta, igual que pide la letra
+FALSA: Con un contador global del sistema; la letra pide numerar por consulta
+FALSA: Con reservas.size() + 1 calculado en cada alta; la letra pide el menor número disponible
+FALSA: Con un contador por consulta que solo crece; la letra pide número aleatorio
+CORRECTA: Con un contador por consulta que solo crece; la letra pide el menor número disponible
+SOLUCION: Consulta tiene ultimoNumeroReserva que empieza en 1 y se incrementa en agregarReserva. La letra dice el menor entre los disponibles; da igual mientras no se borren reservas. Cada consulta numera desde 1.
+---
+TEMA: Análisis y diseño
+PREGUNTA: ¿Qué son los DSS y los contratos que hicieron en el análisis?
+FALSA: DSS muestran los objetos internos y sus mensajes; los contratos dan pre y postcondiciones
+FALSA: DSS muestran el sistema como caja negra; los contratos describen el flujo principal del caso de uso
+FALSA: DSS muestran la navegación entre pantallas; los contratos listan las validaciones de la UI
+FALSA: DSS muestran el sistema como caja negra con sus operaciones; los contratos indican qué clase de diseño atiende cada una
+CORRECTA: DSS muestran el sistema como caja negra con las operaciones del actor; los contratos dan pre y postcondiciones
+SOLUCION: Los diagramas de secuencia del sistema muestran al sistema como caja negra y las operaciones que pide el actor (Administrador). Los contratos indican precondiciones y postcondiciones: instancias creadas, links y atributos modificados. Hicimos DSS de Alta Usuario, Consulta Usuario y Reserva de Consulta.
+---
+TEMA: Análisis y diseño
+PREGUNTA: ¿Qué criterio GRASP aplica cuando Consulta calcula su propio costo?
+FALSA: Creador
+FALSA: Alta Cohesión
+FALSA: Controlador
+FALSA: Bajo Acoplamiento
+CORRECTA: Experto
+SOLUCION: Experto: la responsabilidad la tiene quien tiene los datos. Consulta conoce su DiaConsulta y su Medico, por eso calcula getCostoC y calcularCostoReserva.
+---
+TEMA: Análisis y diseño
+PREGUNTA: ¿Qué documentos de diseño entregaron en las tareas?
+FALSA: Informe con DCD y diagramas de secuencia (T1), DCD en draw.io (T2 y T3) y diagrama de despliegue (T3)
+FALSA: Informe con paquetes y comunicación (T1), DCD en draw.io solo en T3 y mapa de navegación (T2)
+FALSA: Informe con paquetes y comunicación (T1), DCD en draw.io (T2 y T3) y diagrama ER de la base (T3)
+FALSA: Informe con paquetes y comunicación (T1 y T2), DCD en draw.io (T3) y wireframes del móvil (T3)
+CORRECTA: Informe con paquetes y comunicación (T1), DCD en draw.io (T2 y T3) y mapa de navegación (T2)
+SOLUCION: T1: Inf_ModeloDisenio con paquetes, diagramas de comunicación de 5 casos de uso y patrones. T2 y T3: DCD en draw.io. T2: Diseño_Sitio_Web_Dinamico con servlets y JSP numerados por caso de uso y guardas por tipo de usuario. T3: modelo de dominio actualizado y reporte de pruebas.
+---
+TEMA: Análisis y diseño
+PREGUNTA: ¿Qué restricciones no estructurales pusieron en el modelo de dominio?
+FALSA: Unicidad de nickname y correo, y multiplicidades de las asociaciones en lenguaje natural
+FALSA: Unicidad, dominio y reglas de negocio, con los costos guardados como atributos normales
+FALSA: Unicidad del número de reserva en todo el sistema y atributos calculados, sin reglas de negocio
+FALSA: Solo reglas de negocio de la reserva (cupo, duplicado, bonificación), sin unicidad
+CORRECTA: Unicidad, dominio, atributos calculados y reglas de negocio en lenguaje natural
+SOLUCION: Restricciones en lenguaje natural: unicidad de nickname y correo, médico con al menos una especialidad, atributos calculados /CostoDC, /CostoC, /CostoR, fecha de la consulta coincide con el día de la semana, número de reserva único entre las reservas de la consulta. Se agregaron algunas que la letra no pedía (unicidad de nSala, NroReg, LinkWeb).
+---
+TEMA: Tarea 1 - Swing
+PREGUNTA: ¿Cómo estaba organizado el proyecto de la Tarea 1?
+FALSA: Un proyecto Eclipse con paquetes modelo, controladores, datos y ui, y los DT dentro de controladores
+FALSA: Dos proyectos Eclipse, lógica y Swing, unidos con un JAR
+FALSA: Un proyecto Maven con módulos modelo, controladores y ui
+FALSA: Un proyecto Eclipse con paquetes por caso de uso (altaUsuario, reserva, consulta...)
+CORRECTA: Un proyecto Eclipse con paquetes modelo, datatypes, enums, controladores, datos y ui
+SOLUCION: Un solo nodo y una JVM: proyecto Eclipse con paquetes modelo, datatypes, enums, controladores, datos y ui. Arquitectura en capas: la UI solo llega a la lógica por la Factory y las interfaces.
+---
+TEMA: Tarea 1 - Swing
+PREGUNTA: ¿Qué chequeos hace el Alta de Consulta?
+FALSA: Nombre repetido, que el médico tenga la especialidad del día y que la sala esté libre
+FALSA: Nombre repetido, que la fecha coincida con el día de la semana y que el médico no esté de licencia ese mes
+FALSA: Nombre repetido en el día de consulta, que el médico pertenezca a la clínica y la fecha
+FALSA: Que el médico tenga la especialidad del día, que la fecha sea futura y que la sala esté libre
+CORRECTA: Nombre repetido, que el médico tenga la especialidad del día y que la fecha caiga en ese día de la semana
+SOLUCION: ControladorDiaDeConsulta.altaConsulta lanza IllegalArgumentException si el nombre está repetido, si el médico no tiene la especialidad del día de consulta o si la fecha no corresponde al día de la semana (LocalDate.getDayOfWeek). La UI muestra el error con JOptionPane. En T2 nace en estado Ingresada.
+---
+TEMA: Tarea 1 - Swing
+PREGUNTA: ¿Cómo se cargan los datos de prueba?
+FALSA: LectorCSV y DatosDePrueba.cargar(), que crean los objetos del modelo directo en las colecciones
+FALSA: DatosDePrueba con los objetos escritos en código Java, sin CSV, pasando por los controladores
+FALSA: LectorCSV y DatosDePrueba.cargar(), llamados automáticamente al abrir la Estación en T1
+FALSA: Un script SQL que carga los CSV en HSQLDB al arrancar
+CORRECTA: LectorCSV y DatosDePrueba.cargar(), que pasan por los mismos controladores
+SOLUCION: datos.LectorCSV lee los CSV (2026Usuarios, 2026Clinicas, 2026Consultas, etc.) y DatosDePrueba.cargar los da de alta usando los controladores, así pasan por las validaciones. En T1 desde el menú Sistema > Cargar datos de prueba; en T3 Main los carga si cargarDatosPrueba=true.
+---
+TEMA: Tarea 1 - Swing
+PREGUNTA: ¿Qué pautas de GUI pedía la letra de la T1 y cómo las cumplieron?
+FALSA: Menú, un JFrame por caso de uso, combos para datos precargados y diálogos de error
+FALSA: Menú, JInternalFrame por caso de uso, campos de texto para datos precargados y diálogos de error
+FALSA: Menú, JInternalFrame por caso de uso, combos y errores en una etiqueta roja en la ventana
+FALSA: Pestañas por caso de uso, combos para datos precargados, diálogos de error y layouts básicos
+CORRECTA: Menú, JInternalFrame por caso de uso, combos para datos precargados y diálogos de error
+SOLUCION: Principal es un JFrame con JMenuBar que abre un JInternalFrame por caso de uso, botones Aceptar y Cancelar, JComboBox para datos precargados, errores con JOptionPane y layouts BorderLayout, GridLayout, FlowLayout, CardLayout. Se verificó en la Tabla 3 del reporte.
+---
+TEMA: Tarea 1 - Swing
+PREGUNTA: ¿Qué Look & Feel usa la aplicación y qué problema tiene?
+FALSA: Metal, el por defecto de Swing, que es lo que pedía la letra
+FALSA: Nimbus, cuando la letra pedía el del sistema operativo
+FALSA: El del sistema operativo, que es justo lo que pedía la letra
+FALSA: El multiplataforma (getCrossPlatformLookAndFeelClassName), cuando la letra pedía el del sistema
+CORRECTA: El del sistema operativo (getSystemLookAndFeelClassName), cuando la letra pedía el por defecto
+SOLUCION: Main hace UIManager.setLookAndFeel(getSystemLookAndFeelClassName), que es el del sistema, no el por defecto de Swing (Metal) que pedía la letra. El reporte igual dice que se mantuvo el por defecto. Sigue así en T3.
+---
+TEMA: Tarea 1 - Swing
+PREGUNTA: ¿Qué errores de diseño tuvo la Estación de Trabajo en la T1?
+FALSA: La UI recibe DT en vez de entidades, castea la Factory y el controlador es gigante
+FALSA: La UI recibe entidades del dominio, crea los controladores con new y el modelo tiene lógica de UI
+FALSA: La UI recibe entidades del dominio, castea la Factory y hay un controlador por ventana
+FALSA: La UI llama directo al modelo sin controladores, castea la Factory y el controlador es gigante
+CORRECTA: La UI recibe entidades del dominio, castea la Factory y el controlador es gigante
+SOLUCION: Las vistas intercambian DiaConsulta, Consulta, Paciente y Reserva del modelo en lugar de DT, acoplando la UI al dominio. Principal castea Factory.getDiaConsulta a ControladorDiaDeConsulta, anulando la interfaz. ControladorDiaDeConsulta implementa la interfaz y seis listeners y guarda estado de pantalla: baja cohesión.
+---
+TEMA: Pruebas
+PREGUNTA: ¿Cómo probaron sin la UI?
+FALSA: Mocks de Mockito para las vistas, BaseDePrueba arma un escenario y Reloj fija la fecha
+FALSA: VistasFalsas implementa las interfaces Vista*, cada test arma sus datos y usan LocalDate.now()
+FALSA: VistasFalsas extiende las ventanas Swing ocultas, BaseDePrueba arma un escenario y Reloj fija la fecha
+FALSA: Probando solo el modelo, sin controladores, con BaseDePrueba y Reloj
+CORRECTA: VistasFalsas implementa las interfaces Vista*, BaseDePrueba arma un escenario y Reloj fija la fecha
+SOLUCION: VistasFalsas implementa las interfaces Vista* en memoria; BaseDePrueba arma un escenario (clínica, especialidades, 2 médicos, 2 pacientes, día de consulta y consulta) y lo reinicia en el @Before con Factory.reiniciar; Reloj fija la fecha de hoy.
+---
+TEMA: Pruebas
+PREGUNTA: ¿Qué herramientas de prueba y cubrimiento usaron y qué porcentaje lograron?
+FALSA: JUnit 5 y EclEmma; 94 % sobre modelo y controladores en T1 (la letra pedía 80 %)
+FALSA: JUnit 4.13.2 y EclEmma; 94 % sobre todo el proyecto en T1 (la letra pedía 80 %)
+FALSA: JUnit 4.13.2 y JaCoCo por Maven; 94 % sobre modelo y controladores en T1 (la letra pedía 80 %)
+FALSA: JUnit 4.13.2 y EclEmma; 84 % sobre modelo y controladores en T1 (la letra pedía 75 %)
+CORRECTA: JUnit 4.13.2 y EclEmma; 94 % sobre modelo y controladores en T1 (la letra pedía 80 %)
+SOLUCION: JUnit 4.13.2 y EclEmma. En T1 106 casos con 94 % de sentencias sobre modelo y controladores (mínimo 80 %). Hay que acotar a esos paquetes porque la letra pide no probar la UI; sobre todo el proyecto da cerca de 30 %. Hoy hay 226 @Test.
+---
+TEMA: Pruebas
+PREGUNTA: ¿Por qué las pruebas JUnit están en el paquete controladores?
+FALSA: Para acceder a los atributos protected de los controladores
+FALSA: Para que EclEmma mida el cubrimiento solo de ese paquete
+FALSA: Para usar reiniciarInstancia(), que es privado en ControladorUsuario
+FALSA: Para usar Factory.reiniciar(), que es público pero no está en las interfaces
+CORRECTA: Para usar Factory.reiniciar(), que es package-private y aísla el estado
+SOLUCION: Los controladores son estáticos y ControladorUsuario es Singleton, así que el estado se filtra entre pruebas. Factory.reiniciar es package-private (no es API pública) y solo lo ven las pruebas en el mismo paquete controladores.
+---
+TEMA: Pruebas
+PREGUNTA: ¿Para qué sirve la clase Reloj?
+FALSA: Para fijar el "hoy" de los Web Services, sincronizando la hora del central con la web
+FALSA: Para fijar el "hoy" solo en la carga de datos de prueba, luego se usa LocalDate.now()
+FALSA: Para calcular la hora de inicio de cada consulta a partir del día de consulta
+FALSA: Para fijar la fecha de la Estación de Trabajo desde el menú Sistema
+CORRECTA: Para fijar el "hoy" en las pruebas, porque los datos de prueba tienen fechas fijas
+SOLUCION: Reloj.hoy devuelve una fecha fijada o LocalDate.now. Las pruebas la fijan con Reloj.fijar porque los datos tienen fechas fijas; se usa para vencimiento de recetas, solicitudes y fechas pasadas.
+---
+TEMA: Pruebas
+PREGUNTA: ¿Qué secciones tenía el reporte de pruebas y cómo lo generaron?
+FALSA: Carga de datos, casos de uso, escenarios y cubrimiento (clases P1 a P4), con capturas automáticas finales
+FALSA: Carga de datos, restricciones, escenarios y diseño de GUI, armado a mano sin clases de apoyo
+FALSA: Restricciones, escenarios, diseño de GUI y rendimiento (clases P1 a P4) más el cubrimiento
+FALSA: Carga de datos, restricciones y escenarios (P1 a P3); el diseño de GUI y el cubrimiento no se reportaron
+CORRECTA: Carga de datos, restricciones, escenarios y diseño de GUI (clases P1 a P4) más el cubrimiento
+SOLUCION: Clases P1CargaDeDatos, P2Restricciones (17 restricciones), P3Escenarios y P4DisenoGUI (lineamientos de GUI), corridas por EjecutarPruebas que arma reporte-pruebas.md con capturas. Las capturas finales se toman en la sala de máquinas. Sección 5: cubrimiento JUnit con EclEmma.
+---
+TEMA: Tarea 2 - Web
+PREGUNTA: ¿Cómo se estructuró el Servidor Web en la Tarea 2?
+FALSA: Un servlet por caso de uso que pone DTs en el request y redirige a un JSP público en webapp
+FALSA: Un servlet controlador único que despacha según la ruta y hace forward a JSP en WEB-INF
+FALSA: Un servlet por caso de uso que pone entidades del modelo en la sesión y hace forward a un JSP
+FALSA: JSP por caso de uso que llaman a la Factory con scriptlets y un servlet solo para el login
+CORRECTA: Un servlet por caso de uso que pone DTs en el request y hace forward a un JSP en WEB-INF
+SOLUCION: Un servlet por caso de uso con @WebServlet. El servlet pide DTs, los pone en el request y llama a Vista.mostrar("pagina", req, resp), que hace forward a WEB-INF/jsp/pagina.jsp (no accesible directamente). Los JSP solo usan EL y JSTL (c:out, c:forEach). cabezal.jsp y pie.jsp como marco común.
+---
+TEMA: Tarea 2 - Web
+PREGUNTA: ¿Cómo resolvieron el inicio de sesión web?
+FALSA: Valida nickname o correo y contraseña, reutiliza la sesión existente y guarda el DTUsuario como usuarioLogueado
+FALSA: Valida nickname o correo y contraseña, invalida la sesión y guarda el objeto Usuario del modelo
+FALSA: Valida nickname o correo y contraseña y guarda el nickname en una cookie
+FALSA: Valida solo nickname y contraseña, invalida la sesión y guarda el nickname como usuarioLogueado
+CORRECTA: Valida nickname o correo y contraseña, invalida la sesión y guarda un DTUsuario como usuarioLogueado
+SOLUCION: POST a IniciarSesionServlet con nickname o correo y contraseña. Si no coincide, error y vuelve al JSP. Si hay sesión previa se invalida y se crea una nueva (evita reutilizar el id), se guarda el DTUsuario como usuarioLogueado y se redirige a inicio. El JSP decide qué mostrar según usuarioLogueado.tipo. CerrarSesionServlet invalida la sesión.
+---
+TEMA: Tarea 2 - Web
+PREGUNTA: ¿Cómo manejaron las imágenes en la web?
+FALSA: @MultipartConfig y request.getPart; el modelo guarda los bytes de la imagen y un servlet los devuelve
+FALSA: @MultipartConfig y request.getPart; se guardan dentro de webapp/img y en el modelo la ruta completa
+FALSA: Se suben como texto en Base64 desde JavaScript y se guarda el archivo en disco
+FALSA: @MultipartConfig y request.getPart; se guardan en disco y el JSP las lee directo de la carpeta
+CORRECTA: @MultipartConfig y request.getPart; en disco, en el modelo solo el nombre y las sirve ImagenServlet
+SOLUCION: Servlet con @MultipartConfig y form multipart; request.getPart("imagen"), Imagenes.validar y guardar en la carpeta de AlmacenImagenes. En el modelo solo el nombre del archivo; ImagenServlet las sirve en /imagenes. En T3 las de perfil viajan como byte[] por WS.
+---
+TEMA: Tarea 2 - Web
+PREGUNTA: ¿Cómo validaron los formularios del lado del cliente?
+FALSA: Con atributos HTML5 (required, type, pattern) solamente, sin JavaScript
+FALSA: Con js/validaciones.js, y el servidor confía en esa validación sin repetirla
+FALSA: Con jQuery Validation, validando tipos, obligatorios y contraseña igual a la confirmación
+FALSA: Con js/validaciones.js para tipos y obligatorios; contraseña y confirmación se comparan en el servlet
+CORRECTA: Con js/validaciones.js: tipos, obligatorios y contraseña igual a confirmación; el servidor revalida
+SOLUCION: js/validaciones.js con funciones por formulario (validarInicioSesion, validarAltaUsuario) que validan tipo, dominio, obligatorios y que contraseña y confirmación coincidan, mostrando errores en una caja .errores. Combos para especialidad, clínica y día de consulta. El servidor vuelve a validar.
+---
+TEMA: Tarea 2 - Web
+PREGUNTA: ¿Cómo se desplegaba la web y cómo llegaba la lógica en la T2?
+FALSA: WAR en Tomcat 10 con la lógica copiada como clases en WEB-INF/classes
+FALSA: WAR en Tomcat 11 que se conecta a la Estación de Trabajo en ejecución para usar su lógica
+FALSA: WAR en Tomcat 11 con la lógica como dependencia Maven del módulo servidor-central
+FALSA: WAR en Tomcat 11 con la lógica como tpgr49.jar, compartiendo los datos con la Estación
+CORRECTA: WAR en Tomcat 11 con la lógica como WEB-INF/lib/tpgr49.jar por Deployment Assembly
+SOLUCION: El WAR se exportaba desde Eclipse a Tomcat 11 (Servlet 6.0, Jakarta), con la lógica empaquetada como WEB-INF/lib/tpgr49.jar por Deployment Assembly. InicializadorDatos (@WebListener) cargaba los CSV al arrancar. La web y la Estación de Trabajo no comparten datos.
+---
+TEMA: Tarea 2 - Web
+PREGUNTA: ¿Cómo implementaron Aceptar/Rechazar Consulta?
+FALSA: En la web, para el médico, con un servlet que cambia el estado si está Ingresada
+FALSA: En la Estación de Trabajo con Listener/Vista, permitiendo volver de Rechazada a Ingresada
+FALSA: En la Estación de Trabajo con Listener/Vista; al rechazar se borra la consulta del día
+FALSA: En la Estación de Trabajo llamando directo a Consulta.setEstado desde la ventana Swing
+CORRECTA: En la Estación de Trabajo con Listener/Vista, cambiando el estado solo si está Ingresada
+SOLUCION: Caso de uso del administrador en la Estación de Trabajo: AceptarConsultaSwing con AceptarConsultaListener y VistaAceptarConsulta. cambiarEstado solo permite pasar a Aceptada o Rechazada si la consulta está Ingresada.
+---
+TEMA: Tarea 2 - Web
+PREGUNTA: ¿Qué son PMD y Checkstyle y cómo los usaron?
+FALSA: Análisis dinámico durante las pruebas; plugins de Eclipse con 0 errores en la lógica
+FALSA: Análisis estático; plugins de Maven con 0 errores en todo el proyecto, incluida la UI
+FALSA: Análisis estático; plugins de Eclipse con la configuración commiteada en el repo
+FALSA: Análisis estático; solo Checkstyle sobre la web, PMD no se usó
+CORRECTA: Análisis estático; plugins de Eclipse con 0 errores en la lógica
+SOLUCION: Análisis estático sin ejecutar: PMD detecta malas prácticas y Checkstyle verifica estándares. La letra pedía 0 errores en la lógica con la configuración básica más la Tabla 2 (ShortVariable, LooseCoupling, AvoidStarImport, EmptyCatchBlock, IllegalCatch, UnusedImports, VisibilityModifier). Se corrieron como plugins de Eclipse; la configuración no se commiteó.
+---
+TEMA: Tarea 2 - Web
+PREGUNTA: ¿Qué errores tuvieron en la Tarea 2?
+FALSA: Lógica de reserva duplicada, JSP con scriptlets que llaman a la Factory y DCD desactualizado
+FALSA: Integración tardía con modelos duplicados, sesión sin invalidar al iniciar y DCD desactualizado
+FALSA: Lógica de reserva duplicada, integración tardía y web compartiendo datos con la Estación
+FALSA: Integración tardía, contraseñas cifradas sin pedirlo la letra y DCD desactualizado
+CORRECTA: Lógica de reserva duplicada, integración tardía con modelos duplicados y DCD desactualizado
+SOLUCION: altaReserva (web) y onAceptarRC (Swing) duplican chequeos y cálculo. Integración tardía: dos integrantes crearon su propio enum de estado y DTConsulta en paralelo. DCD con notación C++ y sin contraseña. Se borró el pom.xml. Contraseñas en texto plano. Reserva con beneficio anual no hecha (tag Todo_menos_beneficio).
+---
+TEMA: Tarea 3 - Web Services
+PREGUNTA: ¿Cómo hicieron la comunicación web → central?
+FALSA: JAX-WS document con 4 publicadores y un cliente wsimport envuelto en ClienteWS
+FALSA: JAX-WS RPC con un único publicador y un cliente wsimport usado desde cada servlet
+FALSA: JAX-WS RPC con 4 publicadores y un cliente wsimport usado directo desde cada servlet y JSP
+FALSA: JAX-WS RPC con un publicador por caso de uso y un cliente wsimport envuelto en ClienteWS
+CORRECTA: JAX-WS RPC con 4 publicadores y un cliente wsimport envuelto en ClienteWS
+SOLUCION: JAX-WS RPC con 4 publicadores; cliente wsimport envuelto en ClienteWS, que convierte a DTs; configuración en ~/.saludUy/*.properties.
+---
+TEMA: Tarea 3 - Web Services
+PREGUNTA: ¿Qué limitaciones les impuso RPC?
+FALSA: Sin colecciones (se usan List con @XmlElement), sin null, DTs como JavaBeans y @WebParam
+FALSA: Sin colecciones (arreglos DTX[]), null solo en retornos, DTs como JavaBeans y @WebParam
+FALSA: Sin colecciones (arreglos DTX[]), sin null, DTs inmutables con constructor completo y @WebParam
+FALSA: Sin colecciones (arreglos DTX[]), sin null, DTs como JavaBeans y sin excepciones propias
+CORRECTA: Sin colecciones (arreglos DTX[]), sin null, DTs como JavaBeans y @WebParam
+SOLUCION: Sin colecciones List, Set o Map como parámetro o retorno: arreglos DTX[] que llegan como DtXArray con getItem. Sin null: el cliente manda "" y el servidor lo vuelve null (vacio y nulo). DTs como JavaBeans. @WebParam para nombrar parámetros. @XmlSeeAlso para subtipos.
+---
+TEMA: Tarea 3 - Web Services
+PREGUNTA: ¿Cuáles son los publicadores y cómo se publican?
+FALSA: Usuario, Clinica, Consulta y Reserva, publicados con Endpoint.publish desde Main
+FALSA: Usuario, Clinica, Consulta y DiaConsulta, desplegados como servlets en Tomcat
+FALSA: Usuario, Clinica, Consulta y DiaConsulta, publicados con Endpoint.publish desde InicializadorDatos
+FALSA: Usuario, Medico, Consulta y DiaConsulta, publicados con Endpoint.publish desde Main
+CORRECTA: Usuario, Clinica, Consulta y DiaConsulta, publicados con Endpoint.publish desde Main
+SOLUCION: Cuatro publicadores con @WebService y @SOAPBinding(style = RPC): PublicadorUsuario, PublicadorClinica, PublicadorConsulta y PublicadorDiaConsulta. Main de servidor.jar carga datos si corresponde y llama a publicar() de cada uno, que usa Endpoint.publish en http://host:puerto/publicadorX. Delegan en los controladores.
+---
+TEMA: Tarea 3 - Web Services
+PREGUNTA: ¿Para qué sirve ClienteWS?
+FALSA: Es el stub generado por wsimport que usa cada servlet para llamar a los WS
+FALSA: Fija la URL de los WS y devuelve las clases generadas para usarlas directo en los JSP
+FALSA: Es la fachada del central que agrupa los publicadores en un solo servicio
+FALSA: Convierte los DT a clases generadas, pero cada servlet arma su propia URL
+CORRECTA: Es el único que llama a los WS: fija la URL y convierte las clases generadas a DT
+SOLUCION: web.ws.ClienteWS es el único lugar que llama a los WS. Fija la URL del endpoint con ConfiguracionWeb y convierte las clases generadas (clientews.DtConsulta) a los DT de siempre, por eso los JSP y usuarioLogueado no cambiaron.
+---
+TEMA: Tarea 3 - Web Services
+PREGUNTA: ¿Cómo viajan los errores de negocio por Web Services?
+FALSA: Como IllegalArgumentException, que JAX-WS serializa y el cliente vuelve a lanzar igual
+FALSA: Como un DT con campo error que el cliente revisa en cada respuesta
+FALSA: Como ExcepcionWS, que el servlet atrapa y muestra sin pasar por ClienteWS
+FALSA: Como SOAPFault genérico sin mensaje, que el cliente traduce a un error estándar
+CORRECTA: Como ExcepcionWS, que ClienteWS traduce a null o a IllegalArgumentException
+SOLUCION: El publicador lanza ExcepcionWS con el mensaje de error de negocio. ClienteWS la traduce a null (por ejemplo login incorrecto) o a IllegalArgumentException, que el servlet muestra.
+---
+TEMA: Tarea 3 - Web Services
+PREGUNTA: ¿Cómo configuraron las URLs de los servicios?
+FALSA: Con ~/.saludUy/servidor.properties y la URL de la web fija en el WSDL guardado
+FALSA: Con un único ~/.saludUy/config.properties compartido por el central y la web
+FALSA: Con servidor.properties y web.properties dentro del JAR y del WAR como recursos
+FALSA: Con ~/.saludUy/servidor.properties y web.properties, leídos en cada llamada a un servicio
+CORRECTA: Con ~/.saludUy/servidor.properties y web.properties, leídos una sola vez por Singletons
+SOLUCION: Configuracion lee ~/.saludUy/servidor.properties (ws.host, ws.puerto 9128, cargarDatosPrueba) y si no existe lo crea con valores por defecto. ConfiguracionWeb lee ~/.saludUy/web.properties (servidor.host, servidor.puerto). La URL es http://host:puerto/servicio. Para cambiarla se editan los .properties sin recompilar.
+---
+TEMA: Tarea 3 - Web Services
+PREGUNTA: ¿Por qué guardaron el WSDL en servidor-web/wsdl?
+FALSA: Para que Tomcat publique el servicio sin el Servidor Central levantado
+FALSA: Para que ClienteWS lea la URL del servicio desde el WSDL en tiempo de ejecución
+FALSA: Para que el central valide los mensajes SOAP contra ese WSDL
+FALSA: Para documentar los servicios en la entrega, sin uso en la compilación
+CORRECTA: Para generar el cliente con wsimport y compilar sin tener el servidor levantado
+SOLUCION: El WSDL y los XSD guardados permiten que mvn package genere el paquete clientews con wsimport sin el Servidor Central corriendo (también en FING). Se actualiza con actualizar-wsdl.sh.
+---
+TEMA: Tarea 3 - Web Services
+PREGUNTA: ¿Cuáles son los pasos para agregar una operación WS?
+FALSA: @WebMethod en el publicador, wsimport sobre el WSDL viejo, método en ClienteWS y usarlo en el servlet
+FALSA: @WebMethod en el publicador, levantar servidor.jar, actualizar el WSDL, wsimport y llamar al stub desde el servlet
+FALSA: Método en ClienteWS, @WebMethod en el publicador, actualizar web.properties y usarlo en el JSP
+FALSA: @WebMethod en el controlador, levantar servidor.jar, actualizar el WSDL, wsimport y método en ClienteWS
+CORRECTA: @WebMethod en el publicador, levantar servidor.jar, actualizar el WSDL, wsimport y método en ClienteWS
+SOLUCION: Agregar el @WebMethod con @WebParam en el publicador que delega en el controlador; compilar y levantar servidor.jar; actualizar el WSDL guardado; mvn package regenera clientews con wsimport; agregar el método en ClienteWS con la conversión al DT y usarlo desde el servlet (guía README-ws).
+---
+TEMA: Tarea 3 - Maven
+PREGUNTA: ¿Cómo aprovecharon Maven?
+FALSA: POM padre con tres módulos (central, estación y web); shade, war y jaxws, Bootstrap por CDN
+FALSA: POM padre con dos módulos; assembly para servidor.jar, war para web.war y jaxws para el cliente
+FALSA: Un POM por proyecto sin padre; shade para servidor.jar, war para web.war y wsimport a mano
+FALSA: POM padre con dos módulos; shade para servidor.jar, war para web.war y movil.war, y jaxws
+CORRECTA: POM padre con dos módulos; shade para servidor.jar, war para web.war, jaxws y WebJar
+SOLUCION: Un POM padre con dos módulos; maven-shade-plugin para servidor.jar ejecutable con dependencias; maven-war-plugin para web.war; jaxws-maven-plugin para generar el cliente; Bootstrap como WebJar.
+---
+TEMA: Tarea 3 - Maven
+PREGUNTA: ¿Qué contiene servidor.jar?
+FALSA: El Servidor Central y los Web Services, sin la Estación de Trabajo, que va en su propio JAR
+FALSA: El Servidor Central y la Estación de Trabajo, sin dependencias (se pasan con -cp)
+FALSA: El Servidor Central, la Estación de Trabajo y la web, ejecutable con dependencias
+FALSA: Solo la lógica del Servidor Central como librería, sin clase principal
+CORRECTA: El Servidor Central y la Estación de Trabajo, ejecutable con dependencias (mainClass Main)
+SOLUCION: maven-shade-plugin arma servidor.jar ejecutable con dependencias, con la lógica del Servidor Central y la Estación de Trabajo. Main carga datos, publica los WS y abre la ventana Principal. El móvil va dentro de web.war, no hace falta movil.war.
+---
+TEMA: Tarea 3 - Móvil
+PREGUNTA: ¿Cómo hicieron el móvil?
+FALSA: WAR aparte (movil.war), Bootstrap 5.3.3 y login que rechaza médicos
+FALSA: Mismo WAR, rutas /movil/*, Bootstrap 5.3.3 por CDN y login para pacientes y médicos
+FALSA: Mismo WAR y mismas rutas, detectando el dispositivo con el User-Agent y Bootstrap 5.3.3
+FALSA: Mismo WAR, rutas /movil/*, CSS propio con media queries y login que rechaza médicos
+CORRECTA: Mismo WAR, rutas /movil/*, Bootstrap 5.3.3 y login que rechaza médicos
+SOLUCION: Mismo WAR, rutas /movil/*, Bootstrap 5.3.3 (Sign-in y Navbar fixed con hamburguesa), login que rechaza médicos.
+---
+TEMA: Tarea 3 - Móvil
+PREGUNTA: ¿Qué casos de uso tiene el móvil y quién puede usarlo?
+FALSA: Solo pacientes: sesión, Valorar Consulta, Solicitar Medicamento y Consulta de Reserva
+FALSA: Pacientes y médicos: sesión, Valorar Consulta y Solicitar Medicamento
+FALSA: Solo pacientes: sesión, Reserva de Consulta y Solicitar Medicamento
+FALSA: Solo pacientes: sesión, Valorar Consulta y Descargar Constancia en PDF
+CORRECTA: Solo pacientes: inicio y cierre de sesión, Valorar Consulta y Solicitar Medicamento
+SOLUCION: Solo pacientes. IniciarSesionMovilServlet rechaza a quien no sea paciente; CerrarSesionMovilServlet; ValorarConsultaMovilServlet y SolicitarMedicamentoMovilServlet. Las páginas de /movil controlan que haya un paciente en la sesión.
+---
+TEMA: Tarea 3 - Móvil
+PREGUNTA: ¿Por qué usaron Bootstrap como WebJar y no por CDN?
+FALSA: Porque la letra prohibía usar CDN externos
+FALSA: Porque el WebJar trae los ejemplos Sign-in y Navbar fixed ya armados
+FALSA: Para que Maven compile el CSS de Bootstrap con la paleta del sitio
+FALSA: Porque Tomcat 11 bloquea recursos de otros dominios por defecto
+CORRECTA: Para que funcione sin internet en FING, servido desde el propio WAR
+SOLUCION: org.webjars:bootstrap:5.3.3 en el pom; Tomcat lo sirve en /webjars/bootstrap. No depende de CDN, así anda sin internet en la sala de FING. Responsive Web Design con Sign-in y Navbar fixed con hamburguesa.
+---
+TEMA: Tarea 3 - Casos de uso
+PREGUNTA: ¿Cómo resolvieron Valorar Consulta?
+FALSA: Puntaje de 1 a 5, modificable por el paciente, solo si asistió, mostrando el promedio
+FALSA: Puntaje de 1 a 5, una sola vez por paciente, para cualquier consulta reservada, mostrando el promedio
+FALSA: Puntaje de 1 a 10, una sola vez por paciente, solo si asistió, mostrando el promedio
+FALSA: Puntaje de 1 a 5, una sola vez por paciente, solo si asistió, mostrando la última valoración
+CORRECTA: Puntaje de 1 a 5, una sola vez por paciente, solo si asistió, mostrando el promedio
+SOLUCION: Desde el móvil el paciente valora con puntaje de 1 a 5, una sola vez, solo consultas a las que asistió. Consulta guarda Map nick → puntaje y getPromedioValoracion muestra el promedio.
+---
+TEMA: Tarea 3 - Casos de uso
+PREGUNTA: ¿Cómo resolvieron Solicitar Medicamento a Domicilio?
+FALSA: Receta vigente y no solicitada, entrega desde hoy y dirección; con beneficio cuesta 0 y consume un ticket
+FALSA: Receta vigente y no solicitada, entrega posterior a hoy y dirección; con beneficio 20 % menos
+FALSA: Receta vigente y no solicitada, entrega posterior a hoy y dirección; con beneficio consume una orden de consulta
+FALSA: Receta vigente, entrega posterior a hoy y dirección; se puede pedir varias veces y con beneficio cuesta 0
+CORRECTA: Receta vigente y no solicitada, entrega posterior a hoy y dirección; con beneficio cuesta 0 y consume un ticket
+SOLUCION: Busca paciente y receta; error si ya fue solicitada, si venció (30 días desde la indicación), si la fecha de entrega no es posterior a hoy o la dirección está vacía. Con beneficio consume un ticket de medicamento del año (costo 0); sin beneficio cobra costoTicketMedicamento de la clínica. receta.solicitar crea la SolicitudMedicamento.
+---
+TEMA: Tarea 3 - Casos de uso
+PREGUNTA: ¿Cómo resolvieron la disponibilidad de nickname y correo con AJAX?
+FALSA: fetch a /disponibilidad que responde texto plano "si" o "no", al enviar el formulario
+FALSA: XMLHttpRequest a /disponibilidad que responde un fragmento HTML con el mensaje
+FALSA: XMLHttpRequest directo al Web Service del central, que responde XML
+FALSA: XMLHttpRequest a /registro que responde JSON y recarga el formulario con el error
+CORRECTA: XMLHttpRequest a /disponibilidad que responde JSON {"disponible": true|false}
+SOLUCION: En registro.jsp, mientras se escribe, JavaScript hace un XMLHttpRequest a /disponibilidad?nickname= o correo=. DisponibilidadServlet consulta ClienteWS y responde application/json con disponible true o false; se muestra el mensaje en un span junto al campo sin recargar.
+---
+TEMA: Tarea 3 - Casos de uso
+PREGUNTA: ¿Cómo generaron la Constancia de Asistencia en PDF?
+FALSA: Con iText en cada pedido, solo para consultas con asistencia confirmada
+FALSA: Escribiendo el PDF a mano con PdfSimple, para cualquier reserva del paciente
+FALSA: Escribiendo el PDF a mano en el central y guardándolo en disco para reusarlo
+FALSA: Generando HTML que el navegador imprime como PDF, solo con asistencia confirmada
+CORRECTA: Escribiendo el PDF a mano con PdfSimple, solo con asistencia confirmada
+SOLUCION: ConstanciaAsistenciaServlet genera el PDF en cada pedido con PdfSimple, sin iText (la letra decía que se podía usar, no que fuera obligatorio). Solo para consultas con asistencia confirmada; datos en DTConstancia.
+---
+TEMA: Tarea 3 - Casos de uso
+PREGUNTA: ¿Cómo funciona la búsqueda del cabezal?
+FALSA: Días y consultas por nombre o descripción, orden por defecto o alfabético, consultas en cualquier estado
+FALSA: Días, consultas y médicos por nombre, orden por defecto o alfabético, solo consultas Aceptadas
+FALSA: Días y consultas por nombre exacto, orden alfabético ascendente, solo consultas Aceptadas
+FALSA: Consultas por nombre o descripción, orden por costo o alfabético, solo consultas Aceptadas
+CORRECTA: Días y consultas por nombre o descripción, orden por defecto o alfabético, solo consultas Aceptadas
+SOLUCION: BusquedaServlet con parámetros q y orden (defecto, az, za). Busca días de consulta y consultas cuyo nombre o descripción contenga el texto. Orden por defecto por hora o fecha, o alfabético con Comparator.comparing y reversed. Solo consultas Aceptadas.
+---
+TEMA: Tarea 3 - Casos de uso
+PREGUNTA: ¿Cómo resolvieron Alta de Detalles de Consulta y Recetar Medicamento?
+FALSA: El médico de la consulta carga los detalles en la Reserva y la receta queda asociada al Paciente
+FALSA: Cualquier médico carga los detalles en la Reserva y receta asociado a esa Reserva
+FALSA: El médico de la consulta carga los detalles en la Consulta y receta asociado a la Consulta
+FALSA: El médico de la consulta carga los detalles en la Reserva, con motivo opcional aunque asista
+CORRECTA: El médico de la consulta carga los detalles en la Reserva y receta asociado a esa Reserva
+SOLUCION: AltaDetallesConsultaServlet llama a Reserva.registrarDetalle(asistio, motivo, diagnostico); solo el médico de la consulta y motivo obligatorio si asistió. RecetarMedicamentoServlet crea Receta (id, nombre, posología, fecha de indicación, vence a los 30 días) dentro de la Reserva.
+---
+TEMA: Tarea 3 - Persistencia
+PREGUNTA: ¿Qué pasó con la persistencia JPA/HSQLDB y Archivar Consulta?
+FALSA: Se implementó con EclipseLink y HSQLDB, pero sin herencia JOINED
+FALSA: Se implementó la persistencia, pero falta el caso de uso Archivar Consulta
+FALSA: Se implementó Archivar Consulta guardando las consultas en un CSV en lugar de JPA
+FALSA: Se commitearon las entidades y el persistence.xml, pero no se probaron
+CORRECTA: No se implementó: no hay @Entity ni persistence.xml, solo los jars sin commitear
+SOLUCION: El requerimiento 7.2 y Archivar Consulta no están en el repo: no hay @Entity, EntityManager ni persistence.xml; solo eclipselink, hsqldb y jakarta.persistence en lib/persistencia sin commitear.
+---
+TEMA: Tarea 3 - Persistencia
+PREGUNTA: ¿Cómo se resolvería Archivar Consulta con JPA?
+FALSA: Entidades con herencia SINGLE_TABLE, persistir la consulta en una transacción y dejarla en memoria
+FALSA: Entidades con herencia JOINED, persistir todas las consultas al cerrar el servidor
+FALSA: Anotar las clases del modelo con @Entity, persistir la consulta y marcarla como archivada
+FALSA: Entidades con herencia TABLE_PER_CLASS, persistir la consulta y quitarla de memoria
+CORRECTA: Entidades con herencia JOINED, persistir la consulta en una transacción y quitarla de memoria
+SOLUCION: Entidades @Entity con @Inheritance(strategy = JOINED) para UsuarioP, MedicoP y PacienteP; AttributeConverter para las especialidades; ConsultaP y ReservaP. archivarConsulta valida aceptada, fecha pasada y médico dueño; em.getTransaction begin, persist, commit; luego quita la consulta de memoria, del día de consulta y sus reservas de los pacientes.
+---
+TEMA: Tarea 3 - Organización
+PREGUNTA: ¿Cómo se repartieron los casos de uso en la Tarea 3?
+FALSA: Por publicador: cada integrante armó un publicador completo con todos sus casos de uso
+FALSA: Por caso de uso, haciendo primero los opcionales y el móvil al final
+FALSA: Por caso de uso, con una sola persona migrando todo a WS al final
+FALSA: Por nodo: uno el central, otro la web, otro el móvil, otro Maven y otro las pruebas
+CORRECTA: Por caso de uso, con la guía de README-ws y los opcionales al final salvo el móvil
+SOLUCION: Santi Alonso: sesión, alta y consulta de usuario, detalles de consulta, diseño móvil. Nico Ferrando: día de consulta, alta de consulta, valorar, aceptar/rechazar. Santi Duarte: consulta, reserva, sesión móvil, recetar. Nico Lanzavecchia: clínica, especialidad, consulta de detalles. Fran Mattos: solicitar medicamento, archivar, beneficio anual. Opcionales al final salvo el móvil.
+---
+TEMA: Tarea 3 - Organización
+PREGUNTA: ¿Qué errores de diseño quedaron en la Tarea 3?
+FALSA: La web llama a Factory en algunos servlets, falta persistencia y los publicadores tienen estilos distintos
+FALSA: La web depende de servidor-central, falta el móvil y los publicadores tienen estilos distintos
+FALSA: La web depende de servidor-central, falta persistencia y hay un solo publicador gigante
+FALSA: La web depende de servidor-central, la búsqueda muestra consultas Rechazadas y falta persistencia
+CORRECTA: La web depende de servidor-central, falta persistencia y los publicadores tienen estilos distintos
+SOLUCION: servidor-web tiene dependencia a servidor-central solo para reusar los DT, cuando debería usar solo clientews. Falta persistencia JPA y Archivar. Modelo de dominio y código no coinciden (Detalles, Valoración). PublicadorDiaConsulta tiene interfaz y los otros no. Integración apurada y binarios ajenos commiteados. Controladores no sincronizados ante la concurrencia de los WS.
+---
+TEMA: Organización
+PREGUNTA: ¿Cómo se organizaron?
+FALSA: Reparto por caso de uso, rama por caso de uso, merge a main, tags por entrega y guías en README
+FALSA: Reparto por caso de uso, rama por integrante, merge a main, un tag al final y guías en la wiki
+FALSA: Reparto por capa, rama por integrante, merge a main, tags por entrega y guías en README
+FALSA: Reparto por caso de uso, rama por integrante, pull requests con revisión obligatoria y tags
+CORRECTA: Reparto por caso de uso, rama por integrante, merge a main, tags por entrega y guías en README
+SOLUCION: Reparto por caso de uso, rama por integrante, merge a main, tags por entrega, guías en README para que todos sigan el mismo patrón (servlet → Vista.mostrar; operación WS → ClienteWS).
+---
+TEMA: Organización
+PREGUNTA: ¿Qué tags de entrega hay en el repositorio?
+FALSA: Tarea1 y entrega1 (final T1), Todo_menos_beneficio y entrega2 (final T2), entrega3 (final T3)
+FALSA: Tarea1 (final T1), entrega2 (final T2) y entrega3 (final T3)
+FALSA: Tarea1 y entrega3 (final T1), entrega2 (final T2) y Tarea3 (final T3)
+FALSA: entrega1 (final T1), Todo_menos_beneficio (parcial T2) y entrega2 (final T2)
+CORRECTA: Tarea1 y entrega3 (mismo commit, final T1), Todo_menos_beneficio y entrega2 (T2)
+SOLUCION: Tarea1 y entrega3 apuntan al mismo commit (final de la T1). Todo_menos_beneficio y entrega2 (final de la T2). La T3 se tomó de la rama SantiA / main sin tag. Los nombres de tag son confusos porque no indican la tarea.
+---
+TEMA: Organización
+PREGUNTA: ¿Qué problemas de organización tuvo el grupo?
+FALSA: Integración tardía, ramas que nunca se mergearon a main y reparto parejo de commits
+FALSA: Integración temprana pero con conflictos, modelos duplicados y reparto desparejo
+FALSA: Integración tardía, falta de reparto por caso de uso y reparto desparejo de commits
+FALSA: Integración tardía, modelos duplicados y entregas sin tag en las tres tareas
+CORRECTA: Integración tardía, modelos duplicados y reparto desparejo de commits
+SOLUCION: Integración tardía (T2: dos enums de estado y dos DTConsulta en paralelo; T3: commits "por WS" seguidos cerca del cierre). Faltó acordar el modelo antes de repartir. Reparto desparejo: 246 de 356 commits de una persona. Faltó .gitignore y revisión antes del merge. Registro de horas con "Grupo XX".
+---
+TEMA: Arquitectura
+PREGUNTA: ¿Cómo viaja una llamada desde el navegador hasta el modelo en la Tarea 3?
+FALSA: Navegador → Servlet → Factory → Controlador → Modelo, y ClienteWS solo para imágenes
+FALSA: Navegador → JSP → ClienteWS → stub wsimport → SOAP → Publicador → Controlador → Modelo
+FALSA: Navegador → Servlet → stub wsimport → SOAP → ClienteWS → Publicador → Controlador → Modelo
+FALSA: Navegador → Servlet → ClienteWS → stub wsimport → SOAP → Controlador → Publicador → Modelo
+CORRECTA: Navegador → Servlet → ClienteWS → stub wsimport → SOAP → Publicador → Controlador → Modelo
+SOLUCION: El navegador pide al servlet del servidor web, que llama a ClienteWS, que usa el stub generado por wsimport y viaja por SOAP/HTTP RPC al PublicadorX en servidor.jar, que delega en el controlador y el modelo. Vuelven arreglos DTX[] o ExcepcionWS; ClienteWS convierte a DT, el servlet los pone en el request y el JSP los muestra.
+---
+TEMA: Arquitectura
+PREGUNTA: ¿Cuáles son los nodos del Diagrama de Distribución y cómo se reflejan en el repositorio?
+FALSA: Estación de Trabajo, Servidor Central y Servidor Web; un solo proyecto con paquetes por nodo
+FALSA: Estación de Trabajo, Servidor Central, Servidor Web y Base de Datos; una carpeta por nodo
+FALSA: Estación de Trabajo, Servidor Central, Servidor Web y Dispositivo Móvil; un repo por nodo
+FALSA: Servidor Central, Servidor Web y Dispositivo Móvil (la Estación va dentro del central); una carpeta por nodo
+CORRECTA: Estación de Trabajo, Servidor Central, Servidor Web y Dispositivo Móvil; una carpeta por nodo
+SOLUCION: El repo sigue el Diagrama de Distribución con una carpeta por nodo: servidor-central (lógica), estacion-de-trabajo (Swing del administrador), servidor-web (servlets y JSP, también el móvil) y pruebas. La Estación de Trabajo usa la lógica directo; la web por Web Services.
+---

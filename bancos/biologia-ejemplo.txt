@@ -1,0 +1,39 @@
+BLOQUE: Biología celular
+
+TEMA: Organelas
+PREGUNTA: ¿Cuál es la función principal de la mitocondria?
+FALSA: Sintetizar proteínas
+FALSA: Almacenar el material genético
+FALSA: Realizar la fotosíntesis
+FALSA: Degradar desechos celulares
+CORRECTA: Producir energía (ATP) mediante la respiración celular
+SOLUCION: La mitocondria es la organela encargada de producir energía en forma de ATP mediante la respiración celular aeróbica. Posee doble membrana y ADN propio.
+---
+TEMA: Organelas
+PREGUNTA: ¿Qué organela realiza la síntesis de proteínas?
+FALSA: Lisosoma
+FALSA: Aparato de Golgi
+FALSA: Vacuola
+CORRECTA: Ribosoma
+SOLUCION: Los ribosomas sintetizan proteínas traduciendo el ARN mensajero. Pueden estar libres en el citoplasma o unidos al retículo endoplasmático rugoso.
+---
+TEMA: Membrana
+PREGUNTA: ¿Qué modelo describe la estructura de la membrana plasmática?
+FALSA: Modelo de llave y cerradura
+FALSA: Modelo atómico de Bohr
+CORRECTA: Modelo de mosaico fluido
+SOLUCION: El modelo de mosaico fluido describe la membrana como una bicapa de fosfolípidos con proteínas que se desplazan lateralmente.
+---
+TEMA: Membrana
+PREGUNTA: Explicá la diferencia entre transporte activo y pasivo.
+SOLUCION: El transporte pasivo no consume energía y sigue el gradiente de concentración (difusión, ósmosis). El transporte activo consume ATP y mueve sustancias en contra del gradiente, por ejemplo la bomba de sodio-potasio.
+---
+PREGUNTA: ¿Cuántos cromosomas tiene una célula somática humana?
+FALSA: 23
+FALSA: 44
+FALSA: 48
+CORRECTA: 46
+---
+TEMA: División celular
+FALSA: Profase
+CORRECTA: Metafase

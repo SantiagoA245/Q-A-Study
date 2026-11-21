@@ -1,0 +1,802 @@
+BLOQUE: Arquitectura de Computadoras
+
+TEMA: Máquina lógica general
+PREGUNTA: ¿Por qué una máquina de estados se considera una "máquina lógica general"?
+FALSA: Porque su función de salida depende solo del estado actual, igual que una máquina de Moore
+FALSA: Porque con una ROM y una RAM de tamaño infinito puede resolver cualquier problema que se plantee
+FALSA: Porque reemplaza las funciones de salida y estado por un programa almacenado en RAM
+CORRECTA: Porque reconoce secuencias y traduce símbolos, y a eso se reduce todo problema computable
+SOLUCION: Una máquina secuencial puede reconocer secuencias y, como la combinatoria es un caso particular, también traducir símbolos. Todo problema computable se reduce a reconocer secuencias y/o traducir símbolos, por lo que la máquina de estados es una máquina lógica general.
+---
+TEMA: Máquina lógica general
+PREGUNTA: En el esquema de la máquina lógica general, ¿qué implementa la ROM y qué implementa la RAM?
+FALSA: La ROM guarda el estado actual y la RAM implementa las funciones de salida G y de estado H
+FALSA: La ROM implementa solo la función de salida G y la RAM la función de estado H
+FALSA: La ROM guarda el programa básico de arranque y la RAM guarda las entradas X
+CORRECTA: La ROM implementa las funciones de salida G y de estado H, y la RAM (registro) guarda el estado
+SOLUCION: La ROM implementa las funciones G (salida) y H (próximo estado) a partir de la entrada X y el estado E. La RAM, de tipo registro o latch, almacena el estado. Las dos ROM se pueden juntar en una sola.
+---
+TEMA: Máquina lógica general
+PREGUNTA: ¿Por qué la máquina lógica general solo resuelve problemas "resolubles por un autómata finito"?
+FALSA: Porque la RAM se borra al quitar la energía y el estado no puede guardarse indefinidamente
+FALSA: Porque la ROM solo puede implementar funciones combinatorias y no secuenciales
+FALSA: Porque necesita un programa básico en ROM para cargar las funciones G y H
+CORRECTA: Porque la ROM y la RAM pueden ser tan grandes como se quiera, pero siempre finitas
+SOLUCION: "Autómata" porque resuelve problemas reducibles a reconocer secuencias y traducir símbolos. "Finito" porque la ROM y la RAM, aunque teóricamente tan grandes como se quiera, tienen una cantidad finita de bits.
+---
+TEMA: Máquina lógica general
+PREGUNTA: ¿Qué cambia para pasar de la máquina lógica general a la máquina lógica general programable?
+FALSA: Se reemplaza la RAM de estado por una ROM, para que el estado no se pierda al apagar
+FALSA: Se agrega una ALU entre la ROM y la RAM para calcular las funciones G y H
+FALSA: Se separa la ROM en dos, una para la función de salida y otra para la de estado
+CORRECTA: Se sustituye la ROM que implementa G y H por una RAM, que se puede "programar"
+SOLUCION: Se reemplaza la ROM de las funciones de salida y estado por RAM. Programar la máquina es cargar en esa RAM los contenidos que implementan G y H para el problema concreto. Una computadora es una máquina lógica universal programable.
+---
+TEMA: Máquina lógica general
+PREGUNTA: ¿Por qué el esquema de máquina lógica general programable no se usa directamente para construir computadoras?
+FALSA: Porque una RAM no puede implementar funciones de salida, solo almacenar estados
+FALSA: Porque necesitaría infinitos estados para resolver problemas como la liquidación de sueldos
+FALSA: Porque la RAM es más lenta que la ROM y el ciclo de instrucción no termina a tiempo
+CORRECTA: Porque el tamaño de RAM necesario crece enseguida a valores imposibles de fabricar
+SOLUCION: Es correcto en teoría pero impracticable: sumar dos números de 32 bits requeriría una RAM de 64 bits de entrada y 32 de salida, unos 64 Exabytes. Por eso surge la arquitectura de computadoras, técnicas para construir máquinas programables en forma práctica.
+---
+TEMA: Máquina lógica general
+PREGUNTA: ¿Cuál es la diferencia entre arquitectura y organización de un computador?
+FALSA: La arquitectura es el diseño de los circuitos lógicos y la organización es el set de instrucciones
+FALSA: La arquitectura describe la memoria y la E/S, y la organización describe solo la CPU
+FALSA: La arquitectura es la parte cableada y la organización es la parte microprogramada
+CORRECTA: La arquitectura es lo que ve el programador y la organización cómo se construye con circuitos
+SOLUCION: La arquitectura es la visión funcional: el conjunto de recursos que ve el programador. La organización es la forma en que se construye una arquitectura en base a circuitos lógicos.
+---
+TEMA: Organización del CPU
+PREGUNTA: ¿Cuáles son los tres subsistemas fundamentales de una CPU?
+FALSA: La memoria principal, la memoria caché y el banco de registros
+FALSA: La unidad de control, el bus de datos y el contador de programa
+FALSA: La ALU, la memoria de microprograma y el controlador de E/S
+CORRECTA: La ALU, la unidad de control y el banco de registros
+SOLUCION: La CPU está formada por la ALU (unidad aritmética y lógica), la CU (unidad de control) y el register set o banco de registros.
+---
+TEMA: Organización del CPU
+PREGUNTA: ¿Qué tipo de registro es el PC (Program Counter) según su visibilidad para el programador?
+FALSA: Totalmente visible, porque el programador lo usa como operando en las instrucciones
+FALSA: Interno, porque solo lo usa la unidad de control y no es visible de ninguna manera
+FALSA: Totalmente visible, porque contiene la dirección de los operandos que están en memoria
+CORRECTA: Parcialmente visible, porque se manipula en forma indirecta con ciertas instrucciones
+SOLUCION: Los registros parcialmente visibles tienen funciones especiales y participan indirectamente en instrucciones específicas, como el PC o IP, el SP y el registro de estado o FLAGS. Los totalmente visibles son los de uso general y los internos no los ve el programador.
+---
+TEMA: Organización del CPU
+PREGUNTA: Ordená los 5 pasos típicos del ciclo de instrucción.
+FALSA: Fetch, Read, Decode, Execute, Write
+FALSA: Decode, Fetch, Read, Execute, Write
+FALSA: Fetch, Decode, Execute, Read, Write
+CORRECTA: Fetch, Decode, Read, Execute, Write
+SOLUCION: Fetch: leer la instrucción de memoria. Decode: analizar el código para saber operación, operandos y destino. Read: traer los operandos de memoria. Execute: la ALU opera. Write: escribir el resultado en el destino.
+---
+TEMA: Organización del CPU
+PREGUNTA: ¿Qué paso del ciclo de instrucción no necesita una instrucción cuyos operandos están todos en registros?
+FALSA: Decode, porque los registros ya están conectados a la ALU
+FALSA: Write, porque el resultado queda directamente en la ALU
+FALSA: Execute, porque la operación se resuelve al leer los registros
+CORRECTA: Read, porque no hay que traer operandos desde memoria
+SOLUCION: No todas las instrucciones usan los 5 pasos. Con operandos en registros no hace falta Read (acceso a memoria para traer operandos), y las que no guardan resultado no necesitan Write.
+---
+TEMA: Organización del CPU
+PREGUNTA: En la MIC-1, ¿qué función cumplen los registros MAR y MBR?
+FALSA: El MAR guarda la microinstrucción en ejecución y el MBR la dirección de la próxima
+FALSA: El MAR guarda la instrucción leída de memoria y el MBR una copia temporal de ella
+FALSA: El MAR guarda la dirección de la microinstrucción y el MBR el resultado de la ALU
+CORRECTA: El MAR guarda la dirección de memoria a acceder y el MBR el dato leído o a escribir
+SOLUCION: MAR (Memory Address Register) tiene la dirección que se pone en el bus de direcciones en una lectura o escritura. MBR (Memory Buffer Register) tiene el dato leído de memoria o el dato a escribir.
+---
+TEMA: Organización del CPU
+PREGUNTA: ¿Qué 4 operaciones puede hacer la ALU de la MIC-1?
+FALSA: A+B, A-B, A and B y A or B
+FALSA: A+B, A and B, A or B y desplazamiento de A
+FALSA: A+B, A-B, identidad A y not A
+CORRECTA: A+B, A and B, identidad A y not A
+SOLUCION: La ALU de la MIC-1 hace suma A+B, A and B, identidad A (la salida es la entrada A) y not A. El desplazamiento lo hace el Shifter aparte (sin desplazar, 1 bit a la derecha o 1 a la izquierda).
+---
+TEMA: Organización del CPU
+PREGUNTA: En la MIC-1, ¿para qué sirven los registros AMASK y SMASK?
+FALSA: Para guardar las constantes 0, +1 y -1 que se usan al incrementar el PC y el SP
+FALSA: Para enmascarar las interrupciones durante el fetch de las instrucciones de pila
+FALSA: Para seleccionar qué registro se conecta a los buses A y B de la ALU
+CORRECTA: Para extraer de la instrucción la dirección de 12 bits y el inmediato de 8 bits
+SOLUCION: AMASK vale 0x0FFF y SMASK 0x00FF. Haciendo AND con el IR se obtiene la dirección de 12 bits de las instrucciones con operando en memoria, o el operando inmediato de 8 bits de insp y desp.
+---
+TEMA: Organización del CPU
+PREGUNTA: ¿Qué ventaja y qué desventaja tiene la unidad de control de lógica cableada frente a la microprogramada?
+FALSA: Es más flexible para cambiar el set de instrucciones, pero más lenta porque lee una ROM interna
+FALSA: Es más rápida, pero no permite implementar instrucciones de salto condicional
+FALSA: Ocupa menos espacio, pero exige microinstrucciones más anchas en la Control Store
+CORRECTA: Es más rápida, pero poco flexible: cambiar el set de instrucciones obliga a rehacer el circuito
+SOLUCION: La lógica cableada es una máquina de estados diseñada como cualquier circuito secuencial: es óptima en velocidad pero poco flexible. La microprogramada ejecuta microprogramas desde una ROM interna: es más lenta, pero cambiar el set de instrucciones es cambiar la ROM y facilita instrucciones complejas.
+---
+TEMA: Organización del CPU
+PREGUNTA: ¿Cuál es la diferencia entre microprogramación horizontal y vertical?
+FALSA: La horizontal codifica las señales para ahorrar bits y la vertical las deja sin codificar
+FALSA: La horizontal ejecuta varias microinstrucciones por ciclo y la vertical una sola
+FALSA: La vertical guarda el microprograma en RAM y la horizontal en una ROM interna
+CORRECTA: La vertical codifica las señales de control para ahorrar bits y la horizontal las deja sin codificar
+SOLUCION: La microprogramación vertical codifica grupos de señales (por ejemplo 4 bits para elegir el registro del bus), ahorra espacio en la ROM pero solo permite usar un recurso por vez. La horizontal usa un bit por señal: microinstrucciones más anchas y más paralelismo.
+---
+TEMA: Organización del CPU
+PREGUNTA: En la microinstrucción de la MIC-1, ¿qué indica el campo COND = 01?
+FALSA: Saltar siempre a la dirección ADDR de la Control Store
+FALSA: Saltar a ADDR si la salida Z de la ALU es 1
+FALSA: Seguir con la microinstrucción siguiente de la ROM
+CORRECTA: Saltar a ADDR si la salida N de la ALU es 1
+SOLUCION: COND 00: siguiente microinstrucción. 01: salta a ADDR si N=1. 10: salta a ADDR si Z=1. 11: salta siempre a ADDR.
+---
+TEMA: Organización del CPU
+PREGUNTA: ¿Qué es el MPC en la unidad de control microprogramada de la MIC-1?
+FALSA: El registro que guarda la microinstrucción leída de la Control Store
+FALSA: El multiplexor que elige entre la salida del incrementador y el campo ADDR
+FALSA: La memoria ROM de 256 palabras de 32 bits con el microprograma
+CORRECTA: El registro con la dirección de 8 bits de la microinstrucción a ejecutar
+SOLUCION: MPC (Micro Program Counter) guarda la dirección de 8 bits de la próxima microinstrucción. El MIR guarda la microinstrucción leída, el Mmux elige entre Increment y ADDR, y la Control Store es la ROM de 256 x 32 bits.
+---
+TEMA: Organización del CPU
+PREGUNTA: ¿Qué hace la secuencia MAL "mar:=pc; rd / rd / ir:=mbr / pc:=pc + 1"?
+FALSA: El decode: lee el código de operación y salta al microprograma de la instrucción
+FALSA: El read: trae el operando de memoria y lo deja en el registro IR
+FALSA: El write: guarda el contenido del IR en la dirección apuntada por el PC
+CORRECTA: El fetch: lee la instrucción apuntada por el PC, la carga en IR e incrementa el PC
+SOLUCION: Carga el PC en el MAR y activa RD (dos ciclos porque la lectura demora dos), mueve el MBR al IR y suma uno al PC. Es la etapa de fetch, con la que empieza el microprograma en la dirección 0.
+---
+TEMA: Entrada/Salida y buses
+PREGUNTA: ¿Cuáles son los tres buses secundarios que forman el bus principal?
+FALSA: Bus de memoria, bus de E/S y bus de expansión
+FALSA: Bus interno, bus externo y bus de expansión
+FALSA: Bus de instrucciones, bus de datos y bus de interrupciones
+CORRECTA: Bus de direcciones, bus de datos y bus de control
+SOLUCION: El bus de direcciones lleva las direcciones de memoria o E/S, el de datos la información transferida y el de control las señales que manejan el uso del bus (Memory_Read, I/O_Write, Bus_Request, Interrupt_Request, Clock, Reset, etc).
+---
+TEMA: Entrada/Salida y buses
+PREGUNTA: ¿En qué se diferencia un bus simple de un bus inteligente?
+FALSA: En el simple todas las entidades pueden ser master y en el inteligente solo la CPU
+FALSA: El simple multiplexa datos y direcciones, y el inteligente los lleva en buses separados
+FALSA: En el simple el arbitraje es distribuido y en el inteligente es centralizado
+CORRECTA: En el simple hay un único master; en el inteligente cualquiera puede serlo, con arbitraje
+SOLUCION: El bus simple es maestro-esclavo: un solo master (normalmente la CPU) controla todas las transferencias, con polling o interrupciones. En el bus inteligente cualquier entidad puede tener bus mastering y la competencia se resuelve con un mecanismo de arbitraje.
+---
+TEMA: Entrada/Salida y buses
+PREGUNTA: ¿Cómo se llama un bus con arbitraje distribuido y cómo funciona?
+FALSA: Jerárquico: la CPU recibe el bus request y entrega el bus grant
+FALSA: Maestro-esclavo: el master consulta por polling a cada entidad que quiere usar el bus
+FALSA: Jerárquico: la tarjeta insertada en el primer slot oficia de árbitro del bus
+CORRECTA: Equitativo: sin árbitro central, los contendientes deciden por una especie de votación
+SOLUCION: Con arbitraje centralizado el bus es jerárquico: una entidad de mayor jerarquía (la CPU) entrega el bus con bus request y bus grant. Con arbitraje distribuido es equitativo: todas tienen el mismo rango y se resuelve por votación entre los contendientes.
+---
+TEMA: Entrada/Salida y buses
+PREGUNTA: ¿Qué limita la frecuencia de reloj de los buses paralelos y cómo lo evita PCI Express?
+FALSA: La interferencia entre el bus de datos y el de direcciones; PCIe los multiplexa en el tiempo
+FALSA: El consumo de energía de los conectores; PCIe baja el voltaje a 3.3 Volts
+FALSA: La cantidad de pines del conector; PCIe usa un conector más corto de un solo lane
+CORRECTA: El skew entre conductores de distinto largo; PCIe usa conexiones serie (lanes) en paralelo asíncrono
+SOLUCION: En un bus paralelo las señales de conductores de distinto largo llegan desfasadas (skew), y a alta frecuencia se confunden bits de palabras distintas. PCIe usa conexiones serie full-duplex (lanes) que pueden ir a relojes muy altos y se suman en x1, x4, x16, etc.
+---
+TEMA: Entrada/Salida y buses
+PREGUNTA: ¿Cuál de estos buses de expansión es serie en lugar de paralelo?
+FALSA: PCI-X 2.0
+FALSA: AGP 8x
+FALSA: EISA
+CORRECTA: PCIe
+SOLUCION: PCI Express es un bus de múltiples conexiones serie (lanes), full-duplex. ISA, EISA, MCA, VLB, PCI, PCI-X y AGP son buses paralelos.
+---
+TEMA: Entrada/Salida y buses
+PREGUNTA: ¿Por qué se creó el bus EISA?
+FALSA: Para dar más ancho de banda a las tarjetas de video que el que daba el bus PCI
+FALSA: Para reemplazar al ISA en las PS/2 de IBM con capacidad de bus mastering
+FALSA: Para conectar discos SCSI externos a computadoras con bus ISA
+CORRECTA: Como respuesta de los fabricantes de compatibles al Microcanal (MCA) de IBM
+SOLUCION: EISA fue la reacción de los fabricantes de PCs compatibles al MCA de IBM. Extiende ISA a 32 bits, admite tarjetas ISA y EISA a la vez y logró que IBM abandonara el MCA.
+---
+TEMA: Entrada/Salida y buses
+PREGUNTA: ¿Qué es un controlador de E/S?
+FALSA: El bus que conecta el periférico con la placa madre del computador
+FALSA: La rutina del sistema operativo que atiende las interrupciones del periférico
+FALSA: El adaptador que conecta un bus externo con el bus interno del sistema
+CORRECTA: La parte del periférico que contiene su inteligencia y lo controla
+SOLUCION: El controlador de E/S es la parte del periférico con la inteligencia que lo maneja. Puede estar en el gabinete del computador, en el del periférico o distribuido entre ambos (como el teclado).
+---
+TEMA: Entrada/Salida y buses
+PREGUNTA: ¿Cuál es la diferencia entre una interfaz y un bus para conectar un periférico?
+FALSA: La interfaz va dentro del gabinete y el bus siempre sale fuera de él, hacia el periférico
+FALSA: La interfaz transmite en serie y el bus siempre en paralelo, por eso es más rápido
+FALSA: La interfaz necesita arbitraje centralizado y el bus arbitraje distribuido
+CORRECTA: La interfaz conecta un solo dispositivo, así que su protocolo no administra uso compartido
+SOLUCION: Una interfaz (como el puerto paralelo) conecta un único dispositivo, con un protocolo más sencillo sin administración de uso compartido. Un bus (como SCSI) conecta varios dispositivos.
+---
+TEMA: Entrada/Salida y buses
+PREGUNTA: ¿Cuáles son las dos formas en que la CPU puede acceder a los registros de los controladores de E/S?
+FALSA: Por polling o por interrupciones del dispositivo
+FALSA: Por DMA o por E/S programada
+FALSA: Por bus interno o por bus de expansión
+CORRECTA: E/S aislada (in/out) o E/S mapeada en memoria
+SOLUCION: En E/S aislada la CPU tiene un espacio de direcciones reservado con instrucciones in y out (Intel). En E/S mapeada en memoria accede a los registros como posiciones de memoria con cualquier instrucción (SPARC y la mayoría de los RISC).
+---
+TEMA: Entrada/Salida y buses
+PREGUNTA: Un registro de E/S de "lectura/escritura independiente", ¿qué comportamiento tiene?
+FALSA: Lo que se escribe se puede leer después, como una posición de memoria normal
+FALSA: Solo se puede leer, y escribir en él no tiene ningún efecto
+FALSA: Solo se puede escribir, y si se lee se obtiene un valor impredecible
+CORRECTA: En la misma dirección hay dos registros distintos, uno de lectura y otro de escritura
+SOLUCION: Son dos registros separados (uno de solo lectura y otro de solo escritura) en la misma dirección de E/S, por eso lo que se escribe no se puede leer después. Como hay bits no definidos, se comparan usando máscaras.
+---
+TEMA: Entrada/Salida y buses
+PREGUNTA: En la arquitectura de buses de un PC, ¿qué hacían el Northbridge y el Southbridge?
+FALSA: El Northbridge controlaba la E/S de baja velocidad y el Southbridge, la memoria y el AGP
+FALSA: El Northbridge conectaba el bus PCI y el Southbridge, el bus ISA y el puerto paralelo
+FALSA: El Northbridge manejaba el DMA y el Southbridge las interrupciones de la CPU
+CORRECTA: El Northbridge controlaba la memoria y el AGP; el Southbridge, los demás buses y periféricos
+SOLUCION: Con PCI y AGP aparecieron dos controladores: el Northbridge (luego MCH) para memoria y buses especializados como AGP, y el Southbridge (luego ICH) para los demás buses y periféricos. En Core i5/i7 el MCH pasa a estar dentro de la CPU.
+---
+TEMA: Pipeline
+PREGUNTA: ¿Qué mejora la técnica de pipeline?
+FALSA: El tiempo que tarda cada instrucción individual en ejecutarse
+FALSA: La frecuencia máxima de reloj que admite el procesador
+FALSA: La cantidad de etapas que necesita cada instrucción
+CORRECTA: La cantidad de instrucciones completadas por unidad de tiempo
+SOLUCION: Como la línea de montaje, el pipeline no mejora el tiempo de una instrucción (incluso puede empeorarlo) sino la capacidad de producción: más instrucciones terminadas por unidad de tiempo, sin subir la frecuencia de reloj.
+---
+TEMA: Pipeline
+PREGUNTA: En el ejemplo de la lavandería (lavado 30, secado 40, doblado 20 minutos), ¿qué determina la capacidad de producción en régimen?
+FALSA: La suma de las tres tareas, 90 minutos por carga
+FALSA: La tarea más corta, 20 minutos por carga
+FALSA: El promedio de las tareas, 30 minutos por carga
+CORRECTA: La tarea más larga, 40 minutos por carga
+SOLUCION: Cuando las etapas no duran lo mismo, la más lenta determina la capacidad de producción: en régimen sale una carga cada 40 minutos. Las 4 cargas tardan 210 minutos en vez de 360.
+---
+TEMA: Pipeline
+PREGUNTA: ¿Cuál es la aceleración de un pipeline de k etapas al ejecutar n instrucciones?
+FALSA: S = k / (n + k - 1)
+FALSA: S = (n + k - 1) / nk
+FALSA: S = nk / (n - k + 1)
+CORRECTA: S = nk / (n + k - 1)
+SOLUCION: Sin pipeline Ttot = nkT. Con pipeline Ttot = (n + k - 1)T. La aceleración es S = nk / (n + k - 1), que tiende a k cuando n es mucho mayor que k.
+---
+TEMA: Pipeline
+PREGUNTA: Si n es mucho mayor que k, ¿a qué tiende la aceleración del pipeline y por qué no conviene agregar etapas sin límite?
+FALSA: Tiende a n, pero más etapas aumentan la frecuencia y el calor generado
+FALSA: Tiende a 1, porque las etapas extra solo agregan latencia a cada instrucción
+FALSA: Tiende a k/2, porque la mitad de las etapas esperan por hazards
+CORRECTA: Tiende a k, pero cuesta mantener etapas independientes y de igual duración
+SOLUCION: S tiende a k, el número de etapas. El límite es que, al subdividir cada vez más, cuesta mantener las etapas independientes y con la misma duración, que son los supuestos del pipeline.
+---
+TEMA: Pipeline
+PREGUNTA: ¿Qué etapas tiene el pipeline simple del Intel 8086?
+FALSA: Fetch, Decode y Execute
+FALSA: Fetch, Execute, Memory y Store
+FALSA: Decode y Execute
+CORRECTA: Fetch y Execute
+SOLUCION: El 8086 divide el ciclo en Fetch y Execute. Como es CISC con instrucciones de largo variable, el fetch puede necesitar varios accesos y el execute varía según la instrucción, generando esperas. Un salto obliga a descartar lo leído.
+---
+TEMA: Pipeline
+PREGUNTA: ¿Cuáles son las 5 etapas del pipeline original de MIPS?
+FALSA: Fetch, Decode, Read, Execute, Write
+FALSA: Fetch, Decode/Execute, Memory, Store, Commit
+FALSA: Fetch, Decode/Reg. Fetch, Issue, Execute, Commit
+CORRECTA: Fetch, Decode/Reg. Fetch, Execute, Memory, Write Back
+SOLUCION: MIPS: Fetch, Decode/Register Fetch (también resuelve saltos condicionales), Execute (calcula direcciones de load/store), Memory Read/Write y Write Back. Todas las instrucciones recorren todas las etapas.
+---
+TEMA: Pipeline
+PREGUNTA: ¿Por qué en MIPS todas las instrucciones recorren todas las etapas, aunque no las necesiten?
+FALSA: Para que las instrucciones de largo variable terminen siempre en orden
+FALSA: Para poder usar la etapa de memoria como buffer de reordenamiento
+FALSA: Porque la etapa de memoria también calcula la dirección destino de los saltos
+CORRECTA: Porque no tiene hardware para resolver que una etapa no se ejecute (sin interlocks)
+SOLUCION: MIPS significa Microprocessor without Interlocked Pipeline Stages: no tiene mecanismos de hardware para resolver que una etapa no se ejecute, así que todas pasan por todas, incluso Memory, que solo usan LOAD y STORE.
+---
+TEMA: Pipeline
+PREGUNTA: ¿Cuáles son las 4 etapas del pipeline original de SPARC?
+FALSA: Fetch, Decode, Execute y Write Back
+FALSA: Fetch, Decode, Memory y Store
+FALSA: Fetch, Read, Execute y Write
+CORRECTA: Fetch, Execute, Memory y Store
+SOLUCION: SPARC tiene Fetch, Execute (decodifica y ejecuta, calcula direcciones de memoria y de saltos), Memory (lee o escribe memoria) y Store (guarda el resultado en el registro destino).
+---
+TEMA: Pipeline
+PREGUNTA: Dos etapas del pipeline necesitan el bus de memoria a la vez (fetch de una instrucción y read de otra). ¿Qué tipo de hazard es y cómo se puede resolver?
+FALSA: De datos (RAW); se resuelve con register forwarding
+FALSA: De control; se resuelve con salto demorado o predicción
+FALSA: De datos (WAR); se resuelve con register renaming
+CORRECTA: Estructural; se resuelve con arquitectura Harvard o con burbujas
+SOLUCION: Es un hazard estructural, un conflicto de hardware entre etapas. Se resuelve agregando hardware (memorias separadas para datos e instrucciones, arquitectura Harvard) o esperando con NOPs (burbujas de pipeline).
+---
+TEMA: Pipeline
+PREGUNTA: En "add r1, r2, r3" seguida de "sub r4, r1, r3", ¿qué hazard ocurre?
+FALSA: WAR, porque sub escribe r4 antes de que add lo lea
+FALSA: WAW, porque las dos instrucciones escriben el mismo registro
+FALSA: Estructural, porque las dos usan la ALU en el mismo ciclo
+CORRECTA: RAW, porque sub necesita r1 antes de que add lo escriba
+SOLUCION: Es RAW (Read After Write), una dependencia de datos verdadera: sub lee r1 en su etapa Read antes de que add lo escriba en su etapa Write. Se resuelve esperando (burbuja), con ejecución fuera de orden o con register forwarding.
+---
+TEMA: Pipeline
+PREGUNTA: ¿En qué consiste el register forwarding?
+FALSA: En renombrar el registro destino a un registro físico libre para evitar WAR y WAW
+FALSA: En ejecutar siempre la instrucción que está después de un salto
+FALSA: En adelantar el fetch de la instrucción destino de un salto
+CORRECTA: En llevar el resultado a etapas anteriores apenas está calculado, sin esperar la etapa Write
+SOLUCION: Forwarding propaga hacia las etapas tempranas el resultado apenas está disponible (por ejemplo la salida de la ALU), sin esperar a que termine Write. Así la etapa Read toma el operando del registro o directamente de la salida de la ALU.
+---
+TEMA: Pipeline
+PREGUNTA: ¿Por qué los hazards WAR y WAW no ocurren en los pipelines simples en orden vistos en el curso?
+FALSA: Porque el compilador siempre reordena las instrucciones para evitarlos
+FALSA: Porque el register forwarding los resuelve automáticamente en la etapa Read
+FALSA: Porque esos pipelines tienen dos bancos de registros separados
+CORRECTA: Porque Write está siempre después de Read y las instrucciones terminan en orden
+SOLUCION: En esos pipelines la escritura siempre ocurre después de la lectura y en orden, así que no hay anti-dependencias (WAR) ni dependencias de salida (WAW). Aparecen en diseños con ejecución o finalización fuera de orden.
+---
+TEMA: Pipeline
+PREGUNTA: ¿En qué consiste el salto demorado (delayed branch)?
+FALSA: En detener el pipeline hasta que se conozca si el salto se toma o no
+FALSA: En traer a la vez la instrucción siguiente y la del destino del salto
+FALSA: En duplicar las etapas del pipeline para avanzar en ambos caminos
+CORRECTA: En ejecutar siempre la instrucción que está después del salto (delayed slot)
+SOLUCION: La instrucción del delayed slot se ejecuta siempre. El compilador debe poner ahí una instrucción útil o un NOP. Se combina con resolver el salto en la segunda etapa, así no hay que vaciar el pipeline. Lo usaron los primeros MIPS y SPARC.
+---
+TEMA: Pipeline
+PREGUNTA: ¿Qué técnica para hazards de control duplica las etapas del pipeline hasta la que decide el salto?
+FALSA: Prefetch del destino
+FALSA: Salto demorado
+FALSA: Predicción del salto
+CORRECTA: Múltiples flujos
+SOLUCION: Múltiples flujos avanza los dos caminos en paralelo y al resolverse el salto se descarta uno (IBM 370). Puede generar hazards estructurales. El prefetch del destino (IBM 360) solo trae a la vez la siguiente instrucción y la del destino.
+---
+TEMA: Pipeline
+PREGUNTA: ¿Qué ventaja tiene una tabla de historia de saltos (BHT) sobre conmutar taken/not taken?
+FALSA: Predice sin usar historia, solo por el tipo de condición codificada en el salto
+FALSA: Evita tener que vaciar el pipeline aunque la predicción falle
+FALSA: Asume siempre que el salto se toma, lo que acierta más del 50% de las veces
+CORRECTA: Guarda la historia de cada salto por separado, así un salto no interfiere con otro
+SOLUCION: Conmutar taken/not taken recuerda solo el último salto, que puede ser otro distinto: sirve para loops pero no en general. La BHT guarda la historia de varios saltos recientes por separado, lo que mejora la predicción.
+---
+TEMA: Pipeline
+PREGUNTA: ¿Qué porcentaje de aciertos logra la predicción basada en la condición del salto?
+FALSA: Alrededor del 50%, igual que asumir que nunca se salta
+FALSA: Alrededor del 60%, apenas más que asumir que siempre se salta
+FALSA: Casi el 100%, porque la condición está en el código de operación
+CORRECTA: Más del 75%
+SOLUCION: Ciertos tipos de condición (codificados en el código de operación) tienden más a saltar y otros menos. Usando eso se logra más del 75% de aciertos. Asumir que siempre se salta acierta algo más del 50%.
+---
+TEMA: Jerarquía de memoria
+PREGUNTA: ¿Qué establece el principio de localidad?
+FALSA: Que los datos más usados deben guardarse siempre en los registros de la CPU o en la caché
+FALSA: Que la memoria más rápida debe estar físicamente más cerca de la CPU
+FALSA: Que los programas acceden a direcciones al azar, distribuidas en toda la memoria
+CORRECTA: Que en un lapso dado los programas acceden a una porción reducida de las direcciones
+SOLUCION: Los programas acceden a una porción reducida del espacio de direcciones en un lapso de tiempo. Tiene dos variantes: localidad temporal y localidad espacial. En eso se basa la jerarquía de memoria.
+---
+TEMA: Jerarquía de memoria
+PREGUNTA: Al recorrer un array con un for, que las instrucciones del bucle se repitan y que se use el elemento siguiente, ¿qué tipos de localidad muestra?
+FALSA: Las dos son localidad espacial
+FALSA: Las dos son localidad temporal
+FALSA: Las instrucciones muestran localidad espacial y el array temporal
+CORRECTA: Las instrucciones muestran localidad temporal y el array espacial
+SOLUCION: Localidad temporal: lo referenciado se vuelve a usar pronto (las instrucciones del bucle). Localidad espacial: se usan direcciones cercanas (el elemento siguiente del array). La caché aprovecha la temporal guardando lo reciente y la espacial trayendo bloques.
+---
+TEMA: Jerarquía de memoria
+PREGUNTA: ¿Cuál es la fórmula del tiempo promedio de acceso a memoria?
+FALSA: Hit Time x Hit Rate + Miss Penalty
+FALSA: Hit Rate x Hit Time + Miss Rate x Hit Time
+FALSA: Miss Penalty + Hit Rate x Hit Time
+CORRECTA: Hit Time + Miss Rate x Miss Penalty
+SOLUCION: Tiempo promedio de acceso = Hit Time + Miss Rate x Miss Penalty, con Miss Rate = 1 - Hit Rate. Normalmente Hit Time es mucho menor que Miss Penalty.
+---
+TEMA: Jerarquía de memoria
+PREGUNTA: ¿En qué consiste la memoria entrelazada (interleaved)?
+FALSA: En usar palabras más anchas para transferir más bits en cada acceso a memoria
+FALSA: En intercalar niveles de caché L1, L2 y L3 entre la CPU y la memoria
+FALSA: En traer bloques completos en lugar de palabras sueltas para aprovechar la localidad
+CORRECTA: En dividir la memoria en bancos independientes para solapar recuperación y acceso
+SOLUCION: Se divide la memoria en bancos accesibles en forma independiente, con direcciones contiguas en bancos distintos. Así se puede empezar un acceso sin esperar el tiempo de recuperación del anterior, lo que mejora la tasa de transferencia.
+---
+TEMA: Jerarquía de memoria
+PREGUNTA: ¿Cuál es la diferencia entre las políticas de escritura write through y write back?
+FALSA: Write through escribe solo en la caché y write back escribe en caché y en memoria
+FALSA: Write through trae el bloque a la caché al escribir y write back no lo trae
+FALSA: Write back escribe en memoria en cada hit y write through al reemplazar la línea
+CORRECTA: Write through escribe en caché y memoria; write back solo en caché hasta reemplazar
+SOLUCION: Con write through, ante un hit se escribe en la caché y también en memoria principal. Con write back solo en la caché: es más rápido, pero al reemplazar la línea hay que actualizar la memoria si el bloque cambió, y hay que cuidar la coherencia.
+---
+TEMA: Jerarquía de memoria
+PREGUNTA: ¿Qué es la correspondencia directa en una memoria caché?
+FALSA: Cada bloque de memoria puede ir en cualquier línea de la caché
+FALSA: Cada bloque puede ir en cualquiera de las N líneas de su conjunto
+FALSA: Cada línea de la caché tiene asignado un único bloque de memoria fijo
+CORRECTA: Cada bloque de memoria tiene una única línea posible en la caché
+SOLUCION: En correspondencia directa la línea es Bloque mod cantidad de líneas. Es simple y barata, pero bloques separados por un múltiplo del tamaño de la caché compiten por la misma línea y pueden generar muchos misses.
+---
+TEMA: Jerarquía de memoria
+PREGUNTA: ¿Cuál es la principal desventaja de la correspondencia completamente asociativa?
+FALSA: Que bloques de regiones de memoria distantes compiten por la misma línea
+FALSA: Que no permite usar algoritmos de sustitución como LRU o FIFO en hardware
+FALSA: Que necesita más bits de línea en la dirección que la directa
+CORRECTA: Que necesita memorias asociativas, muy caras, para comparar todos los tags a la vez
+SOLUCION: Un bloque puede ir en cualquier línea, así que hay que comparar el tag con todos los tags de la caché en el mismo ciclo. Eso requiere memorias asociativas, de alto costo de implementación.
+---
+TEMA: Jerarquía de memoria
+PREGUNTA: En una caché de L líneas con N líneas por conjunto, ¿qué valor de N corresponde a cada función de correspondencia?
+FALSA: Directa N = L, asociativa por conjuntos 1 < N < L, totalmente asociativa N = 1
+FALSA: Directa N = 0, asociativa por conjuntos N = 2, totalmente asociativa N = L
+FALSA: Directa N = 1, asociativa por conjuntos N = L/2, totalmente asociativa N = L - 1
+CORRECTA: Directa N = 1, asociativa por conjuntos 1 < N < L, totalmente asociativa N = L
+SOLUCION: La función de correspondencia dice cuántas líneas tiene cada conjunto: directa N = 1, asociativa por conjuntos de N vías 1 < N < L, totalmente asociativa N = L (un solo conjunto con todas las líneas).
+---
+TEMA: Jerarquía de memoria
+PREGUNTA: Caché de 64 KB con bloques de 4 bytes, CPU con direcciones de 24 bits y correspondencia directa: ¿cómo se divide la dirección?
+FALSA: Tag 9 bits, línea 13 bits, byte 2 bits
+FALSA: Tag 6 bits, línea 16 bits, byte 2 bits
+FALSA: Tag 8 bits, línea 12 bits, byte 4 bits
+CORRECTA: Tag 8 bits, línea 14 bits, byte 2 bits
+SOLUCION: Bloques de 4 bytes: 2 bits de byte. 64 KB / 4 B = 16K líneas = 2^14: 14 bits de línea. Tag = 24 - 14 - 2 = 8 bits. Con 2 vías serían 13 bits de conjunto y 9 de tag.
+---
+TEMA: Jerarquía de memoria
+PREGUNTA: CPU con direcciones de 24 bits, caché de 128 KB con líneas de 64 bytes y correspondencia directa: ¿cómo se divide la dirección?
+FALSA: Tag 6 bits, línea 12 bits, byte 6 bits
+FALSA: Tag 7 bits, línea 10 bits, byte 7 bits
+FALSA: Tag 11 bits, línea 7 bits, byte 6 bits
+CORRECTA: Tag 7 bits, línea 11 bits, byte 6 bits
+SOLUCION: Líneas de 64 bytes: 6 bits de byte. 128 KB / 64 B = 2048 líneas = 2^11: 11 bits de línea. Tag = 24 - 11 - 6 = 7 bits.
+---
+TEMA: Jerarquía de memoria
+PREGUNTA: Con la caché del ejercicio (24 bits, 128 KB, líneas de 64 B, directa) y lecturas a 0xA52512, 0xA52516, 0xA52552, 0xA52562 y 0xA52512, ¿cuál es el hit rate?
+FALSA: 40%, con miss, miss, hit, miss, hit
+FALSA: 20%, porque solo la última lectura es hit
+FALSA: 80%, porque solo la primera lectura es miss
+CORRECTA: 60%, con miss, hit, miss, hit, hit
+SOLUCION: 0xA52512 y 0xA52516 están en el mismo bloque (miss y hit). 0xA52552 es del bloque siguiente (miss) y 0xA52562 también (hit). 0xA52512 sigue en caché (hit). 3 hits de 5: 60%. Con totalmente asociativa da igual, porque no hay conflictos entre bloques.
+---
+TEMA: Jerarquía de memoria
+PREGUNTA: ¿Qué algoritmo de sustitución reemplaza el bloque que fue traído primero a la caché, sin importar cuántas veces se usó?
+FALSA: LRU (menos recientemente usado)
+FALSA: LFU (menos frecuentemente usado)
+FALSA: Random
+CORRECTA: FIFO
+SOLUCION: FIFO reemplaza el bloque más antiguo en la caché, se implementa con un buffer circular por conjunto. LRU reemplaza el accedido hace más tiempo, LFU el accedido menos veces (con contadores) y Random elige al azar.
+---
+TEMA: Jerarquía de memoria
+PREGUNTA: Con write through, ¿qué problema de coherencia genera el DMA y cómo se resuelve?
+FALSA: La CPU escribe en caché sin actualizar memoria y el DMA lee datos viejos; se detiene el DMA
+FALSA: El DMA no puede acceder a memoria mientras la caché está en uso; se usan bancos entrelazados
+FALSA: Dos CPUs tienen el mismo bloque en sus cachés; se usa monitoreo cruzado entre cachés
+CORRECTA: El DMA escribe en memoria un bloque que está en caché; se invalida la línea usando bus snooping
+SOLUCION: Con write through la memoria está al día respecto a la CPU, pero si el DMA escribe un bloque que también está en caché quedan desincronizados. Se invalida la entrada de la caché, detectando el acceso del DMA con bus snooping, y el próximo acceso será un miss.
+---
+TEMA: Superescalares
+PREGUNTA: ¿Qué problema trae agregar unidades funcionales de distinta latencia (operaciones multiciclo) al pipeline?
+FALSA: Que todas las instrucciones deben alargar el ciclo de reloj al de la más lenta
+FALSA: Que desaparecen los hazards RAW pero aparecen los de control
+FALSA: Que el pipeline deja de poder hacer forwarding entre etapas
+CORRECTA: Que las instrucciones pueden terminar fuera de orden, con hazards WAW y estructurales
+SOLUCION: Con latencias distintas (ALU 1 ciclo, sumador FP 4, multiplicador 7, divisor 24 sin pipeline) las instrucciones terminan fuera de orden. Aparecen hazards WAW, estructurales (divisiones que esperan, varias llegando a MEM a la vez) y se complica atender interrupciones.
+---
+TEMA: Superescalares
+PREGUNTA: ¿Para qué sirve el Reorder Buffer (ROB)?
+FALSA: Para elegir qué instrucciones decodificadas pueden ejecutarse sin hazards
+FALSA: Para mapear cada registro de la arquitectura a un registro físico libre
+FALSA: Para guardar la historia de los saltos y predecir el próximo
+CORRECTA: Para que el commit sea en orden aunque las instrucciones terminen fuera de orden
+SOLUCION: El ROB es una cola circular: la instrucción entra al emitirse como pendiente, se marca finalizada en Write Back y hace commit (sale) solo cuando no quedan instrucciones anteriores pendientes. Así se atienden interrupciones con un estado correcto.
+---
+TEMA: Superescalares
+PREGUNTA: ¿Cuál es la diferencia entre ILP y MLP?
+FALSA: ILP es propiedad del CPU y MLP del programa
+FALSA: ILP mide instrucciones por ciclo y MLP mide ciclos por instrucción
+FALSA: ILP lo explota el hardware y MLP lo explota el compilador
+CORRECTA: ILP es una propiedad del programa y MLP una propiedad del CPU
+SOLUCION: ILP (Instruction Level Parallelism) es una propiedad del programa, depende de las dependencias de datos entre instrucciones. MLP (Machine Level Parallelism) es una propiedad del CPU. Un programa con ILP en un CPU con MLP se acelera.
+---
+TEMA: Superescalares
+PREGUNTA: ¿Qué caracteriza a un procesador superescalar?
+FALSA: Que tiene un pipeline de más de 20 etapas
+FALSA: Que ejecuta las instrucciones siempre fuera de orden
+FALSA: Que usa salto demorado para no vaciar el pipeline
+CORRECTA: Que puede ejecutar más de una instrucción por ciclo (IPC > 1)
+SOLUCION: Los superescalares pueden lograr IPC > 1. Uno que ejecuta N instrucciones por ciclo es "N-wide". Un 2-wide necesita fetch de 2 instrucciones, 4 puertos de lectura y 2 de escritura en registros, lógica de despacho y al menos dos unidades funcionales.
+---
+TEMA: Superescalares
+PREGUNTA: Reordenar instrucciones en tiempo de compilación para evitar stalls, ¿qué tipo de técnica de explotación de ILP es?
+FALSA: Dinámica, porque cambia el orden en que se ejecutan las instrucciones
+FALSA: Dinámica, porque la aplica el hardware como el forwarding
+FALSA: Estática, pero requiere agregar una ventana de instrucciones al procesador
+CORRECTA: Estática, porque la aplica el compilador sin cambiar el procesador
+SOLUCION: Las técnicas estáticas las aplica el compilador (reordenar código, salto retardado): mejoran el rendimiento sin cambiar el procesador, pero requieren conocer el hardware. Las dinámicas las aplica el hardware en ejecución (forwarding, ejecución fuera de orden).
+---
+TEMA: Superescalares
+PREGUNTA: ¿Cuándo una instrucción de la ventana de instrucciones está lista para ser emitida?
+FALSA: Cuando todas las instrucciones anteriores ya hicieron commit
+FALSA: Cuando se conoce el resultado de todos los saltos anteriores
+FALSA: Cuando su registro destino todavía no fue renombrado en la Rename Table
+CORRECTA: Cuando sus registros están libres y emitirla no causa hazards estructurales
+SOLUCION: La ventana de instrucciones (issue queue) recibe las instrucciones en orden y las retira fuera de orden. Una instrucción está lista cuando todos sus registros están disponibles y su emisión no causa hazards estructurales.
+---
+TEMA: Superescalares
+PREGUNTA: ¿Qué hazards resuelve el register renaming y por qué aparecen?
+FALSA: RAW, porque una instrucción lee un registro antes de que se escriba
+FALSA: Estructurales, porque dos instrucciones usan el mismo banco de registros
+FALSA: De control, porque un salto cambia el registro PC
+CORRECTA: WAR y WAW, que aparecen por reutilizar los mismos registros
+SOLUCION: WAR y WAW no son dependencias verdaderas sino conflictos de nombre por reusar registros. El renaming mapea en hardware el registro destino a un registro físico libre (Rename Table y lista de libres), así que el banco físico debe ser más grande que el de la arquitectura.
+---
+TEMA: Superescalares
+PREGUNTA: En la ejecución especulativa, ¿qué impide que una instrucción posterior a un salto no resuelto modifique el estado de la arquitectura?
+FALSA: La ventana de instrucciones, que no la emite hasta resolver el salto
+FALSA: El register renaming, que le asigna un registro que nunca se usa
+FALSA: La predicción de saltos, que solo trae instrucciones del camino correcto
+CORRECTA: El commit en orden: espera en el ROB hasta saber si el salto se toma
+SOLUCION: Las instrucciones después de un salto se marcan especulativas. Pueden escribir el banco físico en Write Back, pero no hacen commit al banco de la arquitectura hasta conocer el salto. Si se descartan, el banco físico se restaura desde el de la arquitectura.
+---
+TEMA: Superescalares
+PREGUNTA: En un superescalar fuera de orden, ¿qué etapas deben hacerse en orden?
+FALSA: Issue/Dispatch y Execute
+FALSA: Solo Execute
+FALSA: Fetch y Execute
+CORRECTA: Fetch y Commit
+SOLUCION: Fetch (lectura y decodificación) se hace en orden, Issue/Dispatch y Execute pueden ser fuera de orden, y Commit (escrituras definitivas en memoria y en el banco de la arquitectura) debe ser en orden.
+---
+TEMA: 8086: memoria y direccionamiento
+PREGUNTA: En el 8086, ¿cómo se calcula la dirección física a partir de SEGMENTO:DESPLAZAMIENTO?
+FALSA: DIR = SEGMENTO + DESPLAZAMIENTO * 16
+FALSA: DIR = SEGMENTO * 256 + DESPLAZAMIENTO
+FALSA: DIR = (SEGMENTO + DESPLAZAMIENTO) * 16
+CORRECTA: DIR = SEGMENTO * 16 + DESPLAZAMIENTO
+SOLUCION: DIR = SEGMENTO * 16 + DESPLAZAMIENTO. Multiplicar por 16 agrega 4 bits: con registros de 16 bits se llega a 20 bits de dirección, 1 MB (0 a FFFFFh).
+---
+TEMA: 8086: memoria y direccionamiento
+PREGUNTA: ¿Cuál de estas direcciones segmentadas NO corresponde a la misma dirección física que 100:50 (en hexa)?
+FALSA: 105:0
+FALSA: 0:1050
+FALSA: 104:10
+CORRECTA: 10:105
+SOLUCION: 100h*16 + 50h = 1050h. 105:0, 0:1050 y 104:10 dan 1050h. 10:105 da 100h + 105h = 205h. Una misma dirección física se puede escribir con distintos segmento y desplazamiento.
+---
+TEMA: 8086: memoria y direccionamiento
+PREGUNTA: En MOV Al,[Bx], ¿qué modo de direccionamiento se usa y qué segmento se asume?
+FALSA: Directo, con segmento DS
+FALSA: Indirecto, con segmento SS
+FALSA: Inmediato, con segmento CS
+CORRECTA: Indirecto, con segmento DS
+SOLUCION: Es indirecto porque el offset está en el registro Bx. Si no se indica segmento se asume DS: Al := MEMORIA[DS:Bx]. Con Bp el segmento por defecto es SS.
+---
+TEMA: 8086: memoria y direccionamiento
+PREGUNTA: En MOV Al,[127], ¿qué modo de direccionamiento se usa?
+FALSA: Inmediato, porque el 127 se codifica junto con la instrucción
+FALSA: Indirecto, porque accede a memoria a través de un valor
+FALSA: Registro, porque el resultado queda en Al
+CORRECTA: Directo, porque la dirección se codifica junto con la instrucción
+SOLUCION: En el modo directo el desplazamiento de la dirección (127) va codificado en la instrucción y el segmento se asume DS. En el inmediato (MOV Ax,500) el valor codificado es el dato, no una dirección.
+---
+TEMA: 8086: memoria y direccionamiento
+PREGUNTA: ¿Cuál es el segmento por defecto cuando se direcciona con Bp, por ejemplo MOV Ax,[Bp+3]?
+FALSA: DS
+FALSA: CS
+FALSA: ES
+CORRECTA: SS
+SOLUCION: Bp y Sp usan SS por defecto, porque Bp se usa para direccionar dentro del stack. Bx, Si y Di usan DS. IP usa CS. Se puede cambiar el segmento con un prefijo, salvo los fijos.
+---
+TEMA: 8086: memoria y direccionamiento
+PREGUNTA: ¿Cómo funciona el stack del 8086?
+FALSA: Crece hacia direcciones más altas y cada elemento ocupa 1 byte
+FALSA: Crece hacia direcciones más bajas y cada elemento ocupa 1 o 2 bytes según el dato
+FALSA: Crece hacia direcciones más altas y cada elemento ocupa 2 bytes
+CORRECTA: Crece hacia direcciones más bajas y cada elemento ocupa siempre 2 bytes
+SOLUCION: El stack está en memoria, apuntado por SS:SP. PUSH hace SP = SP - 2 y guarda la palabra; POP la lee y hace SP = SP + 2. Crece hacia direcciones más bajas y las posiciones ocupan siempre 2 bytes. BP se usa para direccionar dentro del stack.
+---
+TEMA: 8086: memoria y direccionamiento
+PREGUNTA: ¿Cuál de estas es una característica del 8086?
+FALSA: RISC, Little Endian e instrucciones de largo fijo
+FALSA: Big Endian con memoria direccionada de a palabra
+FALSA: Procesador de 32 bits con memoria plana direccionada de a byte
+CORRECTA: CISC, Little Endian y memoria segmentada direccionada de a byte
+SOLUCION: El 8086 es CISC, de 16 bits, con memoria segmentada direccionada de a byte, 12 registros visibles con personalidad, Little Endian y stack implementado por hardware sobre memoria.
+---
+TEMA: 8086: instrucciones
+PREGUNTA: Después de MUL con un operando de tipo palabra, ¿dónde queda el resultado?
+FALSA: En Ax, descartando la parte alta
+FALSA: En Ax la parte alta y en Dx la parte baja
+FALSA: En Bx:Ax, con la parte alta en Bx
+CORRECTA: En Dx:Ax, con la parte más significativa en Dx
+SOLUCION: MUL multiplica sin signo el acumulador por el operando. Con byte: Ax = Al * op. Con palabra: Dx:Ax = Ax * op, con la parte alta en Dx. CF y OF quedan en 1 si la mitad superior no es 0.
+---
+TEMA: 8086: instrucciones
+PREGUNTA: Con DIV y un operando de tipo byte, ¿dónde quedan el cociente y el resto?
+FALSA: Cociente en Ah y resto en Al
+FALSA: Cociente en Ax y resto en Dx
+FALSA: Cociente en Al y resto en Dl
+CORRECTA: Cociente en Al y resto en Ah
+SOLUCION: DIV con byte divide Ax: cociente en Al y resto en Ah. Con palabra divide Dx:Ax: cociente en Ax y resto en Dx. Si el cociente no entra (mayor que FFh o FFFFh) se genera la interrupción tipo 0.
+---
+TEMA: 8086: instrucciones
+PREGUNTA: ¿Qué hace la instrucción CBW?
+FALSA: Copia el bit 15 de Ax en todos los bits de Dx
+FALSA: Pone Ah en 0 sin importar el valor de Al
+FALSA: Calcula el complemento a 2 de Al y lo guarda en Ax
+CORRECTA: Copia el bit 7 de Al en todos los bits de Ah
+SOLUCION: CBW expande el signo de Al a Ax: si Al < 80h, Ah = 00h; si no, Ah = FFh. No afecta ninguna bandera.
+---
+TEMA: 8086: instrucciones
+PREGUNTA: ¿En qué se diferencia CMP de SUB?
+FALSA: CMP no afecta las banderas y SUB sí
+FALSA: CMP resta también el carry y SUB no
+FALSA: CMP solo acepta registros y SUB también acepta memoria
+CORRECTA: CMP resta solo para actualizar las banderas
+SOLUCION: CMP hace op1 - op2 pero descarta el resultado: los operandos quedan iguales y solo cambian las banderas, que luego se consultan con un salto condicional.
+---
+TEMA: 8086: instrucciones
+PREGUNTA: ¿En qué se diferencia SAR de SHR?
+FALSA: SAR desplaza a la izquierda y SHR a la derecha
+FALSA: SAR rota los bits y SHR rellena con ceros
+FALSA: SAR rellena con unos y SHR con ceros
+CORRECTA: SAR rellena con el bit de signo y SHR con ceros
+SOLUCION: Las dos desplazan a la derecha. SHR rellena con ceros (sin signo) y SAR repite el bit de signo (aritmético). En ambas CF queda con el último bit que sale. Si se desplaza más de 1 bit, la cantidad va en CL.
+---
+TEMA: 8086: instrucciones
+PREGUNTA: En las instrucciones de desplazamiento y rotación del 8086 (SHL, SHR, ROL...), ¿cómo se indica desplazar más de un bit?
+FALSA: Con un valor inmediato cualquiera como segundo operando
+FALSA: Con la cantidad guardada en el registro Cx completo
+FALSA: Repitiendo la instrucción con un prefijo REP
+CORRECTA: Cargando la cantidad en el registro CL
+SOLUCION: Si se desplaza 1 bit se puede poner el 1 directo. Si es más de 1, la cantidad debe cargarse en CL. CF queda con el último bit desplazado afuera.
+---
+TEMA: 8086: instrucciones
+PREGUNTA: ¿Qué restricción tiene MOV en el 8086?
+FALSA: No se puede mover un registro a otro registro
+FALSA: No se puede mover un valor inmediato a memoria
+FALSA: Los operandos pueden ser de distinto tamaño si el destino es más grande
+CORRECTA: No se puede mover de memoria a memoria
+SOLUCION: MOV copia el operando fuente en el destino sin afectar banderas. Los dos deben ser del mismo tipo (byte o palabra) y no se puede mover memoria a memoria.
+---
+TEMA: 8086: instrucciones
+PREGUNTA: Para comparar dos números sin signo y saltar si a > b, ¿qué salto se usa después de CMP a,b?
+FALSA: JG, que salta si ZF = 0 y SF = OF
+FALSA: JNB, que salta si CF = 0
+FALSA: JB, que salta si CF = 1
+CORRECTA: JA, que salta si CF = 0 y ZF = 0
+SOLUCION: JA/JNBE (sin signo) salta si CF = 0 y ZF = 0. JG/JNLE es la versión con signo (ZF = 0 y SF = OF). JNB salta si a >= b y JB si a < b, ambos sin signo.
+---
+TEMA: 8086: instrucciones
+PREGUNTA: ¿Qué alcance tienen los saltos condicionales del 8086?
+FALSA: Cualquier dirección del mismo segmento, con desplazamiento de 16 bits
+FALSA: Cualquier dirección de memoria, cambiando CS e IP
+FALSA: Hasta 255 bytes hacia adelante, con desplazamiento sin signo
+CORRECTA: Entre -128 y 127 bytes, con desplazamiento con signo de 8 bits
+SOLUCION: Los saltos condicionales hacen IP = IP + op1 si se cumple la condición. El desplazamiento es de 8 bits con signo (-128 a 127) y el destino está en el segmento CS.
+---
+TEMA: 8086: instrucciones
+PREGUNTA: En un CALL FAR, ¿qué se guarda en el stack y en qué orden?
+FALSA: Solo IP, porque el segmento no cambia
+FALSA: Primero IP y después CS
+FALSA: Primero las FLAGS, después CS y después IP
+CORRECTA: Primero CS y después IP
+SOLUCION: CALL FAR hace PUSH CS, PUSH IP y carga CS e IP del destino. CALL NEAR solo guarda IP. RET saca IP y, si es FAR, también CS.
+---
+TEMA: 8086: instrucciones
+PREGUNTA: ¿En qué se diferencia IRET de RET?
+FALSA: IRET además vuelve a habilitar las interrupciones con STI
+FALSA: IRET retorna siempre NEAR y RET puede ser FAR
+FALSA: IRET no saca nada del stack, usa el vector de interrupciones
+CORRECTA: IRET además restaura las banderas desde el stack
+SOLUCION: IRET retorna de una interrupción como un RET FAR pero también restaura las FLAGS que guardó INT. INT hace PUSHF, pone IF = 0 y TF = 0 y llama FAR a la rutina de la tabla de interrupciones.
+---
+TEMA: 8086: instrucciones
+PREGUNTA: ¿Dónde está y cómo es la tabla de interrupciones del 8086?
+FALSA: Al final de la memoria, con 256 entradas de 2 bytes (solo el offset)
+FALSA: En la dirección 0, con 128 entradas de 8 bytes cada una
+FALSA: En el segmento de código, con una entrada por cada dispositivo de E/S
+CORRECTA: En la dirección 0, con 256 entradas de 4 bytes (offset y segmento)
+SOLUCION: Ocupa el primer kilobyte: 256 entradas de 4 bytes. La entrada i tiene la dirección de la rutina de la interrupción i: los 2 primeros bytes son el offset y los 2 últimos el segmento.
+---
+TEMA: 8086: instrucciones
+PREGUNTA: ¿Qué hace CLI y qué interrupciones no puede desactivar?
+FALSA: Borra CF; no afecta a ninguna interrupción
+FALSA: Pone IF en 1; no puede desactivar las de INTR
+FALSA: Borra IF; no puede desactivar las interrupciones de software (INT)
+CORRECTA: Borra IF; no puede desactivar las no enmascarables (NMI)
+SOLUCION: CLI pone IF = 0 y desactiva las interrupciones enmascarables de la línea INTR. Las no enmascarables (NMI) no se pueden desactivar. STI las vuelve a activar después de la instrucción siguiente.
+---
+TEMA: 8086: instrucciones
+PREGUNTA: Con IN y OUT, ¿cómo se indica el número de puerta para acceder a más de 256 puertas?
+FALSA: Con un valor inmediato de 16 bits en la instrucción
+FALSA: Con el número de puerta en el registro Bx
+FALSA: Con un prefijo de segmento ES delante del número
+CORRECTA: Con el número de puerta en el registro Dx (0 a 65535)
+SOLUCION: La puerta se indica con un valor fijo de 0 a 255 o con el registro Dx (0 a 65535), lo que da 64K puertas. El dato va siempre por Al (byte) o Ax (palabra).
+---
+TEMA: Máquinas de estado
+PREGUNTA: Según la metodología del curso, ¿cuál es el orden de los pasos para diseñar un circuito secuencial?
+FALSA: Tabla de estados, diagrama de estados, codificación, Karnaugh, elegir FF y tabla de verdad, tabla de transiciones, circuito
+FALSA: Diagrama de estados, elegir FF y tabla de verdad, codificación, tabla de estados, tabla de transiciones, Karnaugh, circuito
+FALSA: Diagrama de estados, codificación, tabla de estados, Karnaugh, tabla de transiciones, elegir FF y tabla de verdad, circuito
+CORRECTA: Diagrama de estados, tabla de estados, codificación, tabla de transiciones, elegir FF y tabla de verdad, Karnaugh, circuito
+SOLUCION: 1 diagrama de estados, 2 tabla de estados, 3 bits y codificación de entradas y salidas, 4 cantidad de FF y codificación de estados, 5 tabla de transiciones y salidas, 6 elegir FF y tabla de verdad, 7 Karnaugh, 8 circuito.
+---
+TEMA: Máquinas de estado
+PREGUNTA: Una máquina con 4 estados (ESPERO, AVANZO, ACEPTO, RECHAZO), ¿cuántos flip-flops necesita?
+FALSA: 4, uno por estado
+FALSA: 3, porque hay 3 entradas
+FALSA: 1, porque un flip-flop guarda varios estados
+CORRECTA: 2, porque 2 bits alcanzan para codificar 4 estados
+SOLUCION: Con 2 bits se codifican 4 estados (00, 01, 10, 11) y cada bit se guarda en un flip-flop, así que hacen falta 2 (q1 y q0).
+---
+TEMA: Máquinas de estado
+PREGUNTA: En la tabla de verdad para Karnaugh, ¿qué se pone en las salidas para combinaciones de entradas imposibles?
+FALSA: Un 0, para que no se active ninguna salida
+FALSA: Un 1, para que los grupos sean más grandes
+FALSA: Se dejan afuera de la tabla y del mapa
+CORRECTA: Don't care (X), para usarlas como 0 o 1 al minimizar
+SOLUCION: La tabla debe tener todas las combinaciones. Las imposibles se marcan con X (don't care): como nunca ocurren, al minimizar con Karnaugh se toman como 0 o 1 según convenga.
+---
+TEMA: Máquinas de estado
+PREGUNTA: ¿Depende del tipo de flip-flop la tabla de transiciones y salidas?
+FALSA: Sí, porque cada tipo de flip-flop tiene una ecuación distinta
+FALSA: Sí, porque con FF tipo JK hacen falta el doble de columnas
+FALSA: Depende de si se usan las entradas asincrónicas clear y set
+CORRECTA: No, los estados son las salidas de los FF sea cual sea el tipo
+SOLUCION: La tabla de transiciones no depende del FF. Recién al elegir el tipo (por ejemplo D, con Qn+1 = Dn) se arma la tabla de verdad con lo que deben recibir las entradas de los FF.
+---
+TEMA: Máquinas de estado
+PREGUNTA: ¿Qué hacen las entradas asincrónicas clear y set de un flip-flop?
+FALSA: Clear lleva Q a 1 y set lleva Q a 0, sincronizadas con el reloj
+FALSA: Habilitan o deshabilitan el reloj del flip-flop
+FALSA: Cargan el valor de D sin esperar el flanco del reloj
+CORRECTA: Clear lleva Q a 0 y set lleva Q a 1, sin esperar el reloj
+SOLUCION: Actúan de forma asincrónica, sin depender del reloj: clear pone Q en 0 y set pone Q en 1. Se activan por nivel bajo.
+---
+TEMA: Formato de instrucción
+PREGUNTA: ¿Cuál de estas características corresponde a un set de instrucciones RISC?
+FALSA: Instrucciones de largo variable y conjunto amplio de operaciones
+FALSA: Instrucciones complejas, como copiar arrays de memoria a memoria
+FALSA: Conjunto reducido pero con instrucciones de largo variable
+CORRECTA: Conjunto reducido de operaciones simples con instrucciones de largo fijo
+SOLUCION: RISC: conjunto reducido, instrucciones simples y de largo fijo. CISC: conjunto más amplio, instrucciones más complejas y de largo variable.
+---
+TEMA: Formato de instrucción
+PREGUNTA: ¿Qué NO nos dice que una arquitectura sea "de n bits"?
+FALSA: El tamaño de los registros
+FALSA: El ancho del camino de datos de la ALU
+FALSA: El tamaño de palabra de memoria estándar
+CORRECTA: El largo de las direcciones de memoria
+SOLUCION: Una arquitectura de n bits indica el tamaño de registros, del data path, de la palabra de memoria y (en RISC) el largo de instrucción. No indica el largo de las direcciones ni el largo de instrucción en CISC.
+---
+TEMA: Formato de instrucción
+PREGUNTA: Un set RISC de 16 bits tiene 16 instrucciones y 16 registros. ¿Cuántos bits ocupan el opcode y cada registro?
+FALSA: 16 bits de opcode y 16 bits por registro
+FALSA: 8 bits de opcode y 4 bits por registro
+FALSA: 4 bits de opcode y 8 bits por registro
+CORRECTA: 4 bits de opcode y 4 bits por registro
+SOLUCION: 16 = 2^4, así que bastan 4 bits para el código de operación y 4 para identificar cada registro. Como es RISC de 16 bits, cada instrucción mide 16 bits.
+---
+TEMA: Interrupciones y E/S
+PREGUNTA: ¿Cuáles son las tres formas de interactuar con la E/S?
+FALSA: E/S aislada, E/S mapeada en memoria y DMA
+FALSA: Polling, bus mastering y arbitraje
+FALSA: Interrupciones, excepciones y llamadas al sistema
+CORRECTA: E/S programada, interrupciones y DMA
+SOLUCION: E/S programada (la CPU consulta el dispositivo), interrupciones (el dispositivo avisa a la CPU) y DMA (transferencias entre E/S y memoria sin intervención de la CPU).
+---
+TEMA: Interrupciones y E/S
+PREGUNTA: ¿Qué es una interrupción?
+FALSA: Una llamada a una rutina que hace el programa cuando necesita leer un dispositivo
+FALSA: Un salto condicional que se toma cuando el dispositivo tiene un dato listo
+FALSA: Un error del programa que detiene la ejecución hasta que el usuario actúe
+CORRECTA: Un cambio en el orden de ejecución ante un evento externo de E/S, asincrónico al programa
+SOLUCION: Es una alteración del orden lógico de ejecución como respuesta a un evento externo del hardware de E/S, asincrónica al programa y fuera de su control: la próxima instrucción es la primera de la rutina de servicio de la interrupción.
+---
+TEMA: Interrupciones y E/S
+PREGUNTA: En una máquina NO dedicada, ¿dónde debe ir la lógica del sistema y por qué?
+FALSA: En el main con un while(true), porque así se atienden todos los eventos en orden
+FALSA: En el main y en las rutinas por igual, porque no hay una regla
+FALSA: En el main, y las rutinas solo marcan una variable global
+CORRECTA: En las rutinas de interrupción, sin while(true), para no adueñarse de la CPU
+SOLUCION: En una máquina no dedicada conviven programas de distintos equipos: el main instala e inicializa las rutinas y termina, y la lógica va en las interrupciones. Un while(true) capturaría la CPU. En una máquina dedicada la lógica puede estar en el main, en las rutinas o en ambos.
+---
+TEMA: Interrupciones y E/S
+PREGUNTA: ¿Qué es una máquina dedicada?
+FALSA: Una máquina que solo atiende interrupciones de un único dispositivo
+FALSA: Una máquina sin sistema operativo que no usa interrupciones
+FALSA: Una máquina donde cada programa tiene su propio procesador
+CORRECTA: Una máquina con una sola función y programas de un mismo equipo
+SOLUCION: En una máquina dedicada todo lo que corre está hecho para una función específica por el mismo equipo o equipos muy coordinados. En una no dedicada corren varios programas de distintos equipos sin coordinación.
+---

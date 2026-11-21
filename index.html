@@ -117,6 +117,9 @@ details[open]>summary .arrow{transform:rotate(45deg)}
   font-size:12.5px;color:var(--muted);background:var(--bg);border:none;padding:4px 6px;border-radius:6px;opacity:.85}
 .menu-pad{height:36px}
 .cl-v{font-weight:700}.cl-item{margin:10px 0}
+.cloud{border-top:1px solid var(--border);padding:10px 0}
+.cloud .check{align-items:flex-start}
+.cloud .check input{margin-top:2px}
 </style>
 </head>
 <body>
@@ -129,9 +132,10 @@ details[open]>summary .arrow{transform:rotate(45deg)}
 // Modelo (port de model.cpp)
 // ===========================================================================
 const MO_SECONDS = 30;
-const APP_VERSION = "2.2";
+const APP_VERSION = "2.3";
 // Historial de versiones (misma numeración que la app de PC)
 const CHANGELOG = [
+  ["2.3","21/11/2026","Descargar bancos de la nube: botón en el menú (celular y PC) que baja los bancos de preguntas publicados en la carpeta pública del repo. Si ya tenés el bloque, se suman solo las preguntas nuevas."],
   ["2.2","19/11/2026","PC: la app se adapta a la pantalla. Ventana inicial según la resolución; letras, botones y espacios escalan al redimensionar o maximizar, y con escala alta de Windows o al cambiar de monitor."],
   ["2.1","19/11/2026","Celular: la partida se guarda sola si cambiás de app o la cerrás, y al volver podés continuarla (el timer se pausa). Número de versión en el menú (PC y celular)."],
   ["2.0","19/11/2026","Versión para celular (Android y iPhone): instalable y sin internet. Suma pegar preguntas como texto, editar bloques y exportar una copia de seguridad."],
@@ -552,6 +556,7 @@ function renderMenu(){
       : (S.blocks.length ? "No hay preguntas compatibles con este modo en los bloques incluidos." : "Importá o cargá preguntas para empezar.")}</div>
   <div style="height:10px"></div>
   <button class="btn" data-act="import">Importar preguntas (.txt)</button>
+  <button class="btn" data-act="cloud">Descargar bancos de la nube</button>
   <button class="btn" data-act="newblock">Escribir o pegar preguntas</button>
   <button class="btn" data-act="blocks">Ver bloques cargados</button>
   <button class="btn ghost" data-act="export" ${S.blocks.length?"":"disabled"}>Exportar copia de seguridad</button>
@@ -841,6 +846,61 @@ function exportBackup(){
 }
 
 // ===========================================================================
+// Bancos de la nube (carpeta bancos/ del repo, publicada en GitHub Pages)
+// ===========================================================================
+const CLOUD_URL = location.hostname.endsWith("github.io") ? new URL("bancos/", location.href).href
+  : "https://santiagoa245.github.io/Q-A-Study/bancos/";
+let cloudList=[];
+async function cloudFetch(name){
+  const r=await fetch(CLOUD_URL+name+"?t="+Date.now(), {cache:"no-store"});
+  if (!r.ok) throw new Error("HTTP "+r.status);
+  return r;
+}
+async function openCloud(){
+  showModal(`<h3>Bancos de la nube</h3><div class="muted">Buscando bancos disponibles...</div>`, {});
+  let idx;
+  try { idx=await (await cloudFetch("index.json")).json(); }
+  catch(err){
+    showModal(`<h3>No se pudo conectar</h3><div class="muted">Revisá que tengas internet y probá de nuevo.</div>
+      <div class="row"><button class="btn" data-m="ok">Cerrar</button><button class="btn accent" data-m="retry">Reintentar</button></div>`,
+      {ok:closeModal, retry:openCloud});
+    return;
+  }
+  cloudList=(idx && Array.isArray(idx.bancos) ? idx.bancos : []).filter(b=>b && typeof b.archivo==="string" && /^[\w.\-]+\.txt$/i.test(b.archivo));
+  if (!cloudList.length){ showMessage("Bancos de la nube", "Todavía no hay bancos publicados."); return; }
+  const have=new Set(S.blocks.map(b=>b.name));
+  const items=cloudList.map((b,i)=>{
+    const name=b.bloque||b.archivo.replace(/\.txt$/i,"");
+    const info=[b.preguntas!=null?`${b.preguntas} ${plural(+b.preguntas,"pregunta","preguntas")}`:"", Array.isArray(b.temas)&&b.temas.length?`${b.temas.length} ${plural(b.temas.length,"tema","temas")}`:""].filter(Boolean).join(" · ");
+    const ya=have.has(name);
+    return `<div class="cloud"><label class="check"><input type="checkbox" data-cloud="${i}" ${ya?"":"checked"}>
+      <div><div style="font-weight:700">${esc(name)}</div>
+      ${b.descripcion?`<div class="small">${esc(b.descripcion)}</div>`:""}
+      <div class="muted small">${esc(info)}${ya?(info?" · ":"")+"ya lo tenés (se suman solo las nuevas)":""}</div></div></label></div>`;
+  }).join("");
+  showModal(`<h3>Bancos de la nube</h3><div class="muted small">Tildá los que querés bajar.</div>${items}
+    <div class="row"><button class="btn" data-m="no">Cancelar</button><button class="btn accent" data-m="go">Descargar</button></div>`,
+    {no:closeModal, go:downloadCloud});
+}
+async function downloadCloud(){
+  const sel=[...document.querySelectorAll("[data-cloud]")].filter(x=>x.checked).map(x=>cloudList[+x.dataset.cloud]);
+  if (!sel.length){ showMessage("Bancos de la nube", "No tildaste ningún banco."); return; }
+  showModal(`<h3>Bancos de la nube</h3><div class="muted">Descargando ${sel.length} ${plural(sel.length,"banco","bancos")}...</div>`, {});
+  const items=[], fails=[];
+  for (const b of sel){
+    try { items.push({name:b.archivo.replace(/\.txt$/i,""), text:decodeBytes(await (await cloudFetch(encodeURIComponent(b.archivo))).arrayBuffer())}); }
+    catch(err){ fails.push(b.bloque||b.archivo); }
+  }
+  if (!items.length){ showMessage("No se pudo descargar", "Revisá que tengas internet y probá de nuevo."); return; }
+  importTexts(items);
+  render();
+  if (fails.length){
+    const box=document.querySelector(".modal h3");
+    if (box) box.insertAdjacentHTML("afterend", `<div class="sumline bad">No se pudo bajar: ${esc(fails.join(", "))}</div>`);
+  }
+}
+
+// ===========================================================================
 // Modales
 // ===========================================================================
 let modalActions={};
@@ -883,6 +943,7 @@ document.addEventListener("click", e=>{
     case "newblock": openEditor(null); break;
     case "blocks": go("blocks"); break;
     case "export": exportBackup(); break;
+    case "cloud": openCloud(); break;
     case "changelog":
       showModal(`<h3>Q&amp;A Study v${APP_VERSION}</h3>${CHANGELOG.map(c=>`<div class="cl-item"><span class="cl-v">v${c[0]}</span> <span class="muted small">${c[1]}</span><div class="small">${esc(c[2])}</div></div>`).join("")}
         <button class="btn accent" data-m="ok">Cerrar</button>`, {ok:closeModal});
